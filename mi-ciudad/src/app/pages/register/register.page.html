@@ -1,0 +1,56 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Registrarse</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">profile</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+    <ion-slide>
+      <form [formGroup]="userDataForm">
+        <div class="profile-container">
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <ion-list>
+                  <ion-item class="ion-text-center">
+                    <ion-col>
+                      <ion-avatar>
+                        <img style="width: 8em;" alt="Silhouette of a person's head" src="../../../assets/avatar.svg" />
+                      </ion-avatar>
+                      <ion-button shape="round" color="medium">
+                        <ion-icon name="pencil" style="padding: 0; margin: 0;"></ion-icon>
+                      </ion-button>
+                    </ion-col>
+                  </ion-item>
+                  <ion-item>
+                    <ion-label>Email:</ion-label>
+                    <ion-input name="email" type="text" required formControlName="email" ngDefaultControl></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-text>Password:</ion-text>
+                    <ion-input name="password" type="password" formControlName="password" ngDefaultControl></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-text>Apellido</ion-text>
+                    <ion-input ion-input name="lastName" type="text" formControlName="lastName" ngDefaultControl></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-text>Nombres</ion-text>
+                    <ion-input ion-input name="name" type="text" formControlName="name" ngDefaultControl></ion-input>
+                  </ion-item>
+                </ion-list>
+                <ion-button type="submit" fill="solid" expand="block" class="rounded" (click)="register($event)">
+                  Registratme
+                </ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </form>
+    </ion-slide>

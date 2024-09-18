@@ -1,0 +1,94 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- <ion-content>
+  <div class="login-container">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <ion-item>
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="email" formControlName="email" ngDefaultControl></ion-input>
+      </ion-item>
+      <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="errors">
+        <ion-text color="danger" *ngIf="email?.hasError('required')">
+          El email es requerido
+        </ion-text>
+        <ion-text color="danger" *ngIf="email?.hasError('email')">
+          El email es invalido
+        </ion-text>
+      </div>
+      <ion-item>
+        <ion-label position="floating">Password</ion-label>
+        <ion-input id="password" type="{{ showPassword ? 'text' : 'password' }}" formControlName="password" ngDefaultControl></ion-input>
+        <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="showPassword = !showPassword"></ion-icon>
+      </ion-item>
+      <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="errors">
+        <ion-text color="danger" *ngIf="password?.hasError('required')">
+          La contraseña es requerida
+        </ion-text>
+        <ion-text color="danger" *ngIf="password?.hasError('minlength')">
+          La contraseña debe tener almenos 4 caracteres
+        </ion-text>
+      </div>
+      <ion-button expand="block" type="submit" [disabled]="!loginForm.valid">Login</ion-button>
+    </form>
+    <ion-button expand="block" fill="clear" (click)="navigateToRegister()">No tienes Usuario?, REGISTRATE</ion-button>
+  </div>
+  <ion-alert
+    [isOpen]="isAlertOpen"
+    header="Credenciales Incorrectas"
+    message="Por favor chequea tu usuario y contraseña..."
+    [buttons]="alertButtons"
+    (didDismiss)="setOpen(false)"
+></ion-alert>
+</ion-content> -->
+<ion-content>
+  <ion-slide style="text-align: center !important; align-content: center;">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="login-container">
+          <ion-grid >
+              <ion-row>
+                  <ion-col>
+                      <ion-list>
+                          <ion-item [ngStyle]="(email?.invalid && (email?.dirty || email?.touched))? {'color':'darkred'}:{'color':''}">
+                              <ion-icon name="person" class="icon-login" [ngStyle]="(email?.invalid && (email?.dirty || email?.touched))? {'color':'darkred'}:{'color':''}"></ion-icon>
+                              <ion-input name="email" type="text" required placeholder="test@dominio.com" formControlName="email" ngDefaultControl></ion-input>
+                          </ion-item>
+                          <ion-item [ngStyle]="(password?.invalid && (password?.dirty || password?.touched))? {'color':'darkred'}:{'color':''}">
+                              <ion-icon name="lock-closed" class="icon-login" [ngStyle]="(password?.invalid && (password?.dirty || password?.touched))? {'color':'darkred'}:{'color':''}"></ion-icon>
+                              <ion-input name="password" type="{{ showPassword ? 'text' : 'password' }}" placeholder="test" formControlName="password" ngDefaultControl>
+                                <ion-icon [name]="showPassword ? 'eye-outline' : 'eye-off-outline'" slot="end" (click)="showPassword = !showPassword"></ion-icon>
+                              </ion-input>
+                          </ion-item>
+                      </ion-list>
+                  </ion-col>
+              </ion-row>
+              <ion-row>
+                  <ion-col>
+                      <ion-button type="submit" fill="solid" expand="block" class="rounded" [disabled]="!password?.valid || !email?.valid">
+                          Entrar
+                      </ion-button>
+                      <ion-checkbox>Mantener la sesion iniciada.</ion-checkbox>
+                  </ion-col>
+              </ion-row>
+              <ion-row>
+                  <ion-col>
+                      <ion-label>
+                        <ion-button expand="block" fill="clear" (click)="navigateToRegister()" ><ion-text>No tienes Usuario?, Registrate.</ion-text></ion-button>
+                      </ion-label>
+                  </ion-col>
+              </ion-row>
+          </ion-grid>
+      </div>
+      </form>
+  </ion-slide>
+  <ion-alert
+    [isOpen]="isAlertOpen"
+    header="Credenciales Incorrectas"
+    message="Por favor chequea tu usuario y contraseña..."
+    [buttons]="alertButtons"
+    (didDismiss)="setOpen(false)"
+  ></ion-alert>
+</ion-content>

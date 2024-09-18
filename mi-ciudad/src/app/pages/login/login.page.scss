@@ -1,0 +1,49 @@
+.ion-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  ion-item {
+    margin-bottom: 15px;
+  }
+
+  ion-label {
+    margin-left: 5px;
+    margin-left: 5px;
+  }
+
+.img-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ion-icon {
+  margin-right: 15px;
+}
+
+ion-button {
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+ion-slide {
+  width: 100%;
+  height: 100%;
+  position: absolute !important;
+  top: 0px !important;
+}
