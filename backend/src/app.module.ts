@@ -10,7 +10,6 @@ import { ConfigModule } from '@nestjs/config';
 ConfigModule.forRoot({
   envFilePath: 'src/config/database.env',
 });
-
 @Module({
   imports: [
     TypeOrmModule.forRoot({

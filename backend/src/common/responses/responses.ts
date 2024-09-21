@@ -10,11 +10,11 @@ export enum responseStatus{
     UNAUTH= 'UNAUTH',
 }
 
-export interface ResponseOptions<Entitt = any> {
+export interface ResponseOptions<Entity = any> {
     statusCode:HttpStatus;
     status: responseStatus;
     message: string;
-    data?: Entitt;
+    data?: Entity;
 }
 
 export class Response{
