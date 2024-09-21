@@ -9,14 +9,15 @@ import {
     IsString,
     MaxLength,
     MinLength,
-    IsUrl,
-    IsEnum,
 } from 'class-validator';
 
 export class RegisterUserDto {
     @Transform(({ value }) => value.trim())
     @IsString()
     username: string;
+
+    @IsEmail()
+    email: string;
 
     @IsHash('sha512')
     password: string;
@@ -34,12 +35,6 @@ export class RegisterUserDto {
 
     @IsString()
     address: string;
-
-    @IsDateString()
-    birthDate: Date;
-
-    @IsEmail()
-    email: string;
 
     @IsPhoneNumber()
     phone: string;

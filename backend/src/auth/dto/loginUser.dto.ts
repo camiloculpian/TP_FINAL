@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsOptional, IsString } from "class-validator";
 
 export class LoginUserDto {
     @IsString()
@@ -6,4 +6,7 @@ export class LoginUserDto {
 
     @IsString()
     password: string;
+
+    @IsOptional()
+    keepSessionOpen: boolean
 }

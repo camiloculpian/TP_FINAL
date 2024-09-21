@@ -75,7 +75,10 @@ export class AuthService {
             }
             if (user) {
                 const payload = { sub: user.id };
-                const token = await this.jwtService.signAsync(payload);
+                if(loginUserDto?.keepSessionOpen){
+                    console.log('KEEP SESSION OPEN PASSEED!!!');
+                }
+                const token = loginUserDto?.keepSessionOpen?await this.jwtService.signAsync(payload):await this.jwtService.signAsync(payload);
                 return {
                     nombre: user.name + ' ' + user.lastName,
                     username: user.username,
