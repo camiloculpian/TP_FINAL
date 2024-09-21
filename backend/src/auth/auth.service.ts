@@ -54,25 +54,25 @@ export class AuthService {
                 loginUserDto.username,
                 loginUserDto.password,
             );
-            // if (!user) {
-            //     let userBy = await this.usersServive.findOneByEmail(
-            //         loginUserDto.username,
-            //     );
-            //     if (userBy) {
-            //         user = await this.usersServive.findOneByUsernameAndPasswd(
-            //             userBy?.user.username,
-            //             loginUserDto.password,
-            //         );
-            //     } else {
-            //         userBy = await this.usersServive.findOneByDNI(loginUserDto.username);
-            //         if (userBy) {
-            //             user = await this.usersServive.findOneByUsernameAndPasswd(
-            //                 userBy?.user.username,
-            //                 loginUserDto.password,
-            //             );
-            //         }
-            //     }
-            // }
+            if (!user) {
+                let userBy = await this.usersServive.findOneByEmail(
+                    loginUserDto.username,
+                );
+                if (userBy) {
+                    user = await this.usersServive.findOneByUsernameAndPasswd(
+                        userBy?.username,
+                        loginUserDto.password,
+                    );
+                } else {
+                    userBy = await this.usersServive.findOneByDNI(loginUserDto.username);
+                    if (userBy) {
+                        user = await this.usersServive.findOneByUsernameAndPasswd(
+                            userBy?.username,
+                            loginUserDto.password,
+                        );
+                    }
+                }
+            }
             if (user) {
                 const payload = { sub: user.id };
                 const token = await this.jwtService.signAsync(payload);
