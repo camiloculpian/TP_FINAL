@@ -5,6 +5,11 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { HeaderResolver, I18nModule } from 'nestjs-i18n';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
+import { ConfigModule } from '@nestjs/config';
+
+ConfigModule.forRoot({
+  envFilePath: 'src/config/database.env',
+});
 
 @Module({
   imports: [
