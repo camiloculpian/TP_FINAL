@@ -6,6 +6,8 @@ import { HeaderResolver, I18nModule } from 'nestjs-i18n';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 ConfigModule.forRoot({
   envFilePath: 'src/config/database.env',
@@ -37,6 +39,8 @@ ConfigModule.forRoot({
       rootPath: join(__dirname, '../'),
       renderPath: 'api/v1/uploads',
     }),
+    UsersModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],
