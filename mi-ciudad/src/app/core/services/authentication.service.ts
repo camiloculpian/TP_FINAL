@@ -13,16 +13,7 @@ export class AuthenticationService {
   constructor(private _httpClient: HttpClient, private router: Router) { }
  // crypto.SHA512(credentials.password
   logIn(credentials: { email: any; password: any }):Observable<any>{
-    return this._httpClient.post<any>("http://localhost:3000/api/v1/auth/login", {"username":credentials.email, "password":crypto.SHA512(credentials.password).toString()})
-  }
-
-  async logIn2(credentials: { email: any; password: any }): Promise<boolean> {
-    try {
-      await this._httpClient.post("http://localhost:3000/api/v1/auth/login", {"username":credentials.email, "password":crypto.SHA512(credentials.password).toString()}).toPromise();
-      return true;
-    } catch (err) {
-      return false;
-    }
+    return this._httpClient.post<any>("http://10.68.1.100:3000/api/v1/auth/login", {"username":credentials.email, "password":crypto.SHA512(credentials.password).toString()})
   }
 
   logOut(){
