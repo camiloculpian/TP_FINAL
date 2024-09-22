@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import {Platform} from '@ionic/angular';
-import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
 
 
 export const environment = {
