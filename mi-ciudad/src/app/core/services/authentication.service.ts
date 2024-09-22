@@ -1,32 +1,30 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { environment } from 'src/app/app.component';
 import * as crypto from 'crypto-js';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
 
-  constructor(private _httpClient: HttpClient) { }
+  constructor(private _httpClient: HttpClient, private router: Router) { }
  // crypto.SHA512(credentials.password
-  login(credentials: { email: any; password: any }): boolean {
-    this._httpClient.post<Response>("http://localhost:3000/api/v1/auth/login", {"username":credentials.email, "password":crypto.SHA512(credentials.password).toString()})
-    .subscribe(data => {
-      console.log(data);
-    });
-    if(credentials.email=='test@dominio.com' && credentials.password == 'test'){
-      environment.loggedIn=true;
-      environment.username = credentials.email;
-      environment.name = 'Test User';
-      environment.lastName = 'Lastname';
-      environment.profilePicture = 'image/url';
+  logIn(credentials: { email: any; password: any }):Observable<any>{
+    return this._httpClient.post<any>("http://localhost:3000/api/v1/auth/login", {"username":credentials.email, "password":crypto.SHA512(credentials.password).toString()})
+  }
+
+  async logIn2(credentials: { email: any; password: any }): Promise<boolean> {
+    try {
+      await this._httpClient.post("http://localhost:3000/api/v1/auth/login", {"username":credentials.email, "password":crypto.SHA512(credentials.password).toString()}).toPromise();
       return true;
-    }else{
+    } catch (err) {
       return false;
     }
   }
+
   logOut(){
     environment.loggedIn=false;
     environment.username = '';

@@ -86,8 +86,8 @@
   </ion-slide>
   <ion-alert
     [isOpen]="isAlertOpen"
-    header="Credenciales Incorrectas"
-    message="Por favor chequea tu usuario y contraseña..."
+    [header]="alertMessageHeader"
+    [message]="alertMessage"
     [buttons]="alertButtons"
     (didDismiss)="setOpen(false)"
   ></ion-alert>
