@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import {Platform} from '@ionic/angular';
 
-
 export const environment = {
   loggedIn:false,
   username:'',
@@ -16,6 +15,8 @@ export const environment = {
   templateUrl: 'app.component.html',
   standalone: true,
   imports: [IonApp, IonRouterOutlet],
+  providers:[
+  ]
 })
 export class AppComponent {
   private lastBack = Date.now();

@@ -6,6 +6,7 @@ import { person, pencil} from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { environment } from 'src/app/app.component';
 import {  Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile',
@@ -20,7 +21,7 @@ export class ProfilePage implements OnInit {
   // lastName!: string;
   // name!: string;
   public userDataForm!: FormGroup;
-  constructor(public formBuilder: FormBuilder, private router: Router) {
+  constructor(public formBuilder: FormBuilder, private router: Router, private _httpClient: HttpClient) {
     // this.email = environment.username;
     // this.lastName = environment.lastName;
     // this.name = environment.name;
@@ -28,6 +29,7 @@ export class ProfilePage implements OnInit {
   }
 
   ngOnInit() {
+    this._httpClient.get<any>("http://10.68.1.100:3000/api/v1/users/profile").subscribe(resp=>{console.log(resp)},err=>{console.log(err)})
     this.userDataForm  = this.formBuilder.group({
       email: [environment.username, [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]],

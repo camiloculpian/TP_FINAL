@@ -51,6 +51,7 @@ export class LoginPage implements OnInit {
         environment.username = this.loginForm.value.email;
         environment.name = resp?.data?.nombre;
         environment.profilePicture = 'image/url';
+        localStorage.setItem('user', JSON.stringify(resp.data));
         this.router.navigate(['']);
       }, 
       error => {

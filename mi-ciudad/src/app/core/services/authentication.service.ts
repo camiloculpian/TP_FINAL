@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class AuthenticationService {
 
-  constructor(private _httpClient: HttpClient, private router: Router) { }
+  constructor(private _httpClient: HttpClient) { }
  // crypto.SHA512(credentials.password
   logIn(credentials: { email: any; password: any }):Observable<any>{
     return this._httpClient.post<any>("http://10.68.1.100:3000/api/v1/auth/login", {"username":credentials.email, "password":crypto.SHA512(credentials.password).toString()})
