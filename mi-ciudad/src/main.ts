@@ -16,6 +16,6 @@ bootstrapApplication(AppComponent, {
     provideHttpClient(),
     provideHttpClient(
       withInterceptors([authInterceptor]),
-  ),
+    ),
   ],
 });
