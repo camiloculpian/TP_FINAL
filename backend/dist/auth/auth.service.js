@@ -95,6 +95,9 @@ let AuthService = class AuthService {
             }
             if (user) {
                 console.log('USUARIO LOGUEADO!!!');
+                if (loginUserDto?.keepSessionOpen) {
+                    console.log('keepLogguedIn pased!!!');
+                }
                 const payload = { sub: user.id };
                 const token = loginUserDto?.keepSessionOpen ? await this.jwtService.signAsync(payload, { expiresIn: '350d' }) : await this.jwtService.signAsync(payload);
                 return {

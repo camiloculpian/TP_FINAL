@@ -36,6 +36,7 @@ export class LoginPage implements OnInit {
     this.loginForm  = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]],
+      keepLoggedIn: false,
     });
   }
 
@@ -44,21 +45,22 @@ export class LoginPage implements OnInit {
   }
 
   login() {
-    const resp = this.authService.logIn(this.loginForm.value).subscribe(
-      resp => {
-        console.log(resp);
-        environment.loggedIn=true;
-        environment.username = this.loginForm.value.email;
-        environment.name = resp?.data?.nombre;
-        environment.profilePicture = 'image/url';
-        localStorage.setItem('user', JSON.stringify(resp.data));
-        this.router.navigate(['']);
-      }, 
-      error => {
-        console.log(error)
-        this.alertMessageHeader = error.error.status
-        this.alertMessage = error.error.message
-        this.setOpen(true);
+    console.log(this.loginForm.value)
+    this.authService.logIn(this.loginForm.value).subscribe(
+      {
+        next: (resp) => {
+          console.log(resp);
+          environment.loggedIn=true;
+          environment.username = resp.data.email;
+          environment.profilePicture = 'image/url';
+          localStorage.setItem('user', JSON.stringify(resp.data));
+          this.router.navigate(['']);
+        },
+        error: (err) => {
+          this.alertMessageHeader = err.error.status
+          this.alertMessage = err.error.message
+          this.setOpen(true);
+        }
       }
     );
   }

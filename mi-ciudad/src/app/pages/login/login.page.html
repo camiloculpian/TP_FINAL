@@ -70,7 +70,7 @@
                       <ion-button type="submit" fill="solid" expand="block" class="rounded" [disabled]="!password?.valid || !email?.valid">
                           Entrar
                       </ion-button>
-                      <ion-checkbox>Mantener la sesion iniciada.</ion-checkbox>
+                      <ion-checkbox formControlName="keepLoggedIn" ngDefaultControl (click)="this.loginForm.value.keepLoggedIn=!this.loginForm.value.keepLoggedIn">Mantener la sesion iniciada.</ion-checkbox>
                   </ion-col>
               </ion-row>
               <ion-row>

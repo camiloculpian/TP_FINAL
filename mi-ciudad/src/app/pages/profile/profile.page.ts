@@ -37,8 +37,8 @@ export class ProfilePage implements OnInit {
       lastName: ['', [Validators.required, Validators.email]],
       name: ['', [Validators.required, Validators.email]],
     });
-    const resp = this.authService.getProfile().subscribe(
-      ((resp: any) => {
+    const resp = this.authService.getProfile().subscribe({
+      next: (resp) => {
         // CORREGIR ACA HAY QUE SETEAR YA SE CREO ARRIBA!!!
         this.userDataForm  = this.formBuilder.group({
           email: [resp.data.email, [Validators.required, Validators.email]],
@@ -46,11 +46,11 @@ export class ProfilePage implements OnInit {
           lastName: [resp.data.lastName, [Validators.required, Validators.email]],
           name: [resp.data.name, [Validators.required, Validators.email]],
         });
-      }),
-      ((error:any) => {
+      },
+      error: (error) => {
         console.log(error)
-      })
-    )
+      }
+    })
   }
 
   onSave(e:Event){
