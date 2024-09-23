@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { environment } from 'src/app/app.component';
 import * as crypto from 'crypto-js';
-import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +22,10 @@ export class AuthenticationService {
     environment.lastName = '';
     environment.profilePicture = '';
     return true;
+  }
+
+  getProfile():Observable<any>{
+    return this._httpClient.get<any>("http://10.68.1.100:3000/api/v1/users/profile")
   }
 
 }

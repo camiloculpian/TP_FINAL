@@ -7,6 +7,7 @@ import { addIcons } from 'ionicons';
 import { environment } from 'src/app/app.component';
 import {  Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
   selector: 'app-profile',
@@ -21,7 +22,7 @@ export class ProfilePage implements OnInit {
   // lastName!: string;
   // name!: string;
   public userDataForm!: FormGroup;
-  constructor(public formBuilder: FormBuilder, private router: Router, private _httpClient: HttpClient) {
+  constructor(public formBuilder: FormBuilder, private router: Router, private authService : AuthenticationService) {
     // this.email = environment.username;
     // this.lastName = environment.lastName;
     // this.name = environment.name;
@@ -29,13 +30,27 @@ export class ProfilePage implements OnInit {
   }
 
   ngOnInit() {
-    this._httpClient.get<any>("http://10.68.1.100:3000/api/v1/users/profile").subscribe(resp=>{console.log(resp)},err=>{console.log(err)})
+    
     this.userDataForm  = this.formBuilder.group({
-      email: [environment.username, [Validators.required, Validators.email]],
+      email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]],
-      lastName: [environment.lastName, [Validators.required, Validators.email]],
-      name: [environment.name, [Validators.required, Validators.email]],
+      lastName: ['', [Validators.required, Validators.email]],
+      name: ['', [Validators.required, Validators.email]],
     });
+    const resp = this.authService.getProfile().subscribe(
+      ((resp: any) => {
+        // CORREGIR ACA HAY QUE SETEAR YA SE CREO ARRIBA!!!
+        this.userDataForm  = this.formBuilder.group({
+          email: [resp.data.email, [Validators.required, Validators.email]],
+          password: ['', [Validators.required, Validators.minLength(4)]],
+          lastName: [resp.data.lastName, [Validators.required, Validators.email]],
+          name: [resp.data.name, [Validators.required, Validators.email]],
+        });
+      }),
+      ((error:any) => {
+        console.log(error)
+      })
+    )
   }
 
   onSave(e:Event){
