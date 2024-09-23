@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import {Platform} from '@ionic/angular';
 
+// Agrego las variables globales (SEGURAMENTE SE HACE DE OTRA FORMA VER DESPUES!!!)
 export const environment = {
   loggedIn:false,
   username:'',
-  name:'',
-  lastName:'',
-  profilePicture:''
+  apiURL:'http://10.68.1.100:3000',
+  apiVersion:'/api/v1'
 };
 
 @Component({

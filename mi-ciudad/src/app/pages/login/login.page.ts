@@ -52,7 +52,6 @@ export class LoginPage implements OnInit {
           console.log(resp);
           environment.loggedIn=true;
           environment.username = resp.data.email;
-          environment.profilePicture = 'image/url';
           localStorage.setItem('user', JSON.stringify(resp.data));
           this.router.navigate(['']);
         },

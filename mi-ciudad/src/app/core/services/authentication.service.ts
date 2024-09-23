@@ -12,7 +12,7 @@ export class AuthenticationService {
   constructor(private _httpClient: HttpClient) { }
  // crypto.SHA512(credentials.password
   logIn(credentials: { email: string; password: string, keepLoggedIn:boolean }):Observable<any>{
-    return this._httpClient.post<any>("http://10.68.1.100:3000/api/v1/auth/login", {
+    return this._httpClient.post<any>(environment.apiURL + environment.apiVersion + "/auth/login", {
       "username":credentials.email,
       "password":crypto.SHA512(credentials.password).toString(),
       "keepSessionOpen":credentials.keepLoggedIn
@@ -22,14 +22,11 @@ export class AuthenticationService {
   logOut(){
     environment.loggedIn=false;
     environment.username = '';
-    environment.name = '';
-    environment.lastName = '';
-    environment.profilePicture = '';
     return true;
   }
 
   getProfile():Observable<any>{
-    return this._httpClient.get<any>("http://10.68.1.100:3000/api/v1/users/profile")
+    return this._httpClient.get<any>(environment.apiURL + environment.apiVersion + "/users/profile")
   }
 
 }
