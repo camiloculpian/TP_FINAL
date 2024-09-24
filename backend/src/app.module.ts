@@ -8,6 +8,7 @@ import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
+import { CommerceModule } from './commerce/commerce.module';
 
 ConfigModule.forRoot({
   envFilePath: 'src/config/database.env',
@@ -40,7 +41,9 @@ ConfigModule.forRoot({
       renderPath: 'api/v1/uploads',
     }),
     UsersModule,
-    AuthModule
+    AuthModule,
+    
+    CommerceModule
   ],
   controllers: [AppController],
   providers: [AppService],
