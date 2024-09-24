@@ -5,7 +5,7 @@ import { CreateCommerceDto } from './create-commerce.dto';
 
 
 import { IsEnum, IsOptional, IsString } from 'class-validator';
-import { Horario, Tramite } from '../entities/commerce.entity'; // Asegúrate de importar el enum
+import { Horario, Tramite } from '../entities/commerce.entity';
 
 export class UpdateCommerceDto {
     @IsOptional()

@@ -12,10 +12,10 @@ export enum Tramite {
     BAJA = 'Baja'
 }
 
-@Entity('commerce') // Nombre de la tabla en la base de datos
+@Entity('commerce')
 export class Commerce {
     @PrimaryGeneratedColumn()
-    id_commerce: number; // Identificador único
+    id_commerce: number;
 
     @Column({ type: 'varchar', length: 255 })
     nombre: string;
@@ -30,7 +30,7 @@ export class Commerce {
     horario: Horario;
 
     @Column({ type: 'varchar', length: 255 })
-    imagen: string; // Imagen representativa del comercio
+    imagen: string;
 
     // @Column({ type: 'enum', enum: ['Alta', 'Actualización'] })
     // tramite: 'Alta' | 'Actualización';
