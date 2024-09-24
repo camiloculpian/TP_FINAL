@@ -61,6 +61,7 @@ export class AuthController {
         @Body() loginUserDto: LoginUserDto
     ) {
         try {
+            console.log('Alguien solicita autorizacion...')
             return new Response({
                 statusCode:201,
                 status:responseStatus.OK,

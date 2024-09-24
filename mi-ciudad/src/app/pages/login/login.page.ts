@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { addIcons } from "ionicons";
 import { eyeOutline, eyeOffOutline, person, lockClosed } from 'ionicons/icons';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { environment } from 'src/app/app.component';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,8 @@ export class LoginPage implements OnInit {
   public loginForm!: FormGroup;
   showPassword = false;
   isAlertOpen = false;
+  alertMessageHeader ='';
+  alertMessage ='';
   alertButtons = ['Aceptar'];
 
   constructor(
@@ -33,6 +36,7 @@ export class LoginPage implements OnInit {
     this.loginForm  = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(4)]],
+      keepLoggedIn: false,
     });
   }
 
@@ -41,11 +45,23 @@ export class LoginPage implements OnInit {
   }
 
   login() {
-    if(this.authService.login(this.loginForm.value)){
-      this.router.navigate(['']);
-    }else{
-      this.setOpen(true);
-    }
+    console.log(this.loginForm.value)
+    this.authService.logIn(this.loginForm.value).subscribe(
+      {
+        next: (resp) => {
+          console.log(resp);
+          environment.loggedIn=true;
+          environment.username = resp.data.email;
+          localStorage.setItem('user', JSON.stringify(resp.data));
+          this.router.navigate(['']);
+        },
+        error: (err) => {
+          this.alertMessageHeader = err.error.status
+          this.alertMessage = err.error.message
+          this.setOpen(true);
+        }
+      }
+    );
   }
 
   

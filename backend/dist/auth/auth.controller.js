@@ -45,6 +45,7 @@ let AuthController = class AuthController {
     }
     async login(loginUserDto) {
         try {
+            console.log('Alguien solicita autorizacion...');
             return new responses_1.Response({
                 statusCode: 201,
                 status: responses_1.responseStatus.OK,
