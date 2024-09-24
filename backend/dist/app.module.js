@@ -17,6 +17,7 @@ const path_1 = require("path");
 const config_1 = require("@nestjs/config");
 const users_module_1 = require("./users/users.module");
 const auth_module_1 = require("./auth/auth.module");
+const commerce_module_1 = require("./commerce/commerce.module");
 config_1.ConfigModule.forRoot({
     envFilePath: 'src/config/database.env',
 });
@@ -52,7 +53,8 @@ exports.AppModule = AppModule = __decorate([
                 renderPath: 'api/v1/uploads',
             }),
             users_module_1.UsersModule,
-            auth_module_1.AuthModule
+            auth_module_1.AuthModule,
+            commerce_module_1.CommerceModule
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
