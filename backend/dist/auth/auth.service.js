@@ -46,6 +46,38 @@ let AuthService = class AuthService {
             }
         }
     }
+    async validateUser(username, password) {
+        try {
+            let user = await this.usersServive.findOneByUsernameAndPasswd(username, password);
+            if (!user) {
+                let userBy = await this.usersServive.findOneByEmail(username);
+                if (userBy) {
+                    user = await this.usersServive.findOneByUsernameAndPasswd(userBy?.username, password);
+                }
+                else {
+                    userBy = await this.usersServive.findOneByDNI(username);
+                    if (userBy) {
+                        user = await this.usersServive.findOneByUsernameAndPasswd(userBy?.username, password);
+                    }
+                }
+            }
+            if (user) {
+                return user;
+            }
+            else {
+                throw new common_1.UnauthorizedException({ status: responses_1.responseStatus.UNAUTH, message: this.i18n.t('lang.auth.WrongLogin', { lang: nestjs_i18n_1.I18nContext.current().lang }) });
+            }
+        }
+        catch (e) {
+            console.log(e);
+            if (e instanceof common_1.BadRequestException || e instanceof common_1.UnauthorizedException) {
+                throw e;
+            }
+            else {
+                throw new common_1.InternalServerErrorException({ status: responses_1.responseStatus.ERROR, message: e.message });
+            }
+        }
+    }
     async login(loginUserDto) {
         try {
             let user = await this.usersServive.findOneByUsernameAndPasswd(loginUserDto.username, loginUserDto.password);
@@ -62,11 +94,12 @@ let AuthService = class AuthService {
                 }
             }
             if (user) {
-                const payload = { sub: user.id };
+                console.log('USUARIO LOGUEADO!!!');
                 if (loginUserDto?.keepSessionOpen) {
-                    console.log('KEEP SESSION OPEN PASSEED!!!');
+                    console.log('keepLogguedIn pased!!!');
                 }
-                const token = loginUserDto?.keepSessionOpen ? await this.jwtService.signAsync(payload) : await this.jwtService.signAsync(payload);
+                const payload = { sub: user.id };
+                const token = loginUserDto?.keepSessionOpen ? await this.jwtService.signAsync(payload, { expiresIn: '350d' }) : await this.jwtService.signAsync(payload);
                 return {
                     nombre: user.name + ' ' + user.lastName,
                     username: user.username,

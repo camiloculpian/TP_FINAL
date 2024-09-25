@@ -1,0 +1,2 @@
+backend/dist/tsconfig.build.tsbuildinfo
+backend/src/generated/i18n.generated.ts

@@ -28,6 +28,10 @@
                       </ion-button>
                     </ion-col>
                   </ion-item>
+                  <ion-item >
+                    <ion-label>Username:</ion-label>
+                    <ion-input name="username" type="text" required formControlName="username" ngDefaultControl></ion-input>
+                  </ion-item>
                   <ion-item>
                     <ion-label>Email:</ion-label>
                     <ion-input name="email" type="text" required formControlName="email" ngDefaultControl></ion-input>
@@ -43,6 +47,18 @@
                   <ion-item>
                     <ion-text>Nombres</ion-text>
                     <ion-input ion-input name="name" type="text" formControlName="name" ngDefaultControl></ion-input>
+                  </ion-item>
+                  <ion-item >
+                    <ion-label>DNI:</ion-label>
+                    <ion-input name="dni" type="text" required formControlName="dni" ngDefaultControl></ion-input>
+                  </ion-item>
+                  <ion-item >
+                    <ion-label>Direccion:</ion-label>
+                    <ion-input name="address" type="text" required formControlName="address" ngDefaultControl></ion-input>
+                  </ion-item>
+                  <ion-item >
+                    <ion-label>Telefono:</ion-label>
+                    <ion-input name="phone" type="text" required formControlName="phone" ngDefaultControl></ion-input>
                   </ion-item>
                 </ion-list>
                 <ion-button type="submit" fill="solid" expand="block" class="rounded" (click)="register($event)">
