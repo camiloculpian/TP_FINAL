@@ -12,4 +12,5 @@ export declare class User {
     phone: string;
     deletedAt: Date;
     profilePicture: string;
+    photos: any;
 }
