@@ -9,6 +9,8 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CommerceModule } from './commerce/commerce.module';
+import { PhotosModule } from './photos/photos.module';
+
 
 ConfigModule.forRoot({
   envFilePath: 'src/config/database.env',
@@ -43,7 +45,11 @@ ConfigModule.forRoot({
     UsersModule,
     AuthModule,
     
-    CommerceModule
+    CommerceModule,
+    
+    PhotosModule,
+    
+   
   ],
   controllers: [AppController],
   providers: [AppService],
