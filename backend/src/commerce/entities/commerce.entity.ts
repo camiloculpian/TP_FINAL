@@ -36,4 +36,6 @@ export class Commerce {
     // tramite: 'Alta' | 'Actualización';
     @Column({ type: 'enum', enum: Tramite })
     tramite: Tramite;
+    // reveer a futuro...
+    photos: any;
 }
