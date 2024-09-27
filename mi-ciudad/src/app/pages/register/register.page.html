@@ -12,7 +12,7 @@
   </ion-header>
   
     <ion-slide>
-      <form [formGroup]="userDataForm">
+      <form [formGroup]="userDataForm" (ngSubmit)="register()">
         <div class="profile-container">
           <ion-grid>
             <ion-row>
@@ -61,9 +61,10 @@
                     <ion-input name="phone" type="text" required formControlName="phone" ngDefaultControl></ion-input>
                   </ion-item>
                 </ion-list>
-                <ion-button type="submit" fill="solid" expand="block" class="rounded" (click)="register($event)">
+                <ion-button type="submit" fill="solid" expand="block" class="rounded">
                   Registratme
                 </ion-button>
+                
               </ion-col>
             </ion-row>
           </ion-grid>
