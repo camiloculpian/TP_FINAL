@@ -42,4 +42,6 @@ export class User {
 
     @Column({ nullable: true, default:null })
     profilePicture: string;
+    // reveer acá
+    photos: any;
 }
