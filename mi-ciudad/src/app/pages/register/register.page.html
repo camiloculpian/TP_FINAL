@@ -61,7 +61,7 @@
                     <ion-input name="phone" type="text" required formControlName="phone" ngDefaultControl></ion-input>
                   </ion-item>
                 </ion-list>
-                <ion-button type="submit" fill="solid" expand="block" class="rounded">
+                <ion-button [disabled]="userDataForm.invalid" type="submit" fill="solid" expand="block" class="rounded">
                   Registratme
                 </ion-button>
                 

@@ -40,14 +40,14 @@ export class AuthenticationService {
     return this._httpClient.post<any>(
       environment.apiURL + environment.apiVersion + '/auth/register',
       {
-        username: userData.username,
-        email: userData.email,
-        password: crypto.SHA512(userData.password).toString(),
-        lastName: userData.lastName,
-        name: userData.name,
-        dni: userData.dni,
-        address: userData.address,
-        phone: userData.phone,
+        username: userData?.username,
+        email: userData?.email,
+        password: crypto.SHA512(userData?.password).toString(),
+        lastName: userData?.lastName,
+        name: userData?.name,
+        dni: userData?.dni,
+        address: userData?.address,
+        phone: userData?.phone,
       }
     );
   }

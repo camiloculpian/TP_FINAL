@@ -44,6 +44,7 @@ export class AuthController {
         @UploadedFile() file: Express.Multer.File,
     ) {
         try {
+            console.log('controller async register CALLED!!!');
             return new Response({
                 statusCode:201,
                 status:responseStatus.OK,
