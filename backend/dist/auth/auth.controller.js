@@ -32,6 +32,7 @@ let AuthController = class AuthController {
     }
     async register(registerUserDto, file) {
         try {
+            console.log('controller async register CALLED!!!');
             return new responses_1.Response({
                 statusCode: 201,
                 status: responses_1.responseStatus.OK,

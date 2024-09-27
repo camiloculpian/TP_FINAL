@@ -43,15 +43,18 @@ export class RegisterPage implements OnInit {
     if (this.userDataForm.valid) {
       const userData = this.userDataForm.value;
       this.authService.register(userData).subscribe(
-        response => {
-          console.log('Registro exitoso', response);
-          this.userDataForm.reset();
-          this.router.navigate(['login']);
-        },
-        error => {
-          console.error('Error en el registro', error);
-        }
-      );
+        {
+          next: (resp) => {
+            console.log('Registro exitoso', resp);
+            this.userDataForm.reset();
+            this.router.navigate(['login']);
+          },
+          error: (err) => {
+            console.error('Error en el registro', err);
+          }
+      });
+    }else{
+      console.log('Faltan campos requeridos o el formato de los mismos no es el correcto!')
     }
   }
   
