@@ -5,28 +5,50 @@ import { environment } from 'src/app/app.component';
 import * as crypto from 'crypto-js';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationService {
-
-  constructor(private _httpClient: HttpClient) { }
- // crypto.SHA512(credentials.password
-  logIn(credentials: { email: string; password: string, keepLoggedIn:boolean }):Observable<any>{
-    return this._httpClient.post<any>(environment.apiURL + environment.apiVersion + "/auth/login", {
-      "username":credentials.email,
-      "password":crypto.SHA512(credentials.password).toString(),
-      "keepSessionOpen":credentials.keepLoggedIn
-    })
+  constructor(private _httpClient: HttpClient) {}
+  // crypto.SHA512(credentials.password
+  logIn(credentials: {
+    email: string;
+    password: string;
+    keepLoggedIn: boolean;
+  }): Observable<any> {
+    return this._httpClient.post<any>(
+      environment.apiURL + environment.apiVersion + '/auth/login',
+      {
+        username: credentials.email,
+        password: crypto.SHA512(credentials.password).toString(),
+        keepSessionOpen: credentials.keepLoggedIn,
+      }
+    );
   }
 
-  logOut(){
-    environment.loggedIn=false;
+  logOut() {
+    environment.loggedIn = false;
     environment.username = '';
     return true;
   }
 
-  getProfile():Observable<any>{
-    return this._httpClient.get<any>(environment.apiURL + environment.apiVersion + "/users/profile")
+  getProfile(): Observable<any> {
+    return this._httpClient.get<any>(
+      environment.apiURL + environment.apiVersion + '/users/profile'
+    );
   }
-
+  register(userData: any): Observable<any> {
+    return this._httpClient.post<any>(
+      environment.apiURL + environment.apiVersion + '/auth/register',
+      {
+        username: userData.username,
+        email: userData.email,
+        password: crypto.SHA512(userData.password).toString(),
+        lastName: userData.lastName,
+        name: userData.name,
+        dni: userData.dni,
+        address: userData.address,
+        phone: userData.phone,
+      }
+    );
+  }
 }
