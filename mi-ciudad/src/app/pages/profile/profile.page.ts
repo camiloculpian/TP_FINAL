@@ -1,8 +1,8 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonText, IonInput, IonLabel, IonItem, IonAvatar } from '@ionic/angular/standalone';
-import { pencil} from 'ionicons/icons';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonText, IonInput, IonLabel, IonItem, IonAvatar, AlertController } from '@ionic/angular/standalone';
+import { pencil } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
@@ -16,52 +16,78 @@ import { AuthenticationService } from 'src/app/core/services/authentication.serv
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ProfilePage implements OnInit {
-  // email!: string;
-  // lastName!: string;
-  // name!: string;
   public userDataForm!: FormGroup;
-  constructor(public formBuilder: FormBuilder, private router: Router, private authService : AuthenticationService) {
-    // this.email = environment.username;
-    // this.lastName = environment.lastName;
-    // this.name = environment.name;
-    addIcons({pencil});
+  private userId: string = '';
+
+  constructor(
+    public formBuilder: FormBuilder, 
+    private router: Router, 
+    private authService: AuthenticationService,
+    private alertController: AlertController 
+  ) {
+    addIcons({ pencil });
   }
 
   ngOnInit() {
-    
-    this.userDataForm  = this.formBuilder.group({
+    this.userDataForm = this.formBuilder.group({
       username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(4)]],
-      lastName: ['', [Validators.required, Validators.email]],
-      name: ['', [Validators.required, Validators.email]],
-      dni: ['', [Validators.required,Validators.minLength(7),Validators.maxLength(8)]],
+      currentPassword: ['', [Validators.required]], // Contraseña actual obligatoria //Deberia haber una verificacion de la contraseña 
+      password: ['', [Validators.minLength(4)]], // Nueva contraseña opcional
+      lastName: ['', [Validators.required]],
+      name: ['', [Validators.required]],
+      dni: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(8)]],
       address: ['', [Validators.required]],
       phone: ['', [Validators.required]],
     });
-    const resp = this.authService.getProfile().subscribe({
+  
+    this.authService.getProfile().subscribe({
       next: (resp) => {
-        // CORREGIR ACA HAY QUE SETEAR YA SE CREO ARRIBA!!!
-        this.userDataForm  = this.formBuilder.group({
-          username: [resp.data.username, [Validators.required]],
-          email: [resp.data.email, [Validators.required, Validators.email]],
-          password: ['', [Validators.required, Validators.minLength(4)]],
-          lastName: [resp.data.lastName, [Validators.required]],
-          name: [resp.data.name, [Validators.required]],
-          dni: [resp.data.dni, [Validators.required,Validators.minLength(7),Validators.maxLength(8)]],
-          address: [resp.data.address, [Validators.required]],
-          phone: [resp.data.phone, [Validators.required]],
+        this.userId = resp.data.id;
+        this.userDataForm.patchValue({
+          username: resp.data.username,
+          email: resp.data.email,
+          lastName: resp.data.lastName,
+          name: resp.data.name,
+          dni: resp.data.dni,
+          address: resp.data.address,
+          phone: resp.data.phone,
         });
       },
       error: (error) => {
-        console.log(error)
+        console.log(error);
       }
-    })
+    });
+  }
+  
+  async showAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: ['Aceptar'],
+    });
+
+    await alert.present();
   }
 
-  onSave(e:Event){
+  onSave(e: Event) {
     e.preventDefault();
-    this.router.navigate(['']);
+
+    if (this.userDataForm.valid) {
+      const updatedProfile = this.userDataForm.getRawValue();
+
+      this.authService.updateProfile(this.userId, updatedProfile).subscribe({
+        next: (response) => {
+          this.showAlert('Actualización Exitosa', 'El perfil ha sido actualizado correctamente.');
+        },
+        error: (error) => {
+          this.showAlert(error.error.status || 'Error', error.error.message || 'No se pudo actualizar el perfil');
+        }
+      });
+
+    } else {
+      this.showAlert('Formulario Inválido', 'Por favor, revise los campos e intente nuevamente.');
+    }
   }
 
   get email() {

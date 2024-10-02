@@ -1,7 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonText, IonInput, IonLabel, IonItem, IonAvatar, IonCol } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonText, IonInput, IonLabel, IonItem, IonAvatar, IonCol, AlertController } from '@ionic/angular/standalone';
 import { addIcons } from "ionicons";
 import { pencil } from "ionicons/icons";
 import { Router } from '@angular/router';
@@ -21,7 +21,8 @@ export class RegisterPage implements OnInit {
   constructor(
     public formBuilder: FormBuilder,
     private router: Router,
-    private authService: AuthenticationService 
+    private authService: AuthenticationService,
+    private alertController: AlertController 
   ) {
     addIcons({ pencil });
   }
@@ -39,20 +40,36 @@ export class RegisterPage implements OnInit {
     });
   }
 
+  async showAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+      header: header,
+      message: message,
+      buttons: ['Aceptar'],
+    });
+
+    await alert.present();
+  }
+
   register() {
     if (this.userDataForm.valid) {
       const userData = this.userDataForm.value;
+
       this.authService.register(userData).subscribe(
         response => {
           console.log('Registro exitoso', response);
+
+          this.showAlert('Registro Exitoso', 'Usuario registrado con éxito');
+
           this.userDataForm.reset();
+
           this.router.navigate(['login']);
+      
         },
         error => {
           console.error('Error en el registro', error);
+          this.showAlert('Error', 'No se pudo registrar el usuario. Inténtelo nuevamente.');
         }
       );
     }
   }
-  
 }

@@ -205,45 +205,50 @@ export class UsersService {
         }
         updateUserDto.profilePicture = file.filename;
       }
-  
-      // Verificar si el usuario actual tiene permiso para actualizar el usuario
-      if (!isAdmin && !isCurrentUser) {
-        throw new ForbiddenException('No tienes permiso para modificar este usuario');
-      }
-  
-      // Solo permitir la actualización de la contraseña y la imagen de perfil si el usuario está actualizando su propio perfil
-      if (!isAdmin && isCurrentUser) {
-        if(updateUserDto.username||updateUserDto.password||updateUserDto.profilePicture||updateUserDto.email||updateUserDto.phone) {
-          updateUserDto = {
-            username: updateUserDto.username,
-            password: updateUserDto.password,
-            profilePicture: updateUserDto.profilePicture,
-            email: updateUserDto.email,
-            phone: updateUserDto.phone,
-          };
-        }else{
-          throw new ForbiddenException('No tienes permiso para modificar este campo');
+          // Verificar si el usuario actual tiene permiso para actualizar el usuario
+          if (!isAdmin && !isCurrentUser) {
+            throw new ForbiddenException('No tienes permiso para modificar este usuario');
         }
-      }
-  
-      // Actualizar el usuario y su perfil asociado
-      await this.userRepository.save({ ...userToUpdate, ...updateUserDto });
-  
-      await queryRunner.commitTransaction();
-  
-      return { status: 'OK', message: 'Los datos del usuario se actualizaron correctamente' };
+
+        // Restricción para el usuario común: solo puede modificar su propio perfil
+        if (!isAdmin && isCurrentUser) {
+            updateUserDto = {
+                name: updateUserDto.name,
+                lastName: updateUserDto.lastName,
+                email: updateUserDto.email,
+                password: updateUserDto.password,
+                phone: updateUserDto.phone,
+                address: updateUserDto.address,
+                profilePicture: updateUserDto.profilePicture
+            };
+        }
+
+        // Permitir que el admin modifique cualquier campo permitido por el DTO
+        updateUserDto = {
+            ...updateUserDto // El admin puede actualizar todos los campos del DTO (incluyendo roles u otros permisos)
+        };
+
+        console.log('Antes de guardar:', { ...userToUpdate, ...updateUserDto });
+
+        // Actualizar el usuario y su perfil asociado
+        await this.userRepository.save({ ...userToUpdate, ...updateUserDto });
+
+        await queryRunner.commitTransaction();
+
+        return { status: 'OK', message: 'Los datos del usuario se actualizaron correctamente' };
     } catch (e) {
-      await queryRunner.rollbackTransaction();
-      console.log(e.message);
-      if(e instanceof BadRequestException || e instanceof UnauthorizedException){
-        throw e;
-      }else{
-        throw new InternalServerErrorException({status:responseStatus.ERROR,message:e.message});
-      }
+        await queryRunner.rollbackTransaction();
+        console.log(e.message);
+        if (e instanceof BadRequestException || e instanceof UnauthorizedException) {
+            throw e;
+        } else {
+            throw new InternalServerErrorException({ status: responseStatus.ERROR, message: e.message });
+        }
     } finally {
-      await queryRunner.release();
+        await queryRunner.release();
     }
-  }
+}
+  
   
 
   async remove(id: number) {
