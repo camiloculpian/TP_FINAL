@@ -184,19 +184,20 @@ let UsersService = class UsersService {
                 throw new common_2.ForbiddenException('No tienes permiso para modificar este usuario');
             }
             if (!isAdmin && isCurrentUser) {
-                if (updateUserDto.username || updateUserDto.password || updateUserDto.profilePicture || updateUserDto.email || updateUserDto.phone) {
-                    updateUserDto = {
-                        username: updateUserDto.username,
-                        password: updateUserDto.password,
-                        profilePicture: updateUserDto.profilePicture,
-                        email: updateUserDto.email,
-                        phone: updateUserDto.phone,
-                    };
-                }
-                else {
-                    throw new common_2.ForbiddenException('No tienes permiso para modificar este campo');
-                }
+                updateUserDto = {
+                    name: updateUserDto.name,
+                    lastName: updateUserDto.lastName,
+                    email: updateUserDto.email,
+                    password: updateUserDto.password,
+                    phone: updateUserDto.phone,
+                    address: updateUserDto.address,
+                    profilePicture: updateUserDto.profilePicture
+                };
             }
+            updateUserDto = {
+                ...updateUserDto
+            };
+            console.log('Antes de guardar:', { ...userToUpdate, ...updateUserDto });
             await this.userRepository.save({ ...userToUpdate, ...updateUserDto });
             await queryRunner.commitTransaction();
             return { status: 'OK', message: 'Los datos del usuario se actualizaron correctamente' };
