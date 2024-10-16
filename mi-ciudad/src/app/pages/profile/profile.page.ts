@@ -1,38 +1,41 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonText, IonInput, IonLabel, IonItem, IonAvatar, AlertController } from '@ionic/angular/standalone';
-import { pencil } from 'ionicons/icons';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonText, IonInput, IonLabel, IonItem, IonAvatar, AlertController, IonButton, IonGrid, IonRow, IonCol, IonThumbnail } from '@ionic/angular/standalone';
+import { pencil, camera, image } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
+import { Camera, CameraResultType } from '@capacitor/camera';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
   standalone: true,
-  imports: [IonAvatar, IonItem, IonLabel, IonInput, IonText, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule],
+  imports: [IonCol, IonAvatar, IonItem, IonLabel, IonInput, IonText, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonButton, IonGrid, IonRow, IonThumbnail],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ProfilePage implements OnInit {
   public userDataForm!: FormGroup;
+  public profilePicture: string = '../../../assets/avatar.svg'; // Imagen de perfil predeterminada
+  private imageFile: File | null = null; // Archivo de imagen seleccionado
   private userId: string = '';
 
   constructor(
-    public formBuilder: FormBuilder, 
-    private router: Router, 
+    public formBuilder: FormBuilder,
+    private router: Router,
     private authService: AuthenticationService,
-    private alertController: AlertController 
+    private alertController: AlertController
   ) {
-    addIcons({ pencil });
+    addIcons({ pencil, camera, image });
   }
 
   ngOnInit() {
     this.userDataForm = this.formBuilder.group({
       username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
-      currentPassword: ['', [Validators.required]], // Contraseña actual obligatoria //Deberia haber una verificacion de la contraseña 
+      currentPassword: ['', [Validators.required]], // Contraseña actual obligatoria
       password: ['', [Validators.minLength(4)]], // Nueva contraseña opcional
       lastName: ['', [Validators.required]],
       name: ['', [Validators.required]],
@@ -40,10 +43,11 @@ export class ProfilePage implements OnInit {
       address: ['', [Validators.required]],
       phone: ['', [Validators.required]],
     });
-  
+
     this.authService.getProfile().subscribe({
       next: (resp) => {
         this.userId = resp.data.id;
+        this.profilePicture = resp.data.profilePicture || this.profilePicture; // Cargar la foto de perfil del servidor
         this.userDataForm.patchValue({
           username: resp.data.username,
           email: resp.data.email,
@@ -59,46 +63,84 @@ export class ProfilePage implements OnInit {
       }
     });
   }
-  
+
   async showAlert(header: string, message: string) {
     const alert = await this.alertController.create({
       header: header,
       message: message,
       buttons: ['Aceptar'],
     });
-
     await alert.present();
+  }
+
+  // Abrir la cámara
+  async openCamera() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 100,
+        resultType: CameraResultType.Uri,
+      });
+      if (image?.webPath) {
+        this.profilePicture = image.webPath;
+        const response = await fetch(image.webPath);
+        const blob = await response.blob();
+        this.imageFile = new File([blob], 'profilePicture.jpg', { type: 'image/jpeg' });
+      }
+    } catch (e) {
+      console.log(e);
+      this.showAlert('Error', 'No se pudo acceder a la cámara.');
+    }
+  }
+
+  // Abrir la galería
+  async openCameraRoll() {
+    try {
+      const images = await Camera.pickImages({
+        quality: 100,
+        limit: 1,
+      });
+      const selectedImage = images.photos[0];
+      if (selectedImage?.webPath) {
+        this.profilePicture = selectedImage.webPath;
+        const response = await fetch(selectedImage.webPath);
+        const blob = await response.blob();
+        this.imageFile = new File([blob], 'profilePicture.jpg', { type: 'image/jpeg' });
+      }
+    } catch (e) {
+      console.log(e);
+      this.showAlert('Error', 'No se pudo seleccionar una imagen.');
+    }
   }
 
   onSave(e: Event) {
     e.preventDefault();
 
     if (this.userDataForm.valid) {
-      const updatedProfile = this.userDataForm.getRawValue();
+      const updatedProfile = new FormData();
+      const userData = this.userDataForm.getRawValue();
+
+      updatedProfile.append('username', userData.username);
+      updatedProfile.append('email', userData.email);
+      updatedProfile.append('name', userData.name);
+      updatedProfile.append('lastName', userData.lastName);
+      updatedProfile.append('dni', userData.dni);
+      updatedProfile.append('address', userData.address);
+      updatedProfile.append('phone', userData.phone);
+
+      if (this.imageFile) {
+        updatedProfile.append('profilePicture', this.imageFile);
+      }
 
       this.authService.updateProfile(this.userId, updatedProfile).subscribe({
-        next: (response) => {
+        next: () => {
           this.showAlert('Actualización Exitosa', 'El perfil ha sido actualizado correctamente.');
         },
         error: (error) => {
           this.showAlert(error.error.status || 'Error', error.error.message || 'No se pudo actualizar el perfil');
         }
       });
-
     } else {
       this.showAlert('Formulario Inválido', 'Por favor, revise los campos e intente nuevamente.');
     }
-  }
-
-  get email() {
-    return this.userDataForm.get('email');
-  }
-
-  get lastName() {
-    return this.userDataForm.get('lastName');
-  }
-
-  get name() {
-    return this.userDataForm.get('name');
   }
 }

@@ -32,7 +32,8 @@
               }
             ],
             "styles": ["src/global.scss", "src/theme/variables.scss"],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["crypto-js"] 
           },
           "configurations": {
             "production": {
@@ -78,9 +79,6 @@
             },
             "development": {
               "buildTarget": "app:build:development"
-            },
-            "ci": {
-              "progress": false
             }
           },
           "defaultConfiguration": "development"
@@ -126,7 +124,10 @@
     }
   },
   "cli": {
-    "schematicCollections": ["@ionic/angular-toolkit"]
+    "schematicCollections": [
+      "@ionic/angular-toolkit"
+    ],
+    "analytics": "3717b60c-ed4f-416c-aade-d4bf6c359083"
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {

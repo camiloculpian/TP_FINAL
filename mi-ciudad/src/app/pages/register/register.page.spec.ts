@@ -14,4 +14,14 @@ describe('RegisterPage', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should open camera', async () => {
+    spyOn(component, 'openCamera');
+    const button = fixture.debugElement.nativeElement.querySelector('ion-button');
+    button.click();
+    fixture.whenStable().then(() => {
+      expect(component.openCamera).toHaveBeenCalled();
+    });
+  });
+  
 });
