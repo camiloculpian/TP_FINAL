@@ -35,22 +35,15 @@ export class AuthenticationService {
     return this._httpClient.get<any>(
       environment.apiURL + environment.apiVersion + '/users/profile'
     );
+
   }
-  register(userData: any): Observable<any> {
+  register(userData: FormData): Observable<any> {
     return this._httpClient.post<any>(
       environment.apiURL + environment.apiVersion + '/auth/register',
-      {
-        username: userData.username,
-        email: userData.email,
-        password: crypto.SHA512(userData.password).toString(),
-        lastName: userData.lastName,
-        name: userData.name,
-        dni: userData.dni,
-        address: userData.address,
-        phone: userData.phone,
-      }
+      userData
     );
   }
+  
   updateProfile(userId: string, userData: any): Observable<any> {
     const updatePayload: any = {};
 
@@ -78,6 +71,10 @@ export class AuthenticationService {
     if (userData.phone) {
       updatePayload.phone = userData.phone;
     }
+    if (userData.profilePicture) {
+      updatePayload.profilePicture = userData.profilePicture;
+    }
+
 
     return this._httpClient.patch<any>(
       `${environment.apiURL}${environment.apiVersion}/users/${userId}`,
