@@ -49,8 +49,6 @@ export class LoginPage implements OnInit {
     this.authService.logIn(this.loginForm.value).subscribe(
       {
         next: (resp) => {
-          console.log(resp);
-
           environment.loggedIn=true;
           environment.username = resp.data.email;
           localStorage.setItem('user', JSON.stringify(resp.data));

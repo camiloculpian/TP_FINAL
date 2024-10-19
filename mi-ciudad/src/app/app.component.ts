@@ -3,6 +3,8 @@ import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
 import {Platform, ToastController} from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
 import { Network } from '@awesome-cordova-plugins/network/ngx';
+import { AuthenticationService } from './core/services/authentication.service';
+import { Router } from '@angular/router';
 
 
 // Agrego las variables globales (SEGURAMENTE SE HACE DE OTRA FORMA VER DESPUES!!!)
@@ -23,12 +25,15 @@ export const environment = {
   ]
 })
 export class AppComponent {
+  private currentUser!: any;
   private lastBack = Date.now();
   constructor(
     private platform: Platform,
     private network: Network,
     private http: HttpClient,
-    private toastController: ToastController
+    private router: Router,
+    private toastController: ToastController,
+    private authService : AuthenticationService,
   ) {
     this.platform.backButton.subscribe(() => {
       if (Date.now() - this.lastBack < 500) { // logic for double tap: delay of 500ms between two clicks of back button
@@ -40,7 +45,26 @@ export class AppComponent {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.verificarConexion()
+    this.verificarConexion();
+    console.log('INICIALIZANDO APP...');
+    this.authService.isLoggedIn().subscribe(
+      {
+        next: (resp) => {
+          environment.loggedIn=true;
+          environment.username = resp.data.email;
+          localStorage.setItem('user', JSON.stringify(resp.data));
+          this.router.navigate(['']);
+        },
+        error: (error) => {}
+      }
+    )
+    // let storedUser = localStorage.getItem('user')
+    // console.log(storedUser);
+    // if (storedUser) {
+    //   this.currentUser = JSON.parse(String(storedUser));
+    //   environment.loggedIn = true;
+    //   environment.username = this.currentUser?.username
+    // }
   }
 
   async verificarConexion() {
