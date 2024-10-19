@@ -7,7 +7,15 @@
   <div id="container">
     Bienvenidos a la app "Mi Ciudad"
   </div>
-
+  <ion-content>
+    <ion-grid style="height: 100vh; display: flex; justify-content: center; align-items: center;">
+      <ion-row>
+        <ion-col style="text-align: center;">
+          <img src="assets/myCity3.jpg" alt="My City 3">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button (click)="mostrarFormulario = !mostrarFormulario">
       <ion-icon name="add"></ion-icon>
@@ -50,6 +58,5 @@
         <ion-button expand="full" type="submit">Cargar</ion-button>
       </form>
     </div>
-  
-  
 </ion-content>
+
