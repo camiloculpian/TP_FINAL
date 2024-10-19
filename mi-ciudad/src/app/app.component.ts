@@ -49,14 +49,17 @@ export class AppComponent {
     // Verificar la conexión de red
     const tipoConexion = this.network.type;
     if (!tipoConexion || tipoConexion === 'none') {
-      await this.mostrarErrorToast('No hay conexión de red');
+      await this.mostrarErrorToast('No hay conexión de red...');
       return;
     }
     // Verificar la conexión con el backend
     console.log('chequeando coneccion con el servidor....');
-    this.http.get(environment.apiURL + environment.apiVersion).subscribe(
+    await this.http.get(environment.apiURL+environment.apiVersion).subscribe(
       {
+        next: (resp) =>{},
         error: (err) => {
+          console.log('Error de conexión con el servidor:', err);
+          console.log(err);
           this.mostrarErrorToast('No hay coneccion con el servidor!!!')
         }
       }
