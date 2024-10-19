@@ -7,11 +7,12 @@
   <div id="container">
     Bienvenidos a la app "Mi Ciudad"
   </div>
-  
-    
-    <ion-button (click)="mostrarFormulario = !mostrarFormulario">
-      Cargar Negocio
-    </ion-button>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="mostrarFormulario = !mostrarFormulario">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   
     
     <div *ngIf="mostrarFormulario">
