@@ -15,18 +15,18 @@
                 <ion-col>
                   <!-- Mostrar la imagen -->
                   <ion-avatar>
-                    <img style="width: 8em;" [src]="profilePicture" alt="Profile Picture" />
+                    <img style="width: 8em; height: 8em;" [src]="profilePicture" alt="Profile Picture" />
                   </ion-avatar>
 
                   <!-- Botón para abrir la cámara -->
                   <ion-button shape="round" color="medium" (click)="openCamera()">
-                    <ion-icon name="camera"></ion-icon>
+                    <ion-icon slot="icon-only" name="pencil" style="padding: 0; margin: 0;"></ion-icon>
                   </ion-button>
 
                   <!-- Botón para abrir la galería -->
-                  <ion-button shape="round" color="medium" (click)="openCameraRoll()">
+                  <!-- <ion-button shape="round" color="medium" (click)="openCameraRoll()">
                     <ion-icon name="image"></ion-icon>
-                  </ion-button>
+                  </ion-button> -->
                 </ion-col>
               </ion-item>
 
@@ -73,7 +73,7 @@
               
               <ion-item>
                 <ion-label>Nueva Contraseña:</ion-label>
-                <ion-input name="password" type="password" formControlName="password" placeholder="Este campo es opcional"></ion-input>
+                <ion-input name="newPassword" type="password" formControlName="newPassword" placeholder="Este campo es opcional"></ion-input>
               </ion-item>
               
 

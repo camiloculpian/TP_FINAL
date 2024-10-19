@@ -23,7 +23,7 @@ export class RegisterPage implements OnInit {
   private imageFile: File | null = null; 
 
   constructor(
-    public formBuilder: FormBuilder,
+    private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthenticationService,
     private alertController: AlertController

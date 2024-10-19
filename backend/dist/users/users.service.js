@@ -169,16 +169,19 @@ let UsersService = class UsersService {
             }
             const isAdmin = user.roles === role_enum_1.Role.ADMIN;
             const isCurrentUser = user.id === id;
+            console.log('VERIFICAR SI SE CARGO ARCHIVO!!!(o sea la foto de perfil)');
             if (file) {
                 const fs = require('fs');
                 try {
-                    fs.unlinkSync(process.env.USER_PROFILE_PICTURES_DIR + updateUserDto.profilePicture);
-                    console.log('profilePicture removed: ' + process.env.USER_PROFILE_PICTURES_DIR + updateUserDto.profilePicture);
+                    fs.unlinkSync(process.env.USER_PROFILE_PICTURES_DIR + userToUpdate.profilePicture);
+                    console.log('profilePicture removed: ' + process.env.USER_PROFILE_PICTURES_DIR + userToUpdate.profilePicture);
                 }
                 catch (err) {
                     console.error('Something wrong happened removing the profilepicture', err);
                 }
                 updateUserDto.profilePicture = file.filename;
+            }
+            else {
             }
             if (!isAdmin && !isCurrentUser) {
                 throw new common_2.ForbiddenException('No tienes permiso para modificar este usuario');

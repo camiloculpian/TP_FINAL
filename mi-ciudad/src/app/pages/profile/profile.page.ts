@@ -7,6 +7,7 @@ import { addIcons } from 'ionicons';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { environment } from 'src/app/app.component';
 
 @Component({
   selector: 'app-profile',
@@ -19,7 +20,7 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 export class ProfilePage implements OnInit {
   public userDataForm!: FormGroup;
   public profilePicture: string = '../../../assets/avatar.svg'; // Imagen de perfil predeterminada
-  private imageFile: File | null = null; // Archivo de imagen seleccionado
+  private imageFile!: File; // Archivo de imagen seleccionado
   private userId: string = '';
 
   constructor(
@@ -36,7 +37,7 @@ export class ProfilePage implements OnInit {
       username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       currentPassword: ['', [Validators.required]], // Contraseña actual obligatoria
-      password: ['', [Validators.minLength(4)]], // Nueva contraseña opcional
+      newPassword: ['', [Validators.minLength(4)]], // Nueva contraseña opcional
       lastName: ['', [Validators.required]],
       name: ['', [Validators.required]],
       dni: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(8)]],
@@ -47,7 +48,7 @@ export class ProfilePage implements OnInit {
     this.authService.getProfile().subscribe({
       next: (resp) => {
         this.userId = resp.data.id;
-        this.profilePicture = resp.data.profilePicture || this.profilePicture; // Cargar la foto de perfil del servidor
+        this.profilePicture = environment.apiURL+'/uploads/profiles/users/'+resp.data.profilePicture || this.profilePicture; // Cargar la foto de perfil del servidor
         this.userDataForm.patchValue({
           username: resp.data.username,
           email: resp.data.email,
@@ -118,6 +119,7 @@ export class ProfilePage implements OnInit {
     if (this.userDataForm.valid) {
       const updatedProfile = new FormData();
       const userData = this.userDataForm.getRawValue();
+      userData.append
 
       updatedProfile.append('username', userData.username);
       updatedProfile.append('email', userData.email);
@@ -128,8 +130,14 @@ export class ProfilePage implements OnInit {
       updatedProfile.append('phone', userData.phone);
 
       if (this.imageFile) {
-        updatedProfile.append('profilePicture', this.imageFile);
+        updatedProfile.append('profilePicture', this.imageFile, this.imageFile.name);
+      }else{
       }
+
+      // TO-DO:
+      // SI EL CAMPO newPassword no esta vacio agregar para cambiar la contrasenia
+
+      console.log(updatedProfile.getAll);
 
       this.authService.updateProfile(this.userId, updatedProfile).subscribe({
         next: () => {
