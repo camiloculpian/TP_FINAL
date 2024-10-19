@@ -134,6 +134,10 @@ export class ProfilePage implements OnInit {
       }else{
         console.log('NO hay foto!!!')
       }
+
+      // TO-DO:
+      // SI EL CAMPO newPassword no esta vacio agregar para cambiar la contrasenia
+
       console.log(updatedProfile.getAll);
 
       this.authService.updateProfile(this.userId, updatedProfile).subscribe({

@@ -45,35 +45,35 @@ export class AuthenticationService {
   }
   
   updateProfile(userId: string, userData: any): Observable<any> {
-    const updatePayload: any = {};
+    // const updatePayload: any = {};
 
-    if (userData.username) {
-      updatePayload.username = userData.username;
-    }
-    if (userData.email) {
-      updatePayload.email = userData.email;
-    }
-    if (userData.password) {
-      updatePayload.password = crypto.SHA512(userData.password).toString(); 
-    }
-    if (userData.lastName) {
-      updatePayload.lastName = userData.lastName;
-    }
-    if (userData.name) {
-      updatePayload.name = userData.name;
-    }
-    if (userData.dni) {
-      updatePayload.dni = userData.dni;
-    }
-    if (userData.address) {
-      updatePayload.address = userData.address;
-    }
-    if (userData.phone) {
-      updatePayload.phone = userData.phone;
-    }
-    if (userData.profilePicture) {
-      updatePayload.profilePicture = userData.profilePicture;
-    }
+    // if (userData.username) {
+    //   updatePayload.username = userData.username;
+    // }
+    // if (userData.email) {
+    //   updatePayload.email = userData.email;
+    // }
+    // if (userData.password) {
+    //   updatePayload.password = crypto.SHA512(userData.password).toString(); 
+    // }
+    // if (userData.lastName) {
+    //   updatePayload.lastName = userData.lastName;
+    // }
+    // if (userData.name) {
+    //   updatePayload.name = userData.name;
+    // }
+    // if (userData.dni) {
+    //   updatePayload.dni = userData.dni;
+    // }
+    // if (userData.address) {
+    //   updatePayload.address = userData.address;
+    // }
+    // if (userData.phone) {
+    //   updatePayload.phone = userData.phone;
+    // }
+    // if (userData.profilePicture) {
+    //   updatePayload.profilePicture = userData.profilePicture;
+    // }
 
 
     return this._httpClient.patch<any>(
