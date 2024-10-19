@@ -37,7 +37,7 @@ export class ProfilePage implements OnInit {
       username: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
       currentPassword: ['', [Validators.required]], // Contraseña actual obligatoria
-      password: ['', [Validators.minLength(4)]], // Nueva contraseña opcional
+      newPassword: ['', [Validators.minLength(4)]], // Nueva contraseña opcional
       lastName: ['', [Validators.required]],
       name: ['', [Validators.required]],
       dni: ['', [Validators.required, Validators.minLength(7), Validators.maxLength(8)]],
