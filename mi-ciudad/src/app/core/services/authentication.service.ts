@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { environment } from 'src/app/app.component';
 import * as crypto from 'crypto-js';
 
@@ -24,10 +24,20 @@ export class AuthenticationService {
       }
     );
   }
+  
+  isLoggedIn():Observable<any>{
+    let user:any = localStorage.getItem('user');
+    if( user != null){
+      return this._httpClient.get<Response>(environment.apiURL + environment.apiVersion + `/auth/verify`)
+    }else{
+      return throwError(() => new Error('UNAUTORIZED'));
+    }
+  }
 
   logOut() {
     environment.loggedIn = false;
     environment.username = '';
+    localStorage.removeItem('user');
     return true;
   }
 
@@ -37,6 +47,7 @@ export class AuthenticationService {
     );
 
   }
+
   register(userData: FormData): Observable<any> {
     return this._httpClient.post<any>(
       environment.apiURL + environment.apiVersion + '/auth/register',
