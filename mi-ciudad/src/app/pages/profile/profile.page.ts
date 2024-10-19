@@ -7,6 +7,7 @@ import { addIcons } from 'ionicons';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { environment } from 'src/app/app.component';
 
 @Component({
   selector: 'app-profile',
@@ -47,7 +48,7 @@ export class ProfilePage implements OnInit {
     this.authService.getProfile().subscribe({
       next: (resp) => {
         this.userId = resp.data.id;
-        this.profilePicture = resp.data.profilePicture || this.profilePicture; // Cargar la foto de perfil del servidor
+        this.profilePicture = environment.apiURL+'/uploads/profiles/users/'+resp.data.profilePicture || this.profilePicture; // Cargar la foto de perfil del servidor
         this.userDataForm.patchValue({
           username: resp.data.username,
           email: resp.data.email,
@@ -129,10 +130,8 @@ export class ProfilePage implements OnInit {
       updatedProfile.append('phone', userData.phone);
 
       if (this.imageFile) {
-        console.log('SI hay foto!!!')
         updatedProfile.append('profilePicture', this.imageFile, this.imageFile.name);
       }else{
-        console.log('NO hay foto!!!')
       }
 
       // TO-DO:

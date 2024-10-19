@@ -173,8 +173,8 @@ let UsersService = class UsersService {
             if (file) {
                 const fs = require('fs');
                 try {
-                    fs.unlinkSync(process.env.USER_PROFILE_PICTURES_DIR + updateUserDto.profilePicture);
-                    console.log('profilePicture removed: ' + process.env.USER_PROFILE_PICTURES_DIR + updateUserDto.profilePicture);
+                    fs.unlinkSync(process.env.USER_PROFILE_PICTURES_DIR + userToUpdate.profilePicture);
+                    console.log('profilePicture removed: ' + process.env.USER_PROFILE_PICTURES_DIR + userToUpdate.profilePicture);
                 }
                 catch (err) {
                     console.error('Something wrong happened removing the profilepicture', err);
@@ -182,7 +182,6 @@ let UsersService = class UsersService {
                 updateUserDto.profilePicture = file.filename;
             }
             else {
-                console.log('NO SE CARGO UNA MIERDA!!!');
             }
             if (!isAdmin && !isCurrentUser) {
                 throw new common_2.ForbiddenException('No tienes permiso para modificar este usuario');

@@ -199,14 +199,13 @@ export class UsersService {
       if (file) {
         const fs = require('fs')
         try {
-          fs.unlinkSync(process.env.USER_PROFILE_PICTURES_DIR+updateUserDto.profilePicture);
-          console.log('profilePicture removed: '+process.env.USER_PROFILE_PICTURES_DIR+updateUserDto.profilePicture)
+          fs.unlinkSync(process.env.USER_PROFILE_PICTURES_DIR+userToUpdate.profilePicture);
+          console.log('profilePicture removed: '+process.env.USER_PROFILE_PICTURES_DIR+userToUpdate.profilePicture)
         } catch(err) {
           console.error('Something wrong happened removing the profilepicture', err)
         }
         updateUserDto.profilePicture = file.filename;
       }else{
-        console.log('NO SE CARGO UNA MIERDA!!!')
       }
           // Verificar si el usuario actual tiene permiso para actualizar el usuario
           if (!isAdmin && !isCurrentUser) {
