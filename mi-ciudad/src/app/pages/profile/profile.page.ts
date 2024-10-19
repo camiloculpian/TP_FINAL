@@ -19,7 +19,7 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 export class ProfilePage implements OnInit {
   public userDataForm!: FormGroup;
   public profilePicture: string = '../../../assets/avatar.svg'; // Imagen de perfil predeterminada
-  private imageFile: File | null = null; // Archivo de imagen seleccionado
+  private imageFile!: File; // Archivo de imagen seleccionado
   private userId: string = '';
 
   constructor(
@@ -118,6 +118,7 @@ export class ProfilePage implements OnInit {
     if (this.userDataForm.valid) {
       const updatedProfile = new FormData();
       const userData = this.userDataForm.getRawValue();
+      userData.append
 
       updatedProfile.append('username', userData.username);
       updatedProfile.append('email', userData.email);
@@ -128,8 +129,12 @@ export class ProfilePage implements OnInit {
       updatedProfile.append('phone', userData.phone);
 
       if (this.imageFile) {
-        updatedProfile.append('profilePicture', this.imageFile);
+        console.log('SI hay foto!!!')
+        updatedProfile.append('profilePicture', this.imageFile, this.imageFile.name);
+      }else{
+        console.log('NO hay foto!!!')
       }
+      console.log(updatedProfile.getAll);
 
       this.authService.updateProfile(this.userId, updatedProfile).subscribe({
         next: () => {

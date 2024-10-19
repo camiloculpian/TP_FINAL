@@ -169,6 +169,7 @@ let UsersService = class UsersService {
             }
             const isAdmin = user.roles === role_enum_1.Role.ADMIN;
             const isCurrentUser = user.id === id;
+            console.log('VERIFICAR SI SE CARGO ARCHIVO!!!(o sea la foto de perfil)');
             if (file) {
                 const fs = require('fs');
                 try {
@@ -179,6 +180,9 @@ let UsersService = class UsersService {
                     console.error('Something wrong happened removing the profilepicture', err);
                 }
                 updateUserDto.profilePicture = file.filename;
+            }
+            else {
+                console.log('NO SE CARGO UNA MIERDA!!!');
             }
             if (!isAdmin && !isCurrentUser) {
                 throw new common_2.ForbiddenException('No tienes permiso para modificar este usuario');

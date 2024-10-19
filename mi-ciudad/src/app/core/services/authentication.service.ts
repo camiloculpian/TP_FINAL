@@ -78,7 +78,7 @@ export class AuthenticationService {
 
     return this._httpClient.patch<any>(
       `${environment.apiURL}${environment.apiVersion}/users/${userId}`,
-      updatePayload
+      userData
     );
   }
 

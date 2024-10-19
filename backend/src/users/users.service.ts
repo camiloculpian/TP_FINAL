@@ -195,6 +195,7 @@ export class UsersService {
       const isCurrentUser = user.id === id;
   
       // Verificar si se cargó un archivo
+      console.log('VERIFICAR SI SE CARGO ARCHIVO!!!(o sea la foto de perfil)')
       if (file) {
         const fs = require('fs')
         try {
@@ -204,6 +205,8 @@ export class UsersService {
           console.error('Something wrong happened removing the profilepicture', err)
         }
         updateUserDto.profilePicture = file.filename;
+      }else{
+        console.log('NO SE CARGO UNA MIERDA!!!')
       }
           // Verificar si el usuario actual tiene permiso para actualizar el usuario
           if (!isAdmin && !isCurrentUser) {
