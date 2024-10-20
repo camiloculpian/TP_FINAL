@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
-import { environment } from 'src/app/app.component';
+import { environment } from 'src/environments/environment';  
 import * as crypto from 'crypto-js';
 
 @Injectable({
