@@ -17,7 +17,6 @@ import { environment } from '../environments/environment';
   ]
 })
 export class AppComponent {
-  private currentUser!: any;
   private lastBack = Date.now();
   constructor(
     private platform: Platform,
