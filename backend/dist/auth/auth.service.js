@@ -21,31 +21,6 @@ let AuthService = class AuthService {
         this.jwtService = jwtService;
         this.i18n = i18n;
     }
-    async register(registerUserDto) {
-        try {
-            const existingUserByUsername = await this.usersServive.findOneByUsername(registerUserDto.username);
-            const existingUserByDNI = await this.usersServive.findOneByDNI(registerUserDto.dni);
-            const existingUserByEmail = await this.usersServive.findOneByEmail(registerUserDto.email);
-            if (existingUserByUsername) {
-                throw new common_1.BadRequestException(this.i18n.t('lang.auth.UsernameError', { lang: nestjs_i18n_1.I18nContext.current().lang }));
-            }
-            if (existingUserByDNI) {
-                throw new common_1.BadRequestException(this.i18n.t('lang.auth.DNIError', { lang: nestjs_i18n_1.I18nContext.current().lang }));
-            }
-            if (existingUserByEmail) {
-                throw new common_1.BadRequestException(this.i18n.t('lang.auth.mailError', { lang: nestjs_i18n_1.I18nContext.current().lang }));
-            }
-            return await this.usersServive.create(registerUserDto);
-        }
-        catch (e) {
-            if (e instanceof common_1.BadRequestException) {
-                throw e;
-            }
-            else {
-                throw new common_1.InternalServerErrorException({ status: responses_1.responseStatus.ERROR, message: e.message });
-            }
-        }
-    }
     async validateUser(username, password) {
         try {
             let user = await this.usersServive.findOneByUsernameAndPasswd(username, password);

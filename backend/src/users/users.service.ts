@@ -50,6 +50,8 @@ export class UsersService {
       if(file){
         console.log(file.filename)
         createUserDto.profilePicture = file.filename;
+      }else{
+        console.log('no pasa el puto archivo!!!')
       }
       console.log("async create(createUserDto: CreateUserDto)")
       console.log("USUARIO PARA AGREGAR:")

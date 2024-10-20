@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 const users_service_1 = require("./users.service");
-const create_user_dto_1 = require("./dto/create-user.dto");
 const update_user_dto_1 = require("./dto/update-user.dto");
 const roles_decorator_1 = require("../auth/decorators/roles.decorator");
 const role_enum_1 = require("../auth/enums/role.enum");
@@ -34,22 +33,6 @@ let UsersController = class UsersController {
     constructor(usersService, i18n) {
         this.usersService = usersService;
         this.i18n = i18n;
-    }
-    async create(createUserDto, file) {
-        try {
-            console.log('file: ....................' + file);
-            const data = await this.usersService.create(createUserDto, file);
-            return new responses_1.Response({
-                statusCode: 201,
-                status: responses_1.responseStatus.OK,
-                message: this.i18n.t('lang.users.CreateOK', { args: { id: data.id }, lang: nestjs_i18n_1.I18nContext.current().lang }),
-                data: data
-            });
-        }
-        catch (error) {
-            console.error('Error al crear usuario:', error);
-            throw new common_1.BadRequestException({ 'status': 'ERROR', 'message': error.message, 'statusCode': error.statusCode });
-        }
     }
     async findAll(userId) {
         try {
@@ -128,27 +111,6 @@ let UsersController = class UsersController {
     }
 };
 exports.UsersController = UsersController;
-__decorate([
-    (0, common_1.Post)(),
-    (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('profilePicture', {
-        storage: (0, multer_1.diskStorage)({
-            destination: process.env.USER_PROFILE_PICTURES_DIR,
-            filename: (req, file, cb) => {
-                const randomName = Array(32)
-                    .fill(null)
-                    .map(() => Math.round(Math.random() * 16).toString(16))
-                    .join('');
-                cb(null, `${randomName}${(0, path_1.extname)(file.originalname)}`);
-            },
-        }),
-    })),
-    __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.UploadedFile)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDto, Object]),
-    __metadata("design:returntype", Promise)
-], UsersController.prototype, "create", null);
 __decorate([
     (0, common_1.Get)(),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),

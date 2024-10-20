@@ -37,47 +37,6 @@ export class UsersController {
     private readonly usersService: UsersService,
     private readonly i18n: I18nService
   ) { }
-
-  //Creacion de Usuarios: Solo puede crear el administrador 
-  @Post()
-  @UseGuards(AuthGuard)
-  //@Roles(Role.ADMIN)
-  //@HttpCode(HttpStatus.CREATED)
-
-  @UseInterceptors(
-    FileInterceptor('profilePicture', {
-      storage: diskStorage({
-        destination: process.env.USER_PROFILE_PICTURES_DIR,
-        filename: (req, file, cb) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          cb(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
-    }),
-  )
-
-  async create(
-    @Body() createUserDto: CreateUserDto,
-    @UploadedFile() file,
-  ) {
-    try {
-      console.log('file: ....................'+file)
-      const data:any = await this.usersService.create(createUserDto, file);
-      return new Response({
-        statusCode:201,
-        status:responseStatus.OK,
-        message:this.i18n.t('lang.users.CreateOK',{args: { id: data.id }, lang:   I18nContext.current().lang }),
-        data: data
-      });
-    } catch (error) {
-      console.error('Error al crear usuario:', error);
-      throw new BadRequestException ({'status':'ERROR','message':error.message,'statusCode':error.statusCode});
-    }
-  }
-
   
 @Get()
 @UseGuards(AuthGuard)

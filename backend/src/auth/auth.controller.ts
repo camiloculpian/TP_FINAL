@@ -21,35 +21,41 @@ import { extname } from 'path';
 import { HttpExceptionFilter } from './decorators/httpExceptionFilter.decorator';
 import { Response, responseStatus } from '../common/responses/responses';
 import { I18nContext, I18nService } from 'nestjs-i18n';
+import { UsersService } from 'src/users/users.service';
 
 @Controller('auth')
 export class AuthController {
     constructor(
         private readonly authService: AuthService,
+        private readonly usersService: UsersService,
         private readonly i18n: I18nService
     ) { }
 
     @Post('register')
-    @UseInterceptors(FileInterceptor('profilePicture', {
-        storage: diskStorage({
-            destination: './uploads-profiles/profiles',
+    @UseInterceptors(
+        FileInterceptor('profilePicture', {
+          storage: diskStorage({
+            destination: process.env.USER_PROFILE_PICTURES_DIR,
             filename: (req, file, cb) => {
-                const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
-                return cb(null, `${randomName}${extname(file.originalname)}`);
+              const randomName = Array(32)
+                .fill(null)
+                .map(() => Math.round(Math.random() * 16).toString(16))
+                .join('');
+              cb(null, `${randomName}${extname(file.originalname)}`);
             },
+          }),
         }),
-    }))
+      )
     async register(
         @Body() registerUserDto: RegisterUserDto,
-        @UploadedFile() file: Express.Multer.File,
+        @UploadedFile() file,
     ) {
         try {
-            console.log('controller async register CALLED!!!');
             return new Response({
                 statusCode:201,
                 status:responseStatus.OK,
                 message:this.i18n.t('lang.auth.Success',{ lang:   I18nContext.current().lang }),
-                data:await this.authService.register(registerUserDto)
+                data:await this.usersService.create(registerUserDto, file)
             });
         } catch (e) {
             throw e;

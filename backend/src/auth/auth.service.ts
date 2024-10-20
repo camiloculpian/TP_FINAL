@@ -21,33 +21,35 @@ export class AuthService {
         private readonly i18n: I18nService
     ) { }
 
-    // FUNCA OKOK
-    async register(registerUserDto: RegisterUserDto) {
-        try {
-            const existingUserByUsername = await this.usersServive.findOneByUsername(registerUserDto.username);
-            const existingUserByDNI = await this.usersServive.findOneByDNI(registerUserDto.dni);
-            const existingUserByEmail = await this.usersServive.findOneByEmail(registerUserDto.email);
+    
 
-            if (existingUserByUsername) {
-                throw new BadRequestException(this.i18n.t('lang.auth.UsernameError',{ lang:   I18nContext.current().lang }));
-            }
 
-            if (existingUserByDNI) {
-                throw new BadRequestException(this.i18n.t('lang.auth.DNIError',{ lang:   I18nContext.current().lang }));
-            }
+    // async register(registerUserDto: RegisterUserDto,  file: Express.Multer.File ) {
+    //     try {
+    //         const existingUserByUsername = await this.usersServive.findOneByUsername(registerUserDto.username);
+    //         const existingUserByDNI = await this.usersServive.findOneByDNI(registerUserDto.dni);
+    //         const existingUserByEmail = await this.usersServive.findOneByEmail(registerUserDto.email);
 
-            if (existingUserByEmail) {
-                throw new BadRequestException(this.i18n.t('lang.auth.mailError',{ lang:   I18nContext.current().lang }));
-            }
-            return await this.usersServive.create(registerUserDto);
-        } catch (e) {
-            if(e instanceof BadRequestException){
-                throw e;
-            }else{
-                throw new InternalServerErrorException({status:responseStatus.ERROR,message:e.message});
-            }
-        }
-    }
+    //         if (existingUserByUsername) {
+    //             throw new BadRequestException(this.i18n.t('lang.auth.UsernameError',{ lang:   I18nContext.current().lang }));
+    //         }
+
+    //         if (existingUserByDNI) {
+    //             throw new BadRequestException(this.i18n.t('lang.auth.DNIError',{ lang:   I18nContext.current().lang }));
+    //         }
+
+    //         if (existingUserByEmail) {
+    //             throw new BadRequestException(this.i18n.t('lang.auth.mailError',{ lang:   I18nContext.current().lang }));
+    //         }
+    //         return await this.usersServive.create(registerUserDto, file);
+    //     } catch (e) {
+    //         if(e instanceof BadRequestException){
+    //             throw e;
+    //         }else{
+    //             throw new InternalServerErrorException({status:responseStatus.ERROR,message:e.message});
+    //         }
+    //     }
+    // }
 
     // VERIFICA SI EXISTE EL USUARIO EN LA Base de Datos
     async validateUser(username: string, password:string): Promise <User> {
