@@ -64,7 +64,7 @@ export class UsersController {
       if (file) {
         createUserDto.profilePicture = file.filename;
       }
-      const data:any = await this.usersService.create(createUserDto);
+      const data:any = await this.usersService.create(createUserDto, /*file*/);
       return new Response({
         statusCode:201,
         status:responseStatus.OK,
