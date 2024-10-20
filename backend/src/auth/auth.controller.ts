@@ -81,6 +81,7 @@ export class AuthController {
         }
     }
 
+    // DUPLICADO EN USER CONTROLLER
     @Get('profile')
     @UseGuards(AuthGuard)
     async profile(
