@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { addIcons } from "ionicons";
 import { eyeOutline, eyeOffOutline, person, lockClosed } from 'ionicons/icons';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
-import { environment } from 'src/app/app.component';
+import { environment } from 'src/environments/environment';  
 
 @Component({
   selector: 'app-login',

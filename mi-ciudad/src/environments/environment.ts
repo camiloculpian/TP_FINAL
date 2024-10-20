@@ -4,8 +4,10 @@
 
 export const environment = {
   production: false,
-  apiURL:'http://192.168.0.16:3000',
-  apiURL_ver:'/api/v1'
+  apiURL: 'http://192.168.100.4:3000',
+  apiVersion: '/api/v1',
+  loggedIn: false,
+  username: ''
 };
 
 /*

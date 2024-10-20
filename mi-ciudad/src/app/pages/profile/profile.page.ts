@@ -7,7 +7,7 @@ import { addIcons } from 'ionicons';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
-import { environment } from 'src/app/app.component';
+import { environment } from 'src/environments/environment';  
 
 @Component({
   selector: 'app-profile',
