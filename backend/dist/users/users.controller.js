@@ -134,7 +134,6 @@ exports.UsersController = UsersController;
 __decorate([
     (0, common_1.Post)(),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    (0, roles_decorator_1.Roles)(role_enum_1.Role.ADMIN),
     (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('profilePicture', {
         storage: (0, multer_1.diskStorage)({
