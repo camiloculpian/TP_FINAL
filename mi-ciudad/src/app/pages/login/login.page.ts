@@ -66,8 +66,6 @@ export class LoginPage implements OnInit {
     );
   }
 
-  
-
   get email() {
     return this.loginForm.get('email');
   }
