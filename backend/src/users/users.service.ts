@@ -23,7 +23,7 @@ export class UsersService {
     private dataSource: DataSource
   ) { }
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto,/*file: Express.Multer.File*/) {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -47,6 +47,9 @@ export class UsersService {
           throw new BadRequestException('**ERROR: Person with DNI already exists');
         }
       }
+      // if(file){
+      //   createUserDto.profilePicture = file.filename;
+      // }
       console.log("async create(createUserDto: CreateUserDto)")
       console.log("USUARIO PARA AGREGAR:")
       console.log(createUserDto)
