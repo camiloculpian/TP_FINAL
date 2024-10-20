@@ -64,6 +64,8 @@ export class UsersController {
       if (file) {
         createUserDto.profilePicture = file.filename;
       }
+      console.log("EN EL CONTROLADOR: ")
+      console.log(createUserDto)
       const data:any = await this.usersService.create(createUserDto, /*file*/);
       return new Response({
         statusCode:201,

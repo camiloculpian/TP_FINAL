@@ -40,6 +40,8 @@ let UsersController = class UsersController {
             if (file) {
                 createUserDto.profilePicture = file.filename;
             }
+            console.log("EN EL CONTROLADOR: ");
+            console.log(createUserDto);
             const data = await this.usersService.create(createUserDto);
             return new responses_1.Response({
                 statusCode: 201,
