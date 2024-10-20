@@ -37,12 +37,8 @@ let UsersController = class UsersController {
     }
     async create(createUserDto, file) {
         try {
-            if (file) {
-                createUserDto.profilePicture = file.filename;
-            }
-            console.log("EN EL CONTROLADOR: ");
-            console.log(createUserDto);
-            const data = await this.usersService.create(createUserDto);
+            console.log('file: ....................' + file);
+            const data = await this.usersService.create(createUserDto, file);
             return new responses_1.Response({
                 statusCode: 201,
                 status: responses_1.responseStatus.OK,
@@ -104,7 +100,6 @@ let UsersController = class UsersController {
     }
     async update(id, updateUserDto, currentUser, file) {
         try {
-            console.log('file: ' + file);
             return new responses_1.Response({
                 statusCode: 201,
                 status: responses_1.responseStatus.OK,
@@ -136,7 +131,6 @@ exports.UsersController = UsersController;
 __decorate([
     (0, common_1.Post)(),
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    (0, common_1.HttpCode)(common_1.HttpStatus.CREATED),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('profilePicture', {
         storage: (0, multer_1.diskStorage)({
             destination: process.env.USER_PROFILE_PICTURES_DIR,

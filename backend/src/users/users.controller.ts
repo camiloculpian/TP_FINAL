@@ -37,11 +37,13 @@ export class UsersController {
     private readonly usersService: UsersService,
     private readonly i18n: I18nService
   ) { }
+
   //Creacion de Usuarios: Solo puede crear el administrador 
   @Post()
   @UseGuards(AuthGuard)
   //@Roles(Role.ADMIN)
-  @HttpCode(HttpStatus.CREATED)
+  //@HttpCode(HttpStatus.CREATED)
+
   @UseInterceptors(
     FileInterceptor('profilePicture', {
       storage: diskStorage({
@@ -56,17 +58,14 @@ export class UsersController {
       }),
     }),
   )
+
   async create(
     @Body() createUserDto: CreateUserDto,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file,
   ) {
     try {
-      if (file) {
-        createUserDto.profilePicture = file.filename;
-      }
-      console.log("EN EL CONTROLADOR: ")
-      console.log(createUserDto)
-      const data:any = await this.usersService.create(createUserDto, /*file*/);
+      console.log('file: ....................'+file)
+      const data:any = await this.usersService.create(createUserDto, file);
       return new Response({
         statusCode:201,
         status:responseStatus.OK,
@@ -152,6 +151,7 @@ async findAll(@CurrentUser("sub") userId: number) {
       }),
     }),
   )
+
   async update(
     @Param('id') id: number,
     @Body() updateUserDto: UpdateUserDto,
@@ -159,7 +159,6 @@ async findAll(@CurrentUser("sub") userId: number) {
     @UploadedFile() file,
   ) {
     try {
-      console.log('file: '+file)
       return new Response({
         statusCode:201,
         status:responseStatus.OK,

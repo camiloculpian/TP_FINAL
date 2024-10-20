@@ -29,7 +29,7 @@ let UsersService = class UsersService {
         this.userRepository = userRepository;
         this.dataSource = dataSource;
     }
-    async create(createUserDto) {
+    async create(createUserDto, file) {
         const queryRunner = this.dataSource.createQueryRunner();
         await queryRunner.connect();
         await queryRunner.startTransaction();
@@ -47,6 +47,10 @@ let UsersService = class UsersService {
                 if (existingPersonByDNI) {
                     throw new common_2.BadRequestException('**ERROR: Person with DNI already exists');
                 }
+            }
+            if (file) {
+                console.log(file.filename);
+                createUserDto.profilePicture = file.filename;
             }
             console.log("async create(createUserDto: CreateUserDto)");
             console.log("USUARIO PARA AGREGAR:");
