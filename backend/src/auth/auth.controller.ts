@@ -14,9 +14,9 @@ import { AuthGuard } from './auth.guard';
 import { CurrentUser } from './decorators/currentUser.decorator';
 
 import { FileInterceptor } from '@nestjs/platform-express';
-import { RegisterUserDto } from '../auth/dto/registerUser.dto'; // Asegúrate de importar el DTO de registro
+import { RegisterUserDto } from '../auth/dto/registerUser.dto'; 
 
-import { diskStorage } from 'multer'; // Importa diskStorage desde multer
+import { diskStorage } from 'multer'; 
 import { extname } from 'path'; 
 import { HttpExceptionFilter } from './decorators/httpExceptionFilter.decorator';
 import { Response, responseStatus } from '../common/responses/responses';
@@ -45,16 +45,22 @@ export class AuthController {
     ) {
         try {
             console.log('controller async register CALLED!!!');
+            
+            if (file) {
+                registerUserDto.profilePicture = file.filename; 
+            }
+    
             return new Response({
-                statusCode:201,
-                status:responseStatus.OK,
-                message:this.i18n.t('lang.auth.Success',{ lang:   I18nContext.current().lang }),
-                data:await this.authService.register(registerUserDto)
+                statusCode: 201,
+                status: responseStatus.OK,
+                message: this.i18n.t('lang.auth.Success', { lang: I18nContext.current().lang }),
+                data: await this.authService.register(registerUserDto),
             });
         } catch (e) {
             throw e;
         }
     }
+    
 
     @UseFilters(new HttpExceptionFilter())
     @Post('login')
