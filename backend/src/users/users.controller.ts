@@ -40,7 +40,7 @@ export class UsersController {
   //Creacion de Usuarios: Solo puede crear el administrador 
   @Post()
   @UseGuards(AuthGuard)
-  @Roles(Role.ADMIN)
+  //@Roles(Role.ADMIN)
   @HttpCode(HttpStatus.CREATED)
   @UseInterceptors(
     FileInterceptor('profilePicture', {

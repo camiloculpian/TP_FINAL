@@ -47,6 +47,9 @@ export class UsersService {
           throw new BadRequestException('**ERROR: Person with DNI already exists');
         }
       }
+      console.log("async create(createUserDto: CreateUserDto)")
+      console.log("USUARIO PARA AGREGAR:")
+      console.log(createUserDto)
 
       const user = await this.userRepository.save({ ...createUserDto });
 
@@ -204,6 +207,7 @@ export class UsersService {
         } catch(err) {
           console.error('Something wrong happened removing the profilepicture', err)
         }
+        // TO-DO: en el registro lo hace en el controller y en la modificacion aca, unificar criterios...
         updateUserDto.profilePicture = file.filename;
       }else{
       }

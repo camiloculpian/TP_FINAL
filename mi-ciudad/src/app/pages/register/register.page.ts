@@ -111,7 +111,7 @@ export class RegisterPage implements OnInit {
       }
   
       if (this.imageFile) {
-        formData.append('profilePicture', this.imageFile, 'profilePicture.jpg');
+        formData.append('profilePicture', this.imageFile, this.imageFile.name);
       }
   
       this.authService.register(formData).subscribe(

@@ -48,6 +48,9 @@ let UsersService = class UsersService {
                     throw new common_2.BadRequestException('**ERROR: Person with DNI already exists');
                 }
             }
+            console.log("async create(createUserDto: CreateUserDto)");
+            console.log("USUARIO PARA AGREGAR:");
+            console.log(createUserDto);
             const user = await this.userRepository.save({ ...createUserDto });
             await queryRunner.commitTransaction();
             return user;
