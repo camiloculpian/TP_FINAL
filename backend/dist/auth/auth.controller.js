@@ -25,19 +25,20 @@ const path_1 = require("path");
 const httpExceptionFilter_decorator_1 = require("./decorators/httpExceptionFilter.decorator");
 const responses_1 = require("../common/responses/responses");
 const nestjs_i18n_1 = require("nestjs-i18n");
+const users_service_1 = require("../users/users.service");
 let AuthController = class AuthController {
-    constructor(authService, i18n) {
+    constructor(authService, usersService, i18n) {
         this.authService = authService;
+        this.usersService = usersService;
         this.i18n = i18n;
     }
     async register(registerUserDto, file) {
         try {
-            console.log('controller async register CALLED!!!');
             return new responses_1.Response({
                 statusCode: 201,
                 status: responses_1.responseStatus.OK,
                 message: this.i18n.t('lang.auth.Success', { lang: nestjs_i18n_1.I18nContext.current().lang }),
-                data: await this.authService.register(registerUserDto)
+                data: await this.usersService.create(registerUserDto, file)
             });
         }
         catch (e) {
@@ -90,10 +91,13 @@ __decorate([
     (0, common_1.Post)('register'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('profilePicture', {
         storage: (0, multer_1.diskStorage)({
-            destination: './uploads-profiles/profiles',
+            destination: process.env.USER_PROFILE_PICTURES_DIR,
             filename: (req, file, cb) => {
-                const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
-                return cb(null, `${randomName}${(0, path_1.extname)(file.originalname)}`);
+                const randomName = Array(32)
+                    .fill(null)
+                    .map(() => Math.round(Math.random() * 16).toString(16))
+                    .join('');
+                cb(null, `${randomName}${(0, path_1.extname)(file.originalname)}`);
             },
         }),
     })),
@@ -130,6 +134,7 @@ __decorate([
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)('auth'),
     __metadata("design:paramtypes", [auth_service_1.AuthService,
+        users_service_1.UsersService,
         nestjs_i18n_1.I18nService])
 ], AuthController);
 //# sourceMappingURL=auth.controller.js.map

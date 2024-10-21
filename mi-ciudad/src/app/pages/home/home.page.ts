@@ -29,8 +29,8 @@ export class HomePage implements OnInit {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.localComercialDataForm = this.formBuilder.group({
-      nombre: ['', [Validators.required]],
       nombre_negocio: ['', [Validators.required]],
+      rubro_negocio: ['', [Validators.required]],
       correo: ['', [Validators.required]],
       telefono: ['', [Validators.required]],
       direccion: ['', [Validators.required]],

@@ -7,7 +7,7 @@ export declare class UsersService {
     private readonly userRepository;
     private dataSource;
     constructor(userRepository: Repository<User>, dataSource: DataSource);
-    create(createUserDto: CreateUserDto): Promise<{
+    create(createUserDto: CreateUserDto, file?: Express.Multer.File): Promise<{
         username: string;
         email: string;
         password: string;

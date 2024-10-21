@@ -16,14 +16,19 @@
     <div *ngIf="mostrarFormulario">
       <form [formGroup]="localComercialDataForm" (ngSubmit)="enviarFormulario()">
         <ion-item>
-          <ion-label position="floating">Nombre del titular</ion-label>
-          <ion-input formControlName="nombre" ngDefaultControl name="nombre" required></ion-input>
+          <ion-label position="floating">Nombre del Negocio</ion-label>
+          <ion-input formControlName="nombre_negocio" ngDefaultControl name="nombre_negocio" required></ion-input>
         </ion-item>
 
-        <ion-item>
-          <ion-label position="floating">Nombre del negocio</ion-label>
-          <ion-input formControlName="nombre_negocio" ngDefaultControl name_negocio="nombre_negocio" required></ion-input>
-        </ion-item>
+        <ion-list>
+          <ion-item>
+            <ion-select aria-label="fruit" placeholder="Seleccionar Rubro" formControlName="rubro_negocio" ngDefaultControl name_negocio="rubro_negocio" required>
+              <ion-select-option value="Kiosco">Kiosco</ion-select-option>
+              <ion-select-option value="Drugstore">Drugstore</ion-select-option>
+              <ion-select-option value="Minimercado">Minimercado</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
   
         <ion-item>
           <ion-label position="floating">Correo Electrónico</ion-label>
@@ -44,8 +49,11 @@
           <ion-label position="floating">Foto</ion-label>
           <ion-input formControlName="foto" ngDefaultControl name="foto" required ></ion-input>
         </ion-item>
-  
-        <ion-button expand="full" type="submit">Cargar</ion-button>
+        <ion-row style="text-align: center !important; align-content: center;">
+          <ion-col>
+            <ion-button type="submit">Cargar</ion-button>
+          </ion-col>
+        </ion-row>
       </form>
     </div>
 </ion-content>

@@ -5,15 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Network } from '@awesome-cordova-plugins/network/ngx';
 import { AuthenticationService } from './core/services/authentication.service';
 import { Router } from '@angular/router';
-
-
-// Agrego las variables globales (SEGURAMENTE SE HACE DE OTRA FORMA VER DESPUES!!!)
-export const environment = {
-  loggedIn:false,
-  username:'',
-  apiURL:'http://10.68.1.100:3000',
-  apiVersion:'/api/v1'
-};
+import { environment } from '../environments/environment';  
 
 @Component({
   selector: 'app-root',
@@ -25,7 +17,6 @@ export const environment = {
   ]
 })
 export class AppComponent {
-  private currentUser!: any;
   private lastBack = Date.now();
   constructor(
     private platform: Platform,

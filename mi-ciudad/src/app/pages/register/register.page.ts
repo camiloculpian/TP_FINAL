@@ -9,6 +9,7 @@ import { AuthenticationService } from 'src/app/core/services/authentication.serv
 import { Camera, CameraResultType } from '@capacitor/camera';
 import * as crypto from 'crypto-js'; 
 
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
