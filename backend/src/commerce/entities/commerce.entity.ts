@@ -42,5 +42,5 @@ export class Commerce {
     imagen: string;
 
     // reveer a futuro...
-    photos: any;
+    // photos: any;
 }

@@ -10,6 +10,7 @@ import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CommerceModule } from './commerce/commerce.module';
 import { PhotosModule } from './photos/photos.module';
+import { RubrosModule } from './rubros/rubros.module';
 
 
 ConfigModule.forRoot({
@@ -48,6 +49,8 @@ ConfigModule.forRoot({
     CommerceModule,
     
     PhotosModule,
+    
+    RubrosModule,
     
    
   ],
