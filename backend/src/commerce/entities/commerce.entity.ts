@@ -1,5 +1,5 @@
 
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany } from 'typeorm';
 // TAL VEZ LOS ENUMERADOS DEBEN DE IR EN OTRO LUGAR...
 export enum Horario {
     LUNES_VIERNES_MATUTINO = 'Lunes a Viernes 8 AM - 12 PM',
@@ -14,11 +14,15 @@ export enum Tramite {
 
 @Entity('commerce')
 export class Commerce {
+
     @PrimaryGeneratedColumn()
-    id_commerce: number;
+    id: number;
 
     @Column({ type: 'varchar', length: 255 })
     nombre: string;
+
+    // @ManyToMany(rubro)
+    // rubro: string;
 
     @Column({ type: 'text' })
     descripcion: string; // Descripción de la rama comercial
@@ -29,13 +33,14 @@ export class Commerce {
     @Column({ type: 'enum', enum:Horario })
     horario: Horario;
 
-    @Column({ type: 'varchar', length: 255 })
-    imagen: string;
-
     // @Column({ type: 'enum', enum: ['Alta', 'Actualización'] })
     // tramite: 'Alta' | 'Actualización';
     @Column({ type: 'enum', enum: Tramite })
     tramite: Tramite;
+
+    @Column({ type: 'varchar', length: 255 })
+    imagen: string;
+
     // reveer a futuro...
     photos: any;
 }

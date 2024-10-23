@@ -40,5 +40,9 @@ export const routes: Routes = [
     data: {title: 'Registrarse'},
     loadComponent: () => import('./pages/register/register.page').then( m => m.RegisterPage),
     canActivate: [loginGuard],
+  },  {
+    path: 'commerce',
+    loadComponent: () => import('./pages/commerce/commerce.page').then( m => m.CommercePage)
   },
+
 ];

@@ -5,9 +5,13 @@ import { IsEnum, IsNotEmpty, IsOptional, IsString, IsJSON } from 'class-validato
 import { Horario, Tramite } from '../entities/commerce.entity';
 
 export class CreateCommerceDto {
+
     @IsNotEmpty()
     @IsString()
     nombre: string;
+
+    // MUCHOS A MUCHOS RUBRO
+    // rubro: ;
 
     @IsNotEmpty()
     @IsString()
@@ -22,10 +26,10 @@ export class CreateCommerceDto {
     horario: Horario
 
     @IsNotEmpty()
-    @IsString()
-    imagen: string;
-
-    @IsNotEmpty()
     @IsEnum(Tramite)
     tramite: Tramite;
+
+    @IsNotEmpty()
+    @IsString()
+    imagen: string
 }
