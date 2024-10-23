@@ -8,9 +8,9 @@ import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
-import { CommerceModule } from './commerce/commerce.module';
 import { PhotosModule } from './photos/photos.module';
 import { RubrosModule } from './rubros/rubros.module';
+import { CommercesModule } from './commerces/commerces.module';
 
 
 ConfigModule.forRoot({
@@ -46,11 +46,13 @@ ConfigModule.forRoot({
     UsersModule,
     AuthModule,
     
-    CommerceModule,
+    CommercesModule,
     
     PhotosModule,
     
     RubrosModule,
+    
+    CommercesModule,
     
    
   ],
