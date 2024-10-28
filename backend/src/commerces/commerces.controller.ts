@@ -1,19 +1,30 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
 import { CommercesService } from './commerces.service';
 import { CreateCommerceDto } from './dto/create-commerce.dto';
 import { UpdateCommerceDto } from './dto/update-commerce.dto';
+import { Commerce } from './entities/commerce.entity';
 
 @Controller('commerce')
 export class CommercesController {
   constructor(private readonly commerceService: CommercesService) {}
 
   @Post()
-  create(@Body() createCommerceDto: CreateCommerceDto) {
-    return this.commerceService.create(createCommerceDto);
-  }
+    async create(@Body() createCommerceDto: CreateCommerceDto) {
+        try {
+            console.log('Exito al guardar comercio controller')
+            return await this.commerceService.create(createCommerceDto);
+            
+        } catch (error) {
+            throw new BadRequestException('Error al crear el comercio controller: ' + error.message);
+        }
+    }
 
   @Get()
-  findAll() {
+  // findAll() {
+  //   return this.commerceService.findAll();
+  // }
+
+  async findAll(): Promise<Commerce[]> {
     return this.commerceService.findAll();
   }
 

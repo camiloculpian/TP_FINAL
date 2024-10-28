@@ -1,35 +1,43 @@
 // export class CreateCommerceDto {}
 
-import { IsEnum, IsNotEmpty, IsOptional, IsString, IsJSON } from 'class-validator';
-
-import { Horario, Tramite } from '../entities/commerce.entity';
+import { IsEnum, IsNotEmpty, IsOptional, IsString, IsEmail } from 'class-validator';
+import { Tramite, Rubro } from '../entities/commerce.entity';
 
 export class CreateCommerceDto {
-
+    
     @IsNotEmpty()
     @IsString()
     nombre: string;
 
-    // MUCHOS A MUCHOS RUBRO
-    // rubro: ;
-
     @IsNotEmpty()
-    @IsString()
-    descripcion: string;
+    @IsEnum(Rubro)
+    rubro: Rubro;
 
     @IsNotEmpty()
     @IsString()
     ubicacion: string;
 
-    @IsNotEmpty()
-    @IsString()
-    horario: Horario
-
-    @IsNotEmpty()
+    @IsOptional()
     @IsEnum(Tramite)
-    tramite: Tramite;
+    tramite?: Tramite; // Asignado como "Alta" en el backend
+
+    @IsOptional()
+    @IsString()
+    imagen?: string; // Opcional, por defecto será null
 
     @IsNotEmpty()
     @IsString()
-    imagen: string
+    direccion: string;
+
+    @IsNotEmpty()
+    @IsString()
+    telefono: string;
+
+    @IsNotEmpty()
+    @IsEmail()
+    correo: string;
+
+    @IsOptional()
+    deletedAt?: Date;
 }
+
