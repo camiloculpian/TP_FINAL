@@ -20,13 +20,12 @@ export class CommercesController {
     }
 
   @Get()
-  // findAll() {
-  //   return this.commerceService.findAll();
-  // }
-
   async findAll(): Promise<Commerce[]> {
     return this.commerceService.findAll();
   }
+   // findAll() {
+  //   return this.commerceService.findAll();
+  // }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

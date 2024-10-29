@@ -13,9 +13,10 @@ export class CreateCommerceDto {
     @IsEnum(Rubro)
     rubro: Rubro;
 
-    @IsNotEmpty()
-    @IsString()
-    ubicacion: string;
+    // AGREGAR LUEGO
+    // @IsNotEmpty()
+    // @IsString()
+    // ubicacion: string;
 
     @IsOptional()
     @IsEnum(Tramite)

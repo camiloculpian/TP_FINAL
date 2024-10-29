@@ -101,7 +101,7 @@ export class HomePage implements OnInit {
   }
 
   async obtenerComercios() {
-    const apiUrl = `${environment.apiURL}${environment.apiVersion}`;
+    const apiUrl = `${environment.apiURL}${environment.apiVersion}/commerce`;
     try {
       this.comercios = await this.http.get<any>(apiUrl).toPromise();
       console.log(this.comercios)
