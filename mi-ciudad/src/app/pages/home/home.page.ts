@@ -83,7 +83,7 @@ export class HomePage implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private alertController: AlertController,
-    private http: HttpClient
+    public http: HttpClient
   ) {
     addIcons({ add });
   }
@@ -100,14 +100,29 @@ export class HomePage implements OnInit {
     });
   }
 
-  async obtenerComercios() {
-    const apiUrl = `${environment.apiURL}${environment.apiVersion}`;
-    try {
-      this.comercios = await this.http.get<any>(apiUrl).toPromise();
-      console.log(this.comercios)
-    } catch (error) {
-      console.error('Error al obtener los comercios:', error);
-    }
+  // async obtenerComercios() {
+  //   //const apiUrl = `${environment.apiURL}${environment.apiVersion}/commerce`;
+  //   const apiUrl=`http://192.168.0.16:3000/api/v1/commerce`;
+  //   try {
+  //     this.comercios = await this.http.get<any>(apiUrl).toPromise();
+  //     console.log(this.comercios)
+  //   } catch (error) {
+  //     console.error('Error al obtener los comercios:', error);
+  //   }
+  // }
+
+  obtenerComercios() {
+    //const apiUrl = `http://192.168.0.16:3000/api/v1/commerce`;
+    
+    this.http.get<any>(`http://192.168.0.16:3000/api/v1/commerce`).subscribe({
+      next: (data) => {
+        this.comercios = data;
+        console.log(this.comercios);
+      },
+      error: (error) => {
+        console.error('Error al obtener los comercios:', error);
+      }
+    });
   }
 
   async enviarFormulario() {
@@ -120,7 +135,8 @@ export class HomePage implements OnInit {
       // imagen: this.localComercialDataForm.value.foto || null
     };
   
-    const apiUrl = `${environment.apiURL}${environment.apiVersion}/commerce`; 
+    //const apiUrl = `${environment.apiURL}${environment.apiVersion}/commerce`; 
+    const apiUrl=`http://192.168.0.16:3000/api/v1/commerce`;
   
     try {
       console.log('Datos a enviar:', formData);
