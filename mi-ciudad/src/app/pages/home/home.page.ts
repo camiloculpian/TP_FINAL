@@ -1,11 +1,12 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel } from '@ionic/angular/standalone';
 import { add } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { NgIf } from '@angular/common';
+import { NgFor, NgForOf, NgIf } from '@angular/common';
 import { RubrosService } from 'src/app/core/services/rubros.service';
+import { IonModal } from '@ionic/angular';
 
 
 @Component({
@@ -13,11 +14,20 @@ import { RubrosService } from 'src/app/core/services/rubros.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonLabel, IonItem, IonIcon, IonTabBar, IonTabs, IonRouterOutlet, IonApp, IonButton, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonText, FormsModule, ReactiveFormsModule, NgIf],
+  imports: [IonLabel, IonItem, IonIcon, IonTabBar, IonTabs, IonRouterOutlet, IonApp, IonButton, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonText, FormsModule, ReactiveFormsModule, NgIf, NgFor, NgForOf],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePage implements OnInit {
+  @ViewChild('modal', { static: true }) modal!: IonModal;
+  
+  rubroSelect : any;
   mostrarFormulario = false;
+
+
+  selectedRubrosText = '0 Items';
+  selectedRubros: string[] = [];
+
+
   public localComercialDataForm!: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
@@ -42,6 +52,7 @@ export class HomePage implements OnInit {
       {
         next: (resp) => {
           console.log(resp?.data)
+          this.rubroSelect = resp?.data;
         },
         error: (err) => {}
       }
@@ -62,6 +73,10 @@ export class HomePage implements OnInit {
     this.localComercialDataForm.reset()
   }
 
+  rubrosSelectionChanged(event:Event){
+    this.selectedRubros = this.rubroSelect;
+    this.modal.dismiss();
+  }
 
 }
 

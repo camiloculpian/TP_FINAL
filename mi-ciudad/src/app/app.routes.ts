@@ -22,6 +22,11 @@ export const routes: Routes = [
         component: ProfilePage,
         canActivate: [authGuard],
       },
+      {
+        path: 'rubro-select',
+        loadComponent: () => import('./pages/rubro-select/rubro-select.page').then( m => m.RubroSelectPage)
+      },
+    
     ]
   },
   {
@@ -40,9 +45,10 @@ export const routes: Routes = [
     data: {title: 'Registrarse'},
     loadComponent: () => import('./pages/register/register.page').then( m => m.RegisterPage),
     canActivate: [loginGuard],
-  },  {
+  },
+  {
     path: 'commerce',
     loadComponent: () => import('./pages/commerce/commerce.page').then( m => m.CommercePage)
   },
-
+  
 ];

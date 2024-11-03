@@ -5,10 +5,9 @@
     </ion-toolbar>
   </ion-header>
   
-
   <ion-content>
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-      <ion-fab-button (click)="mostrarFormulario = !mostrarFormulario">
+      <ion-fab-button [detail]="false" id="rubro-select">
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
     </ion-fab>
@@ -20,15 +19,19 @@
           <ion-input formControlName="nombre_negocio" ngDefaultControl name="nombre_negocio" required></ion-input>
         </ion-item>
 
-        <ion-list>
+        <!-- <ion-list>
           <ion-item>
-            <ion-select aria-label="fruit" placeholder="Seleccionar Rubro" formControlName="rubro_negocio" ngDefaultControl name_negocio="rubro_negocio" required>
-              <ion-select-option value="Kiosco">Kiosco</ion-select-option>
-              <ion-select-option value="Drugstore">Drugstore</ion-select-option>
-              <ion-select-option value="Minimercado">Minimercado</ion-select-option>
+            <ion-select aria-label="fruit" placeholder="Seleccionar Rubro" formControlName="rubro_negocio" ngDefaultControl name_negocio="rubro_negocio" multiple="true" required>             
+              <ion-select-option *ngFor="let element of rubroSelect" value="{{element.id}}">{{element.codigo}} - {{element.descripcion}}</ion-select-option>
             </ion-select>
           </ion-item>
-        </ion-list>
+        </ion-list> -->
+        <!--------------------------------------------------------------------------------------------------------------------------------------------->
+        <ion-item [button]="true" [detail]="false" >
+          <ion-label>Rubro/s</ion-label>
+          <div slot="end" id="selected-rubros">{{ selectedRubrosText }}</div>
+        </ion-item>
+        <!--------------------------------------------------------------------------------------------------------------------------------------------->
   
         <ion-item>
           <ion-label position="floating">Correo Electrónico</ion-label>
@@ -57,7 +60,18 @@
       </form>
     </div>
 </ion-content>
-
+<ion-modal trigger="rubro-select" #modal>
+  <ng-template>
+    <app-rubro-select
+      class="ion-page"
+      title="Rubros"
+      [rubros]="rubroSelect"
+      [selectedRubros]="selectedRubros"
+      (selectionChange)="rubrosSelectionChanged($event)"
+      (selectionCancel)="modal.dismiss()"
+    ></app-rubro-select>
+  </ng-template>
+</ion-modal>
 
 
 
