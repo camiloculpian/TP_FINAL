@@ -14,27 +14,35 @@ export class CommercesController {
   ) {}
 
   @Post()
-    async create(@Body() createCommerceDto: CreateCommerceDto) {
-        try {
-            return new Response({
-              statusCode:201,
-              status:responseStatus.OK,
-              message:this.i18n.t('lang.commerce.CreateOK',{lang:   I18nContext.current().lang }),
-              data: await this.commerceService.create(createCommerceDto)
-            });
-            
-        } catch (error) {
-            throw new BadRequestException('Error al crear el comercio: ' + error.message);
-        }
+  async create(@Body() createCommerceDto: CreateCommerceDto) {
+    try {
+        return new Response({
+          statusCode:201,
+          status:responseStatus.OK,
+          message:this.i18n.t('lang.commerce.CreateOK',{lang:   I18nContext.current().lang }),
+          data: await this.commerceService.create(createCommerceDto)
+        });
+        
+    } catch (error) {
+        throw new BadRequestException('Error al crear el comercio: ' + error.message);
     }
-
-  @Get()
-  async findAll(): Promise<Commerce[]> {
-    return this.commerceService.findAll();
   }
-   // findAll() {
-  //   return this.commerceService.findAll();
-  // }
+
+  // TO-DO: aca solo deve devolver los del usuario!!!
+  @Get()
+  async findAll(){
+    try {
+      return new Response({
+        statusCode:201,
+        status:responseStatus.OK,
+        message:this.i18n.t('lang.commerce.FindAllOK',{lang:   I18nContext.current().lang }),
+        data: await this.commerceService.findAll()
+      });
+      
+  } catch (error) {
+      throw new BadRequestException('Error al crear el comercio: ' + error.message);
+  }
+  }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

@@ -1,70 +1,12 @@
-// import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
-// import { Router } from '@angular/router';
-// import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel } from '@ionic/angular/standalone';
-// import { add } from 'ionicons/icons';
-// import { addIcons } from 'ionicons';
-// import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-// import { NgIf } from '@angular/common';
-
-
-// @Component({
-//   selector: 'app-home',
-//   templateUrl: 'home.page.html',
-//   styleUrls: ['home.page.scss'],
-//   standalone: true,
-//   imports: [IonLabel, IonItem, IonIcon, IonTabBar, IonTabs, IonRouterOutlet, IonApp, IonButton, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonText, FormsModule, ReactiveFormsModule, NgIf],
-//   schemas: [CUSTOM_ELEMENTS_SCHEMA]
-// })
-// export class HomePage implements OnInit {
-//   mostrarFormulario = false;
-//   public localComercialDataForm!: FormGroup;
-//   constructor(
-//     private formBuilder: FormBuilder,
-//     private router: Router
-//   ) {
-//       addIcons({add});
-//   }
-
-//   ngOnInit() {
-//     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-//     //Add 'implements OnInit' to the class.
-//     this.localComercialDataForm = this.formBuilder.group({
-//       nombre_negocio: ['', [Validators.required]],
-//       rubro_negocio: ['', [Validators.required]],
-//       correo: ['', [Validators.required]],
-//       telefono: ['', [Validators.required]],
-//       direccion: ['', [Validators.required]],
-//       foto: ['', [Validators.required]]
-//     })
-//   }
-//   navigateToProfile(){
-//     this.router.navigate(['profile']);
-//   }
-
-//   enviarFormulario() {
-//     console.log('Datos del formulario:', this.localComercialDataForm);
-//     this.limpiarFormulario();
-//     this.mostrarFormulario = false; 
-//   }
-
-//   limpiarFormulario() {
-//     this.localComercialDataForm.reset()
-//   }
-// }
-
-
-
-
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController, IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel } from '@ionic/angular/standalone';
+import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel } from '@ionic/angular/standalone';
 import { add } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { NgIf } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
-import { firstValueFrom } from 'rxjs';
+import { RubrosService } from 'src/app/core/services/rubros.service';
+
 
 @Component({
   selector: 'app-home',
@@ -77,114 +19,49 @@ import { firstValueFrom } from 'rxjs';
 export class HomePage implements OnInit {
   mostrarFormulario = false;
   public localComercialDataForm!: FormGroup;
-  public comercios!: [];
-
   constructor(
     private formBuilder: FormBuilder,
-    private router: Router,
-    private alertController: AlertController,
-    public http: HttpClient
+    private rubrosService : RubrosService,
+    private router: Router
   ) {
-    addIcons({ add });
+      addIcons({add});
   }
 
   ngOnInit() {
-    this.obtenerComercios();
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
     this.localComercialDataForm = this.formBuilder.group({
       nombre_negocio: ['', [Validators.required]],
       rubro_negocio: ['', [Validators.required]],
-      correo: ['', [Validators.required, Validators.email]],
+      correo: ['', [Validators.required]],
       telefono: ['', [Validators.required]],
       direccion: ['', [Validators.required]],
-      // foto: ['', [Validators.required]]
-    });
-  }
-
-  // async obtenerComercios() {
-  //   //const apiUrl = `${environment.apiURL}${environment.apiVersion}/commerce`;
-  //   const apiUrl=`http://192.168.0.16:3000/api/v1/commerce`;
-  //   try {
-  //     this.comercios = await this.http.get<any>(apiUrl).toPromise();
-  //     console.log(this.comercios)
-  //   } catch (error) {
-  //     console.error('Error al obtener los comercios:', error);
-  //   }
-  // }
-
-  obtenerComercios() {
-    //const apiUrl = `http://192.168.0.16:3000/api/v1/commerce`;
-    
-    this.http.get<any>(`http://192.168.0.16:3000/api/v1/commerce`).subscribe({
-      next: (data) => {
-        this.comercios = data;
-        console.log(this.comercios);
-      },
-      error: (error) => {
-        console.error('Error al obtener los comercios:', error);
+      foto: ['', [Validators.required]]
+    })
+    this.rubrosService.getRubros().subscribe(
+      {
+        next: (resp) => {
+          console.log(resp?.data)
+        },
+        error: (err) => {}
       }
-    });
-  }
+    )
 
-  async enviarFormulario() {
-    const formData = {
-      nombre: this.localComercialDataForm.value.nombre_negocio || null,
-      rubro: this.localComercialDataForm.value.rubro_negocio || null,
-      correo: this.localComercialDataForm.value.correo || null,
-      telefono: this.localComercialDataForm.value.telefono || null,
-      direccion: this.localComercialDataForm.value.direccion || null,
-      // imagen: this.localComercialDataForm.value.foto || null
-    };
-  
-    //const apiUrl = `${environment.apiURL}${environment.apiVersion}/commerce`; 
-    const apiUrl=`http://192.168.0.16:3000/api/v1/commerce`;
-  
-    try {
-      console.log('Datos a enviar:', formData);
-      const response = await firstValueFrom(this.http.post(apiUrl, formData));
-      console.log('Respuesta del servidor:', response);
-      await this.presentAlert('Éxito', 'Datos guardados correctamente.');
-    } catch (error) {
-      console.error('Error al guardar:', error);
-      await this.presentAlert('Error', 'Ocurrió un error al guardar los datos.');
-    }
-  
-    this.limpiarFormulario();
-    this.mostrarFormulario = false;
   }
-  
-  private async presentAlert(header: string, message: string) {
-    const alert = await this.alertController.create({
-      header: header,
-      message: message,
-      buttons: ['OK']
-    });
-
-    await alert.present();
-  }
-
-  navigateToProfile() {
+  navigateToProfile(){
     this.router.navigate(['profile']);
   }
 
+  enviarFormulario() {
+    console.log('Datos del formulario:', this.localComercialDataForm);
+    this.limpiarFormulario();
+    this.mostrarFormulario = false; 
+  }
+
   limpiarFormulario() {
-    this.localComercialDataForm.reset();
+    this.localComercialDataForm.reset()
   }
 
-  async mostrarAlertaEliminar() {
-    const alert = await this.alertController.create({
-      header: 'Eliminar',
-      message: 'Este es el botón de eliminar.',
-      buttons: ['Cancel', 'OK'],
-    });
-    await alert.present();
-  }
 
-  async mostrarAlertaEditar() {
-    const alert = await this.alertController.create({
-      header: 'Editar',
-      message: 'Esta es la sección de editar.',
-      buttons: ['Cancel', 'OK'],
-    });
-    await alert.present();
-  }
 }
+

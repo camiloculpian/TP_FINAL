@@ -1,10 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, UseGuards } from '@nestjs/common';
 import { RubrosService } from './rubros.service';
 import { CreateRubroDto } from './dto/create-rubro.dto';
 import { UpdateRubroDto } from './dto/update-rubro.dto';
 import { Rubro } from './entities/rubro.entity';
 import { Response, responseStatus } from 'src/common/responses/responses';
 import { I18nContext, I18nService } from 'nestjs-i18n';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('rubro')
 export class RubrosController {
@@ -29,6 +30,7 @@ export class RubrosController {
     }
 
   @Get()
+  // @UseGuards(AuthGuard)
   async findAll() {
     try{
       return new Response({
