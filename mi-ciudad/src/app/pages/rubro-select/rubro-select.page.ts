@@ -5,7 +5,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonText, IonInput, IonLabel, IonItem, IonAvatar, IonCol, AlertController, IonButton, IonGrid, IonRow, IonThumbnail } from '@ionic/angular/standalone';
 
 
-
 export interface Rubro{
   id: number;
   codigo: string;
@@ -14,10 +13,11 @@ export interface Rubro{
 }
 
 @Component({
-  selector: 'rubro-select',
+  selector: 'app-rubro-select',
   templateUrl: 'rubro-select.page.html',
-  imports: [IonCol, IonAvatar, IonItem, IonLabel, IonInput, IonText, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonButton, IonGrid, IonRow, IonThumbnail, NgFor],
+  styleUrl: 'rubro-select.page.scss',
   standalone: true,
+  imports: [IonCol, IonAvatar, IonItem, IonLabel, IonInput, IonText, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonButton, IonGrid, IonRow, IonThumbnail, NgFor],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 

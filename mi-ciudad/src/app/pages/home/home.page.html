@@ -61,16 +61,15 @@
     </div>
 </ion-content>
 <ion-modal trigger="rubro-select" #modal>
-  <ng-template>
+  <!-- <ng-template> -->
     <app-rubro-select
       class="ion-page"
       title="Rubros"
-      [rubros]="rubroSelect"
+      [rubros]="rubros"
       [selectedRubros]="selectedRubros"
-      (selectionChange)="rubrosSelectionChanged($event)"
       (selectionCancel)="modal.dismiss()"
     ></app-rubro-select>
-  </ng-template>
+  <!-- </ng-template> -->
 </ion-modal>
 
 

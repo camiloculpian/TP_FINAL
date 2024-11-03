@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { NgFor, NgForOf, NgIf } from '@angular/common';
 import { RubrosService } from 'src/app/core/services/rubros.service';
 import { IonModal } from '@ionic/angular';
+import { Rubro, RubroSelectPage } from '../rubro-select/rubro-select.page';
 
 
 @Component({
@@ -14,13 +15,13 @@ import { IonModal } from '@ionic/angular';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonLabel, IonItem, IonIcon, IonTabBar, IonTabs, IonRouterOutlet, IonApp, IonButton, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonText, FormsModule, ReactiveFormsModule, NgIf, NgFor, NgForOf],
+  imports: [IonLabel, IonItem, IonIcon, IonTabBar, IonTabs, IonRouterOutlet, IonApp, IonButton, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, IonText, FormsModule, ReactiveFormsModule, NgIf, NgFor, NgForOf, RubroSelectPage],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePage implements OnInit {
   @ViewChild('modal', { static: true }) modal!: IonModal;
   
-  rubroSelect : any;
+  rubros! : Rubro[];
   mostrarFormulario = false;
 
 
@@ -52,7 +53,7 @@ export class HomePage implements OnInit {
       {
         next: (resp) => {
           console.log(resp?.data)
-          this.rubroSelect = resp?.data;
+          this.rubros = resp?.data;
         },
         error: (err) => {}
       }
@@ -74,7 +75,6 @@ export class HomePage implements OnInit {
   }
 
   rubrosSelectionChanged(event:Event){
-    this.selectedRubros = this.rubroSelect;
     this.modal.dismiss();
   }
 
