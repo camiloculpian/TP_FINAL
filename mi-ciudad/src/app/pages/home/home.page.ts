@@ -26,6 +26,7 @@ export class HomePage implements OnInit {
 
 
   selectedRubrosText = '0 Items';
+  // ACA VA EL CODIGO DEL RUBRO
   selectedRubros: string[] = [];
 
 
