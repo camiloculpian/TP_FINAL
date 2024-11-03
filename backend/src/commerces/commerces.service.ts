@@ -15,16 +15,9 @@ export class CommercesService {
     private commerceRepository: Repository<Commerce>,
   ) { }
   
-  async create(createCommerceDto: CreateCommerceDto): Promise<{ message: string; commerce: Commerce }> {
-    const newCommerce = this.commerceRepository.create({
-      ...createCommerceDto,
-      tramite: createCommerceDto.tramite || Tramite.ALTA, // Asigna 'Alta' por defecto
-      //deletedAt: null, // Inicializa como null, si es necesario
-    });
-
+  async create(createCommerceDto: CreateCommerceDto) {
     try {
-      const savedCommerce = await this.commerceRepository.save(newCommerce);
-      return { message: 'Éxito al guardar en la base de datos', commerce: savedCommerce };
+      return await this.commerceRepository.save({...createCommerceDto});;
     } catch (error) {
       throw new InternalServerErrorException('Error al guardar en la base de datos: ' + error.message);
     }
@@ -35,7 +28,7 @@ export class CommercesService {
   //   return `This action returns all commerce`;
   // }
 
-  async findAll(): Promise<Commerce[]> {
+  async findAll() {
     return await this.commerceRepository.find();
   }
   

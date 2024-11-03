@@ -39,7 +39,7 @@ export class Commerce {
     // ubicacion: string | null;
 
 
-    @Column({ type: 'enum', enum: Tramite })
+    @Column({ type: 'enum', enum: Tramite, default: Tramite.ALTA,})
     tramite: Tramite;
 
     // @Column({ type: 'varchar', length: 255, nullable: true, default: null })

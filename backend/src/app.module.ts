@@ -54,7 +54,6 @@ ConfigModule.forRoot({
     
     CommercesModule,
     
-   
   ],
   controllers: [AppController],
   providers: [AppService],
