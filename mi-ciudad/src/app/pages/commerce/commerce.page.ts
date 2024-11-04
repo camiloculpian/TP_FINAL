@@ -15,7 +15,6 @@ import { IonModal } from '@ionic/angular';
 })
 export class CommercePage implements OnInit {
   // EL MODAL PARA ABRIR LA PAGINA
-  @ViewChild('modal', { static: true }) modal!: IonModal;
 
   public localComercialDataForm!: FormGroup;
   
@@ -55,11 +54,8 @@ export class CommercePage implements OnInit {
   }
 
   rubrosSelectionChanged(rubros :Rubro[]){
-    this.selectedRubros = [...rubros];
-    console.log(this.selectedRubros)
-    //this.selectedRubrosText = this.formatData(this.selectedRubros);
-    console.log(this.modal)
-    this.modal?.dismiss()
+    this.selectedRubros = rubros;
+    console.log(this.selectedRubros);
   }
 
   async openRubroSelect(){
@@ -71,9 +67,8 @@ export class CommercePage implements OnInit {
         selectedRubros: this.selectedRubros,
       }
     });
-    modal.onDidDismiss().then( (detail) => console.log(detail.data));
+    modal.onDidDismiss().then( (event) => {this.rubrosSelectionChanged(event.data)});
     modal.present();
-    //this.modal.present();
   }
 
 }

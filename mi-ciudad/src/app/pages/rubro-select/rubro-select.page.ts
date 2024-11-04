@@ -1,7 +1,6 @@
 import { CommonModule, NgFor } from '@angular/common';
 import { Component, Input, Output, EventEmitter, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import type { OnInit } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonItem, IonButton, ModalController, IonRow } from '@ionic/angular/standalone';
 import { RubrosService } from 'src/app/core/services/rubros.service';
 
@@ -40,17 +39,19 @@ export class RubroSelectPage implements OnInit {
 
   ngOnInit() {
     // console.log('export class RubroSelectPage -> OnInit')
-    this.rubrosService.getRubros().subscribe(
-      {
-        next: (resp) => {
-          this.rubros = [...resp?.data];
-          this.filteredRubros = [...this.rubros];
-        },
-        error: (err) => {
-          console.log(err)
+    if(!this.rubros){
+      this.rubrosService.getRubros().subscribe(
+        {
+          next: (resp) => {
+            this.rubros = [...resp?.data];
+            this.filteredRubros = [...this.rubros];
+          },
+          error: (err) => {
+            console.log(err)
+          }
         }
-      }
-    )
+      )
+    }
     this.workingSelectedValues = [...this.selectedRubros];
     // console.log('export class RubroSelectPage <- OnInit')
   }
@@ -105,11 +106,11 @@ export class RubroSelectPage implements OnInit {
 
   checkboxChange(ev:any) {
     const { checked, value } = ev.detail;
-
+    console.log(ev.detail)
     if (checked) {
       this.workingSelectedValues = [...this.workingSelectedValues, value];
     } else {
-      this.workingSelectedValues = this.workingSelectedValues.filter((rubro) => rubro !== value);
+      this.workingSelectedValues = this.workingSelectedValues.filter((rubro) => rubro.id !== value.id);
     }
   }
 }
