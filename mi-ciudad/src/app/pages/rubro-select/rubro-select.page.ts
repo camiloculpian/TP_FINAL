@@ -37,7 +37,7 @@ export class RubroSelectPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log('export class RubroSelectPage -> OnInit')
+    // console.log('export class RubroSelectPage -> OnInit')
     this.rubrosService.getRubros().subscribe(
       {
         next: (resp) => {
@@ -50,7 +50,7 @@ export class RubroSelectPage implements OnInit {
       }
     )
     this.workingSelectedValues = [...this.selectedRubros];
-    console.log('export class RubroSelectPage <- OnInit')
+    // console.log('export class RubroSelectPage <- OnInit')
   }
 
   trackRubros(index: number, rubro: Rubro) {
