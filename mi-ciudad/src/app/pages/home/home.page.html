@@ -5,72 +5,19 @@
     </ion-toolbar>
   </ion-header>
   
+
   <ion-content>
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-      <ion-fab-button [detail]="false" id="rubro-select">
+      <ion-fab-button [detail]="false" id="add-commerce">
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
     </ion-fab>
+  </ion-content>
+  <ion-modal trigger="add-commerce" #modal>
+    <app-commerce></app-commerce>
+  </ion-modal>
 
-    <div *ngIf="mostrarFormulario">
-      <form [formGroup]="localComercialDataForm" (ngSubmit)="enviarFormulario()">
-        <ion-item>
-          <ion-label position="floating">Nombre del Negocio</ion-label>
-          <ion-input formControlName="nombre_negocio" ngDefaultControl name="nombre_negocio" required></ion-input>
-        </ion-item>
 
-        <!-- <ion-list>
-          <ion-item>
-            <ion-select aria-label="fruit" placeholder="Seleccionar Rubro" formControlName="rubro_negocio" ngDefaultControl name_negocio="rubro_negocio" multiple="true" required>             
-              <ion-select-option *ngFor="let element of rubroSelect" value="{{element.id}}">{{element.codigo}} - {{element.descripcion}}</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-list> -->
-        <!--------------------------------------------------------------------------------------------------------------------------------------------->
-        <ion-item [button]="true" [detail]="false" >
-          <ion-label>Rubro/s</ion-label>
-          <div slot="end" id="selected-rubros">{{ selectedRubrosText }}</div>
-        </ion-item>
-        <!--------------------------------------------------------------------------------------------------------------------------------------------->
-  
-        <ion-item>
-          <ion-label position="floating">Correo Electrónico</ion-label>
-          <ion-input formControlName="correo" ngDefaultControl name="correo" type="email" required></ion-input>
-        </ion-item>
-  
-        <ion-item>
-          <ion-label position="floating">Teléfono</ion-label>
-          <ion-input formControlName="telefono" ngDefaultControl name="telefono" type="tel" required></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label position="floating">Direccion</ion-label>
-          <ion-input formControlName="direccion" ngDefaultControl name="direccion" required></ion-input>
-        </ion-item>
-
-        <ion-item>
-          <ion-label position="floating">Foto</ion-label>
-          <ion-input formControlName="foto" ngDefaultControl name="foto" required ></ion-input>
-        </ion-item>
-        <ion-row style="text-align: center !important; align-content: center;">
-          <ion-col>
-            <ion-button type="submit">Guardar</ion-button>
-          </ion-col>
-        </ion-row>
-      </form>
-    </div>
-</ion-content>
-<ion-modal trigger="rubro-select" #modal>
-  <!-- <ng-template> -->
-    <app-rubro-select
-      class="ion-page"
-      title="Rubros"
-      [rubros]="rubros"
-      [selectedRubros]="selectedRubros"
-      (selectionCancel)="modal.dismiss()"
-    ></app-rubro-select>
-  <!-- </ng-template> -->
-</ion-modal>
 
 
 

@@ -33,7 +33,7 @@ export class RubroSelectPage implements OnInit {
   workingSelectedValues: string[] = [];
 
   ngOnInit() {
-    this.filteredRubros = [...this.rubros];
+    //this.filteredRubros = [...this.rubros];
     this.workingSelectedValues = [...this.selectedRubros];
   }
 
