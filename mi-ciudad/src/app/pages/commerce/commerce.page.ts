@@ -1,12 +1,9 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, ViewChild } from '@angular/core';
 import { NgFor, NgForOf, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonModal, IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel } from '@ionic/angular/standalone';
-import { RubrosService } from 'src/app/core/services/rubros.service';
-import { Router } from '@angular/router';
-// import { IonModal } from '@ionic/angular';
+import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel, ModalController } from '@ionic/angular/standalone';
 import { Rubro, RubroSelectPage } from '../rubro-select/rubro-select.page';
-import { map } from 'rxjs';
+import { IonModal } from '@ionic/angular';
 
 @Component({
   selector: 'app-commerce',
@@ -33,7 +30,7 @@ export class CommercePage implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private rubrosService : RubrosService,
+    private modalCtrl: ModalController,
   ) { }
 
   ngOnInit() {
@@ -58,10 +55,25 @@ export class CommercePage implements OnInit {
   }
 
   rubrosSelectionChanged(rubros :Rubro[]){
-    this.selectedRubros = rubros;
+    this.selectedRubros = [...rubros];
     console.log(this.selectedRubros)
     //this.selectedRubrosText = this.formatData(this.selectedRubros);
-    this.modal.dismiss();
+    console.log(this.modal)
+    this.modal?.dismiss()
+  }
+
+  async openRubroSelect(){
+    const modal = await this.modalCtrl.create({
+      component: RubroSelectPage,
+      componentProps: { 
+        title:"Rubros Dynamics", 
+        rubros: this.rubros, 
+        selectedRubros: this.selectedRubros,
+      }
+    });
+    modal.onDidDismiss().then( (detail) => console.log(detail.data));
+    modal.present();
+    //this.modal.present();
   }
 
 }

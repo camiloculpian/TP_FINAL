@@ -1,7 +1,8 @@
 import { CommonModule, NgFor } from '@angular/common';
 import { Component, Input, Output, EventEmitter, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import type { OnInit } from '@angular/core';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonItem, IonButton } from '@ionic/angular/standalone';
+import { IonicModule } from '@ionic/angular';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonItem, IonButton, ModalController, IonRow } from '@ionic/angular/standalone';
 import { RubrosService } from 'src/app/core/services/rubros.service';
 
 
@@ -17,7 +18,7 @@ export interface Rubro{
   templateUrl: './rubro-select.page.html',
   styleUrl: './rubro-select.page.scss',
   standalone: true,
-  imports: [IonItem, IonLabel, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, IonButton, NgFor],
+  imports: [IonRow, IonItem, IonLabel, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, IonButton, NgFor],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 
@@ -34,6 +35,7 @@ export class RubroSelectPage implements OnInit {
 
   constructor(
     private rubrosService : RubrosService,
+    private modalController: ModalController
   ) { }
 
   ngOnInit() {
@@ -59,10 +61,12 @@ export class RubroSelectPage implements OnInit {
 
   cancelChanges() {
     this.selectionCancel.emit();
+    this.modalController.dismiss();
   }
 
   confirmChanges() {
     this.selectionChange.emit(this.workingSelectedValues);
+    this.modalController.dismiss(this.workingSelectedValues)
   }
 
   searchbarInput(ev:any) {

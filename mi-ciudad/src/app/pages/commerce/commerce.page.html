@@ -7,7 +7,7 @@
 <ion-content>
   <form [formGroup]="localComercialDataForm" (ngSubmit)="enviarFormulario()">
 
-    <ion-item [button]="true" [detail]="false" id="select-rubro">
+    <ion-item [button]="true" [detail]="false" (click)="openRubroSelect()">
       <ion-label>Seleccione Rubro/s</ion-label>
       <!-- <div slot="end" id="selected-fruits">{{ selectedFruitsText }}</div> -->
     </ion-item>
@@ -43,17 +43,5 @@
       </ion-col>
     </ion-row>
   </form>
+  
 </ion-content>
-
-<ion-modal trigger="select-rubro" #modal>
-<!-- <ng-template> -->
-  <app-rubro-select
-    class="ion-page"
-    title="Rubros"
-    [rubros]="rubros"
-    [selectedRubros]="selectedRubros"
-    (selectionChange)="rubrosSelectionChanged($event)"
-    (selectionCancel)="modal.dismiss()"
-  ></app-rubro-select>
-<!-- </ng-template> -->
-</ion-modal>
