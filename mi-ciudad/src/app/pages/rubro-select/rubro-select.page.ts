@@ -1,8 +1,8 @@
 import { CommonModule, NgFor } from '@angular/common';
 import { Component, Input, Output, EventEmitter, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import type { OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonText, IonInput, IonLabel, IonItem, IonAvatar, IonCol, AlertController, IonButton, IonGrid, IonRow, IonThumbnail } from '@ionic/angular/standalone';
+import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonItem, IonButton } from '@ionic/angular/standalone';
+import { RubrosService } from 'src/app/core/services/rubros.service';
 
 
 export interface Rubro{
@@ -14,31 +14,47 @@ export interface Rubro{
 
 @Component({
   selector: 'app-rubro-select',
-  templateUrl: 'rubro-select.page.html',
-  styleUrl: 'rubro-select.page.scss',
+  templateUrl: './rubro-select.page.html',
+  styleUrl: './rubro-select.page.scss',
   standalone: true,
-  imports: [IonCol, IonAvatar, IonItem, IonLabel, IonInput, IonText, IonIcon, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, FormsModule, ReactiveFormsModule, IonButton, IonGrid, IonRow, IonThumbnail, NgFor],
+  imports: [IonItem, IonLabel, IonContent, IonHeader, IonTitle, IonToolbar, CommonModule, IonButton, NgFor],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 
 export class RubroSelectPage implements OnInit {
   @Input() rubros: Rubro[] = [];
-  @Input() selectedRubros: string[] = [];
-  @Input() title = 'Select Rubros';
+  @Input() selectedRubros: Rubro[] = [];
+  @Input() title = 'Seleccione Rubros';
 
   @Output() selectionCancel = new EventEmitter<void>();
-  @Output() selectionChange = new EventEmitter<string[]>();
+  @Output() selectionChange = new EventEmitter<Rubro[]>();
 
   filteredRubros: Rubro[] = [];
-  workingSelectedValues: string[] = [];
+  workingSelectedValues: Rubro[] = [];
+
+  constructor(
+    private rubrosService : RubrosService,
+  ) { }
 
   ngOnInit() {
-    //this.filteredRubros = [...this.rubros];
+    console.log('export class RubroSelectPage -> OnInit')
+    this.rubrosService.getRubros().subscribe(
+      {
+        next: (resp) => {
+          this.rubros = [...resp?.data];
+          this.filteredRubros = [...this.rubros];
+        },
+        error: (err) => {
+          console.log(err)
+        }
+      }
+    )
     this.workingSelectedValues = [...this.selectedRubros];
+    console.log('export class RubroSelectPage <- OnInit')
   }
 
   trackRubros(index: number, rubro: Rubro) {
-    return rubro.id;
+    return rubro.codigo;
   }
 
   cancelChanges() {
@@ -79,8 +95,8 @@ export class RubroSelectPage implements OnInit {
     }
   }
 
-  isChecked(value: string) {
-    return this.workingSelectedValues.find((rubro) => rubro === value);
+  isChecked(rubro_id: number) {
+    return this.workingSelectedValues.find((rubro) => rubro.id === rubro_id );
   }
 
   checkboxChange(ev:any) {

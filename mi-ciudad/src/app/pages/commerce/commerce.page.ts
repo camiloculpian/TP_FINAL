@@ -1,11 +1,12 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, ViewChild } from '@angular/core';
-import { CommonModule, NgFor, NgForOf, NgIf } from '@angular/common';
+import { NgFor, NgForOf, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel } from '@ionic/angular/standalone';
+import { IonModal, IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel } from '@ionic/angular/standalone';
 import { RubrosService } from 'src/app/core/services/rubros.service';
 import { Router } from '@angular/router';
-import { IonModal } from '@ionic/angular';
+// import { IonModal } from '@ionic/angular';
 import { Rubro, RubroSelectPage } from '../rubro-select/rubro-select.page';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-commerce',
@@ -16,22 +17,23 @@ import { Rubro, RubroSelectPage } from '../rubro-select/rubro-select.page';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CommercePage implements OnInit {
+  // EL MODAL PARA ABRIR LA PAGINA
   @ViewChild('modal', { static: true }) modal!: IonModal;
+
   public localComercialDataForm!: FormGroup;
   
-  rubros! : Rubro[];
+  rubros : Rubro[] = [];
   mostrarFormulario = false;
 
 
   selectedRubrosText = '0 Items';
   // ACA VA EL CODIGO DEL RUBRO
-  selectedRubros: string[] = [];
+  selectedRubros: Rubro[] = [];
 
 
   constructor(
     private formBuilder: FormBuilder,
     private rubrosService : RubrosService,
-    private router: Router
   ) { }
 
   ngOnInit() {
@@ -43,15 +45,6 @@ export class CommercePage implements OnInit {
       direccion: ['', [Validators.required]],
       foto: ['', [Validators.required]]
     })
-    this.rubrosService.getRubros().subscribe(
-      {
-        next: (resp) => {
-          console.log(resp?.data)
-          this.rubros = resp?.data;
-        },
-        error: (err) => {}
-      }
-    )
   }
 
   enviarFormulario() {
@@ -64,7 +57,10 @@ export class CommercePage implements OnInit {
     this.localComercialDataForm.reset()
   }
 
-  rubrosSelectionChanged(event:Event){
+  rubrosSelectionChanged(rubros :Rubro[]){
+    this.selectedRubros = rubros;
+    console.log(this.selectedRubros)
+    //this.selectedRubrosText = this.formatData(this.selectedRubros);
     this.modal.dismiss();
   }
 

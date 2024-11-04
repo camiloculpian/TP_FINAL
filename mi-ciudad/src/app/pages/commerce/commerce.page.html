@@ -6,14 +6,15 @@
 
 <ion-content>
   <form [formGroup]="localComercialDataForm" (ngSubmit)="enviarFormulario()">
-    <ion-item>
-      <ion-label position="floating">Nombre del Negocio</ion-label>
-      <ion-input formControlName="nombre_negocio" ngDefaultControl name="nombre_negocio" required></ion-input>
-    </ion-item>
 
     <ion-item [button]="true" [detail]="false" id="select-rubro">
       <ion-label>Seleccione Rubro/s</ion-label>
       <!-- <div slot="end" id="selected-fruits">{{ selectedFruitsText }}</div> -->
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Nombre del Negocio</ion-label>
+      <ion-input formControlName="nombre_negocio" ngDefaultControl name="nombre_negocio" required></ion-input>
     </ion-item>
 
     <ion-item>
@@ -35,14 +36,15 @@
       <ion-label position="floating">Foto</ion-label>
       <ion-input formControlName="foto" ngDefaultControl name="foto" required ></ion-input>
     </ion-item>
+
     <ion-row style="text-align: center !important; align-content: center;">
       <ion-col>
         <ion-button type="submit">Guardar</ion-button>
       </ion-col>
     </ion-row>
   </form>
-
 </ion-content>
+
 <ion-modal trigger="select-rubro" #modal>
 <!-- <ng-template> -->
   <app-rubro-select
@@ -50,6 +52,7 @@
     title="Rubros"
     [rubros]="rubros"
     [selectedRubros]="selectedRubros"
+    (selectionChange)="rubrosSelectionChanged($event)"
     (selectionCancel)="modal.dismiss()"
   ></app-rubro-select>
 <!-- </ng-template> -->
