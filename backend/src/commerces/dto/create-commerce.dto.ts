@@ -1,7 +1,8 @@
 // export class CreateCommerceDto {}
 
 import { IsEnum, IsNotEmpty, IsOptional, IsString, IsEmail } from 'class-validator';
-import { Tramite, Rubro } from '../entities/commerce.entity';
+import { Tramite } from '../entities/commerce.entity';
+import { Rubro } from 'src/rubros/entities/rubro.entity';
 
 export class CreateCommerceDto {
     
@@ -10,7 +11,6 @@ export class CreateCommerceDto {
     nombre: string;
 
     @IsNotEmpty()
-    @IsEnum(Rubro)
     rubro: Rubro;
 
     // AGREGAR LUEGO

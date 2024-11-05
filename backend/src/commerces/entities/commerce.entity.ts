@@ -1,16 +1,11 @@
 
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Rubro } from 'src/rubros/entities/rubro.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
 
 export enum Tramite {
     ALTA = 'Alta',
     ACTUALIZACION = 'Actualización',
     BAJA = 'Baja'
-}
-
-export enum Rubro {
-    KIOSKO = 'Kiosko',
-    DRUGSTORE = 'Drugstore',
-    MINIMERCADO = 'Minimercado'
 }
 
 @Entity('commerce')
@@ -22,8 +17,10 @@ export class Commerce {
     @Column({ type: 'varchar', length: 255 })
     nombre: string;
 
-    @Column({ type: 'enum', enum: Rubro })
-    rubro: Rubro;
+    // @Column({ type: 'enum', enum: Rubro })
+    // rubro: Rubro;
+    @ManyToMany(() => Rubro, (rubro) => rubro.id)
+    rubros: Rubro[];
 
     @Column({ type: 'varchar', length: 100 })
     correo: string;
