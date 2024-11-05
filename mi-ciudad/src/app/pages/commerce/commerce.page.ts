@@ -3,7 +3,6 @@ import { NgFor, NgForOf, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel, ModalController } from '@ionic/angular/standalone';
 import { RubroSelectPage } from '../rubro-select/rubro-select.page';
-import { RubrosService } from 'src/app/core/services/rubros.service';
 import { Rubro } from 'src/app/core/interfaces/rubro';
 import { CommerceService } from 'src/app/core/services/commerce.service';
 import { Router } from '@angular/router';
@@ -21,8 +20,6 @@ export class CommercePage implements OnInit {
 
   public localComercialDataForm!: FormGroup;
   
-  rubros : Rubro[] = [];
-
   selectedRubrosText = '0 Items';
   // ACA VA EL CODIGO DEL RUBRO
   selectedRubros: Rubro[] = [];
@@ -31,7 +28,6 @@ export class CommercePage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private modalCtrl: ModalController,
-    private rubrosService : RubrosService,
     private commerceService : CommerceService,
     private routerOutlet: Router
   ) { }
@@ -45,19 +41,7 @@ export class CommercePage implements OnInit {
       telefono: ['', [Validators.required]],
       direccion: ['', [Validators.required]],
     })
-    if(this.rubros.length == 0)
-    {
-      this.rubrosService.getRubros().subscribe(
-        {
-          next: (resp) => {
-            this.rubros = [...resp?.data];
-          },
-          error: (err) => {
-            console.log(err)
-          }
-        }
-      )
-    }
+    
     console.log('SALIENDO CommercePage <- OnInit')
   }
 
@@ -98,7 +82,6 @@ export class CommercePage implements OnInit {
       component: RubroSelectPage,
       componentProps: { 
         title:"Seleccione Rubro/s", 
-        rubros: this.rubros, 
         selectedRubros: this.selectedRubros,
       }
     });

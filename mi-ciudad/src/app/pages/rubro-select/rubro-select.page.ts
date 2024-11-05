@@ -3,6 +3,7 @@ import { Component, Input, Output, EventEmitter, CUSTOM_ELEMENTS_SCHEMA } from '
 import type { OnInit } from '@angular/core';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonItem, IonButton, ModalController, IonRow } from '@ionic/angular/standalone';
 import { Rubro } from 'src/app/core/interfaces/rubro';
+import { RubrosService } from 'src/app/core/services/rubros.service';
 // import { RubrosService } from 'src/app/core/services/rubros.service';
 
 @Component({
@@ -26,11 +27,26 @@ export class RubroSelectPage implements OnInit {
   workingSelectedValues: Rubro[] = [];
 
   constructor(
-    private modalController: ModalController
+    private modalController: ModalController,
+    private rubrosService: RubrosService
   ) { }
 
   ngOnInit() {
     console.log('export class RubroSelectPage -> OnInit')
+    if(this.rubros.length == 0)
+      {
+        this.rubrosService.getRubros().subscribe(
+          {
+            next: (resp) => {
+              this.rubros = [...resp?.data];
+              this.filterList('');
+            },
+            error: (err) => {
+              console.log(err)
+            }
+          }
+        )
+      }
     this.filteredRubros = [...this.rubros];
     this.workingSelectedValues = [...this.selectedRubros];
     console.log('export class RubroSelectPage <- OnInit')

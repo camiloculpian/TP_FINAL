@@ -2,7 +2,7 @@
 import { Photo } from 'src/photos/entities/photo.entity';
 import { Rubro } from 'src/rubros/entities/rubro.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, DeleteDateColumn, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, DeleteDateColumn, OneToMany, JoinColumn } from 'typeorm';
 
 export enum Tramite {
     ALTA = 'Alta',

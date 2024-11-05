@@ -38,6 +38,7 @@ export class CommercesController {
   // TO-DO: aca solo deve devolver los del usuario!!!
   // Hecho lo anterior, mas adelante tener en cuenta que un admin puede necesitar ver los de otro usuario
   // Pasar dicho usuario por parametro opcional y tirar un eERROR si quien lo pide no tiene permisos de admin
+  @UseGuards(AuthGuard)
   @Get()
   async findAll(
     @CurrentUser('sub') currentUser: number
@@ -51,7 +52,7 @@ export class CommercesController {
       });
       
   } catch (error) {
-      throw new BadRequestException('Error al crear el comercio: ' + error.message);
+      throw new BadRequestException('Error al devolver los comercios: ' + error.message);
   }
   }
 

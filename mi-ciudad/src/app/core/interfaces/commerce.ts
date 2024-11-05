@@ -14,4 +14,5 @@ export interface Commerce{
     correo: string,
     telefono: string,
     direccion: string
+    
 }

@@ -42,7 +42,12 @@ export class CommercesService {
     try{
       //TO-DO: si es admin deberia retornar todos los negocios o permitir buscar por id - PARA MAS ADELANTE
       const contrib = await this.usersService.findOne(currentUser);
-      return await this.commerceRepository.find({where: {contrib: contrib}})
+      return await this.commerceRepository.find(
+        {
+          where: {contrib: contrib},
+          relations: {rubros: true,}
+        }
+      )
     }catch(e){
       throw(e);
     }
