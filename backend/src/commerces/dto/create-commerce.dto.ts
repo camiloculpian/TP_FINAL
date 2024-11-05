@@ -11,7 +11,7 @@ export class CreateCommerceDto {
     nombre: string;
 
     @IsNotEmpty()
-    rubro: Rubro;
+    rubros: Rubro[];
 
     // AGREGAR LUEGO
     // @IsNotEmpty()
