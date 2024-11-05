@@ -58,7 +58,7 @@ export class CommercePage implements OnInit {
         },
         error: (err) => {
           // TO-DO: Mostrar El ERROR
-          alert(err)
+          alert(err?.message)
         }
       }
     );

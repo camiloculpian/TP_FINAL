@@ -21,7 +21,6 @@ import { Commerce } from 'src/app/core/interfaces/commerce';
 export class HomePage implements OnInit {
 
   commerces: Commerce[] = [];
-  
   constructor(
     private commerceService: CommerceService,
     private router: Router

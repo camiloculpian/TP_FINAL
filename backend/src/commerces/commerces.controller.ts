@@ -2,7 +2,6 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException,
 import { CommercesService } from './commerces.service';
 import { CreateCommerceDto } from './dto/create-commerce.dto';
 import { UpdateCommerceDto } from './dto/update-commerce.dto';
-import { Commerce } from './entities/commerce.entity';
 import { Response, responseStatus } from 'src/common/responses/responses';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -30,8 +29,9 @@ export class CommercesController {
           data: await this.commerceService.create(currentUser, createCommerceDto)
         });
         
-    } catch (error) {
-        throw new BadRequestException('Error al crear el comercio: ' + error.message);
+    } catch (e) {
+      console.log(e)
+      throw new BadRequestException({'status':'ERROR','message':e.message,'statusCode':e.statusCode});
     }
   }
 
@@ -50,25 +50,48 @@ export class CommercesController {
         message:this.i18n.t('lang.commerce.FindAllOK',{lang:   I18nContext.current().lang }),
         data: await this.commerceService.findAll(currentUser)
       });
-      
-  } catch (error) {
-      throw new BadRequestException('Error al devolver los comercios: ' + error.message);
-  }
+    } catch (e) {
+      throw new BadRequestException({'status':'ERROR','message':e.message,'statusCode':e.statusCode});
+    }
   }
 
+  @UseGuards(AuthGuard)
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.commerceService.findOne(+id);
+  findOne(
+    @CurrentUser('sub') currentUser: number,
+    @Param('id') id: string
+  ) {
+    try{
+      return this.commerceService.findOne(+id);
+    }catch (e){
+      throw new BadRequestException({'status':'ERROR','message':e.message,'statusCode':e.statusCode});
+    }
   }
 
+  @UseGuards(AuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCommerceDto: UpdateCommerceDto) {
-    return this.commerceService.update(+id, updateCommerceDto);
+  update(
+    @CurrentUser('sub') currentUser: number,
+    @Param('id') id: string,
+    @Body() updateCommerceDto: UpdateCommerceDto
+  ) {
+    try{
+      return this.commerceService.update(+id, updateCommerceDto);
+    }catch (e){
+      throw new BadRequestException({'status':'ERROR','message':e.message,'statusCode':e.statusCode});
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.commerceService.remove(+id);
+  remove(
+    @CurrentUser('sub') currentUser: number,
+    @Param('id') id: string,
+  ) {
+    try{
+      return this.commerceService.remove(+id);
+    }catch (e){
+      throw new BadRequestException({'status':'ERROR','message':e.message,'statusCode':e.statusCode});
+    }
   }
 }
 

@@ -142,7 +142,6 @@ async findAll(@CurrentUser("sub") userId: number) {
         data: await this.usersService.remove(id)
       });
     } catch (e) {
-      console.error('Error al eliminar usuario:', e);
       throw new BadRequestException ({'status':'ERROR','message':e.message,'statusCode':e.statusCode});
     }
   }

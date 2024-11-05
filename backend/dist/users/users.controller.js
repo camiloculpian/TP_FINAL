@@ -105,7 +105,6 @@ let UsersController = class UsersController {
             });
         }
         catch (e) {
-            console.error('Error al eliminar usuario:', e);
             throw new common_1.BadRequestException({ 'status': 'ERROR', 'message': e.message, 'statusCode': e.statusCode });
         }
     }

@@ -28,8 +28,9 @@ export class CommercesService {
         }
       );
       return await this.commerceRepository.save({...comerceDto});
-    } catch (error) {
-      throw new InternalServerErrorException('Error al guardar en la base de datos: ' + error.message);
+    } catch (e) {
+      console.log(e);
+      throw e;
     }
   }
 
@@ -51,7 +52,6 @@ export class CommercesService {
     }catch(e){
       throw(e);
     }
-    return await this.commerceRepository.find();
   }
   
   findOne(id: number) {
