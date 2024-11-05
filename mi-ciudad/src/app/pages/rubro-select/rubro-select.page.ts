@@ -2,15 +2,8 @@ import { CommonModule, NgFor } from '@angular/common';
 import { Component, Input, Output, EventEmitter, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import type { OnInit } from '@angular/core';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonItem, IonButton, ModalController, IonRow } from '@ionic/angular/standalone';
+import { Rubro } from 'src/app/core/interfaces/rubro';
 // import { RubrosService } from 'src/app/core/services/rubros.service';
-
-
-export interface Rubro{
-  id: number;
-  codigo: string;
-  descripcion: string;
-  descripcion_l : string
-}
 
 @Component({
   selector: 'app-rubro-select',

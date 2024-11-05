@@ -7,7 +7,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { NgFor, NgForOf, NgIf } from '@angular/common';
 import { RubrosService } from 'src/app/core/services/rubros.service';
 import { IonModal } from '@ionic/angular';
-import { Rubro, RubroSelectPage } from '../rubro-select/rubro-select.page';
+import { RubroSelectPage } from '../rubro-select/rubro-select.page';
 import { CommercePage } from '../commerce/commerce.page';
 
 
