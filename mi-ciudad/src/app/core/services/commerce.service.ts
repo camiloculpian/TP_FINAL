@@ -17,6 +17,9 @@ export class CommerceService {
   }
 
   addCommerce(commerce : Commerce){
-    
+    return this._httpClient.post<any>(
+        environment.apiURL + environment.apiVersion + '/commerce',
+        commerce
+    );
   }
 }
