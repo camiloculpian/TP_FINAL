@@ -18,6 +18,7 @@ export class CommercesController {
   @UseGuards(AuthGuard)
   @Post()
   async create(
+    // TO-DO: si el usuario es admin, permitir crear negocios para otros usuarios...
     @CurrentUser('sub') currentUser: number,
     @Body() createCommerceDto: CreateCommerceDto
   ) {
@@ -26,7 +27,7 @@ export class CommercesController {
           statusCode:201,
           status:responseStatus.OK,
           message:this.i18n.t('lang.commerce.CreateOK',{lang:   I18nContext.current().lang }),
-          data: await this.commerceService.create(createCommerceDto)
+          data: await this.commerceService.create(currentUser, createCommerceDto)
         });
         
     } catch (error) {

@@ -5,6 +5,8 @@ import { UpdateCommerceDto } from './dto/update-commerce.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Commerce, Tramite } from './entities/commerce.entity';
+import { User } from '../users/entities/user.entity';
+import { UsersService } from 'src/users/users.service';
 
 
 @Injectable()
@@ -13,11 +15,19 @@ export class CommercesService {
   constructor(
     @InjectRepository(Commerce)
     private commerceRepository: Repository<Commerce>,
+    private usersService: UsersService
   ) { }
   
-  async create(createCommerceDto: CreateCommerceDto) {
+  async create(currenrUser: number, createCommerceDto: CreateCommerceDto) {
     try {
-      return await this.commerceRepository.save({...createCommerceDto});
+      const contrib = await this.usersService.findOne(currenrUser);
+      const comerceDto = this.commerceRepository.create(
+        {
+          ...createCommerceDto,
+          contrib,
+        }
+      );
+      return await this.commerceRepository.save({...comerceDto});
     } catch (error) {
       throw new InternalServerErrorException('Error al guardar en la base de datos: ' + error.message);
     }
