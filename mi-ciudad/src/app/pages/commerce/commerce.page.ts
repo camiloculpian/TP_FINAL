@@ -50,18 +50,24 @@ export class CommercePage implements OnInit {
     console.log('Datos del formulario:', this.localComercialDataForm);
     this.localComercialDataForm.controls['rubros'].setValue(this.selectedRubros)
     console.log(this.localComercialDataForm.value)
-    this.commerceService.addCommerce(this.localComercialDataForm.value).subscribe(
-      {
-        next: (resp) => {
-          // TO-DO: Mostrar El comercio se creo de manera exitosa
-          this.routerOutlet.navigate(['/main/home']);
-        },
-        error: (err) => {
-          // TO-DO: Mostrar El ERROR
-          alert(err?.message)
+    if(this.localComercialDataForm.valid){
+      this.commerceService.addCommerce(this.localComercialDataForm.value).subscribe(
+        {
+          next: (resp) => {
+            // TO-DO: Mostrar El comercio se creo de manera exitosa
+            this.routerOutlet.navigate(['/main/home']);
+          },
+          error: (err) => {
+            // TO-DO: Mostrar El ERROR
+            console.log(err);
+            alert(err?.message)
+          }
         }
-      }
-    );
+      );
+      this.navCtrl.back();
+    }else{
+      alert('Verifique los datos del formulario')
+    }
   }
 
   limpiarFormulario() {

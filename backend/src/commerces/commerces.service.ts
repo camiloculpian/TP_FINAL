@@ -29,7 +29,6 @@ export class CommercesService {
       );
       return await this.commerceRepository.save({...comerceDto});
     } catch (e) {
-      console.log(e);
       throw e;
     }
   }

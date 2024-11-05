@@ -30,7 +30,6 @@ export class CommercesController {
         });
         
     } catch (e) {
-      console.log(e)
       throw new BadRequestException({'status':'ERROR','message':e.message,'statusCode':e.statusCode});
     }
   }
