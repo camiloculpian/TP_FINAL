@@ -1,7 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { NgFor, NgForOf, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel, ModalController } from '@ionic/angular/standalone';
+import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel, ModalController, NavController } from '@ionic/angular/standalone';
 import { RubroSelectPage } from '../rubro-select/rubro-select.page';
 import { Rubro } from 'src/app/core/interfaces/rubro';
 import { CommerceService } from 'src/app/core/services/commerce.service';
@@ -26,10 +26,11 @@ export class CommercePage implements OnInit {
 
 
   constructor(
+    private modalController: ModalController,
+    private navCtrl: NavController,
     private formBuilder: FormBuilder,
-    private modalCtrl: ModalController,
     private commerceService : CommerceService,
-    private routerOutlet: Router
+    private routerOutlet: Router,
   ) { }
 
   ngOnInit() {
@@ -57,7 +58,7 @@ export class CommercePage implements OnInit {
         },
         error: (err) => {
           // TO-DO: Mostrar El ERROR
-          console.log(err)
+          alert(err)
         }
       }
     );
@@ -78,7 +79,7 @@ export class CommercePage implements OnInit {
   }
 
   async openRubroSelect(){
-    const modal = await this.modalCtrl.create({
+    const modal = await this.modalController.create({
       component: RubroSelectPage,
       componentProps: { 
         title:"Seleccione Rubro/s", 
@@ -89,4 +90,8 @@ export class CommercePage implements OnInit {
     modal.present();
   }
 
+  addCommerceCancel(e:Event){
+    e.preventDefault()
+    this.navCtrl.back();
+  }
 }

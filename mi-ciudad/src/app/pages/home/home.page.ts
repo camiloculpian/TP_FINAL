@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgFor, NgForOf, NgIf } from '@angular/common';
 import { CommercePage } from '../commerce/commerce.page';
 import { CommerceService } from 'src/app/core/services/commerce.service';
+import { Commerce } from 'src/app/core/interfaces/commerce';
 
 
 @Component({
@@ -18,8 +19,9 @@ import { CommerceService } from 'src/app/core/services/commerce.service';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePage implements OnInit {
-  
 
+  commerces: Commerce[] = [];
+  
   constructor(
     private commerceService: CommerceService,
     private router: Router
@@ -41,7 +43,7 @@ export class HomePage implements OnInit {
       }
     )
   }
-  
+
   navigateToProfile(){
     this.router.navigate(['profile']);
   }

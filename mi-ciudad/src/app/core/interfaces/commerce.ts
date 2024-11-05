@@ -13,6 +13,6 @@ export interface Commerce{
     tramite: Tramite,
     correo: string,
     telefono: string,
-    direccion: string
-    
+    direccion: string,
+    ubicacion: string,
 }
