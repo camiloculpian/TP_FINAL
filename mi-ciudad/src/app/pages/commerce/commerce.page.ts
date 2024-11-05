@@ -75,7 +75,7 @@ export class CommercePage implements OnInit {
     const modal = await this.modalCtrl.create({
       component: RubroSelectPage,
       componentProps: { 
-        title:"Rubros Dynamics", 
+        title:"Seleccione Rubro/s", 
         rubros: this.rubros, 
         selectedRubros: this.selectedRubros,
       }
