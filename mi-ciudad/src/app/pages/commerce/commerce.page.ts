@@ -35,7 +35,7 @@ export class CommercePage implements OnInit {
     console.log('ENTRANDO CommercePage -> OnInit')
     this.localComercialDataForm = this.formBuilder.group({
       nombre_negocio: ['', [Validators.required]],
-      rubro_negocio: ['', [Validators.required]],
+      // rubro_negocio: ['', [Validators.required]],
       correo: ['', [Validators.required]],
       telefono: ['', [Validators.required]],
       direccion: ['', [Validators.required]],
