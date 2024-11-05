@@ -6,6 +6,7 @@ import { RubroSelectPage } from '../rubro-select/rubro-select.page';
 import { RubrosService } from 'src/app/core/services/rubros.service';
 import { Rubro } from 'src/app/core/interfaces/rubro';
 import { CommerceService } from 'src/app/core/services/commerce.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-commerce',
@@ -31,7 +32,8 @@ export class CommercePage implements OnInit {
     private formBuilder: FormBuilder,
     private modalCtrl: ModalController,
     private rubrosService : RubrosService,
-    private commerceService : CommerceService
+    private commerceService : CommerceService,
+    private routerOutlet: Router
   ) { }
 
   ngOnInit() {
@@ -65,8 +67,14 @@ export class CommercePage implements OnInit {
     console.log(this.localComercialDataForm.value)
     this.commerceService.addCommerce(this.localComercialDataForm.value).subscribe(
       {
-        next: (resp) => {},
-        error: (err) => {console.log(err)}
+        next: (resp) => {
+          // TO-DO: Mostrar El comercio se creo de manera exitosa
+          this.routerOutlet.navigate(['/main/home']);
+        },
+        error: (err) => {
+          // TO-DO: Mostrar El ERROR
+          console.log(err)
+        }
       }
     );
   }
