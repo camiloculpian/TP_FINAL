@@ -33,25 +33,12 @@ export class RubroSelectPage implements OnInit {
   workingSelectedValues: Rubro[] = [];
 
   constructor(
-    private rubrosService : RubrosService,
     private modalController: ModalController
   ) { }
 
   ngOnInit() {
     // console.log('export class RubroSelectPage -> OnInit')
-    if(!this.rubros){
-      this.rubrosService.getRubros().subscribe(
-        {
-          next: (resp) => {
-            this.rubros = [...resp?.data];
-            this.filteredRubros = [...this.rubros];
-          },
-          error: (err) => {
-            console.log(err)
-          }
-        }
-      )
-    }
+    this.filteredRubros = [... this.rubros];
     this.workingSelectedValues = [...this.selectedRubros];
     // console.log('export class RubroSelectPage <- OnInit')
   }

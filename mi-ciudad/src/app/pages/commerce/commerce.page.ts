@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel, ModalController } from '@ionic/angular/standalone';
 import { Rubro, RubroSelectPage } from '../rubro-select/rubro-select.page';
 import { IonModal } from '@ionic/angular';
+import { RubrosService } from 'src/app/core/services/rubros.service';
 
 @Component({
   selector: 'app-commerce',
@@ -19,8 +20,6 @@ export class CommercePage implements OnInit {
   public localComercialDataForm!: FormGroup;
   
   rubros : Rubro[] = [];
-  mostrarFormulario = false;
-
 
   selectedRubrosText = '0 Items';
   // ACA VA EL CODIGO DEL RUBRO
@@ -30,9 +29,11 @@ export class CommercePage implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private modalCtrl: ModalController,
+    private rubrosService : RubrosService,
   ) { }
 
   ngOnInit() {
+    console.log('ENTRANDO CommercePage -> OnInit')
     this.localComercialDataForm = this.formBuilder.group({
       nombre_negocio: ['', [Validators.required]],
       rubro_negocio: ['', [Validators.required]],
@@ -41,12 +42,25 @@ export class CommercePage implements OnInit {
       direccion: ['', [Validators.required]],
       foto: ['', [Validators.required]]
     })
+    if(this.rubros.length == 0)
+    {
+      this.rubrosService.getRubros().subscribe(
+        {
+          next: (resp) => {
+            this.rubros = [...resp?.data];
+          },
+          error: (err) => {
+            console.log(err)
+          }
+        }
+      )
+    }
+    console.log('SALIENDO CommercePage <- OnInit')
   }
 
   enviarFormulario() {
     console.log('Datos del formulario:', this.localComercialDataForm);
     this.limpiarFormulario();
-    this.mostrarFormulario = false; 
   }
 
   limpiarFormulario() {
@@ -55,7 +69,6 @@ export class CommercePage implements OnInit {
 
   rubrosSelectionChanged(rubros :Rubro[]){
     this.selectedRubros = rubros;
-    console.log(this.selectedRubros);
   }
 
   async openRubroSelect(){
