@@ -2,7 +2,7 @@ import { CommonModule, NgFor } from '@angular/common';
 import { Component, Input, Output, EventEmitter, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import type { OnInit } from '@angular/core';
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonLabel, IonItem, IonButton, ModalController, IonRow } from '@ionic/angular/standalone';
-import { RubrosService } from 'src/app/core/services/rubros.service';
+// import { RubrosService } from 'src/app/core/services/rubros.service';
 
 
 export interface Rubro{
@@ -38,7 +38,7 @@ export class RubroSelectPage implements OnInit {
 
   ngOnInit() {
     console.log('export class RubroSelectPage -> OnInit')
-    this.filteredRubros = [... this.rubros];
+    this.filteredRubros = [...this.rubros];
     this.workingSelectedValues = [...this.selectedRubros];
     console.log('export class RubroSelectPage <- OnInit')
   }
