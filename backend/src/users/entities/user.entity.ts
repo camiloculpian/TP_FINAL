@@ -1,3 +1,4 @@
+import { Commerce } from 'src/commerces/entities/commerce.entity';
 import { Role } from '../../auth/enums/role.enum';
 import { Column, DeleteDateColumn, Entity, OneToOne, JoinColumn, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
@@ -40,8 +41,9 @@ export class User {
     @DeleteDateColumn({ select: false })
     deletedAt: Date;
 
+    @OneToMany(() => Commerce, (commerce) => commerce.contrib) // note: we will create contrib property in the Commerce class
+    commerce: Commerce[]
+
     @Column({ nullable: true, default:null })
     profilePicture: string;
-    // reveer acá
-    photos: any;
 }

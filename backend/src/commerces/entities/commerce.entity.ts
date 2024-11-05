@@ -1,6 +1,7 @@
 
 import { Rubro } from 'src/rubros/entities/rubro.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne } from 'typeorm';
 
 export enum Tramite {
     ALTA = 'Alta',
@@ -13,6 +14,11 @@ export class Commerce {
 
     @PrimaryGeneratedColumn()
     id: number;
+
+    @ManyToOne(()=> User, (user) => user.id)
+    contrib: User
+
+    
 
     @Column({ type: 'varchar', length: 255 })
     nombre: string;

@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
+const commerce_entity_1 = require("../../commerces/entities/commerce.entity");
 const role_enum_1 = require("../../auth/enums/role.enum");
 const typeorm_1 = require("typeorm");
 let User = class User {
@@ -63,6 +64,10 @@ __decorate([
     (0, typeorm_1.DeleteDateColumn)({ select: false }),
     __metadata("design:type", Date)
 ], User.prototype, "deletedAt", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => commerce_entity_1.Commerce, (commerce) => commerce.contrib),
+    __metadata("design:type", Array)
+], User.prototype, "commerce", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true, default: null }),
     __metadata("design:type", String)

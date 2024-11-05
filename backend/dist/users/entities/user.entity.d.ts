@@ -1,3 +1,4 @@
+import { Commerce } from 'src/commerces/entities/commerce.entity';
 import { Role } from '../../auth/enums/role.enum';
 export declare class User {
     id: number;
@@ -11,6 +12,6 @@ export declare class User {
     address: string;
     phone: string;
     deletedAt: Date;
+    commerce: Commerce[];
     profilePicture: string;
-    photos: any;
 }
