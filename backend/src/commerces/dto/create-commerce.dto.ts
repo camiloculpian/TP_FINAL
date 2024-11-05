@@ -3,6 +3,7 @@
 import { IsEnum, IsNotEmpty, IsOptional, IsString, IsEmail, isArray } from 'class-validator';
 import { Tramite } from '../entities/commerce.entity';
 import { Rubro } from 'src/rubros/entities/rubro.entity';
+import { ManyToMany } from 'typeorm';
 
 export class CreateCommerceDto {
     
@@ -11,7 +12,6 @@ export class CreateCommerceDto {
     nombre: string;
 
     @IsNotEmpty()
-    
     rubros: Rubro[];
 
     // AGREGAR LUEGO

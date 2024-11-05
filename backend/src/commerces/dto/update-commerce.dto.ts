@@ -6,6 +6,7 @@ import { CreateCommerceDto } from './create-commerce.dto';
 
 import { IsEnum, IsOptional, IsString } from 'class-validator';
 import { Horario, Tramite } from '../entities/commerce.entity';
+import { Rubro } from 'src/rubros/entities/rubro.entity';
 
 export class UpdateCommerceDto {
     @IsOptional()
@@ -15,6 +16,10 @@ export class UpdateCommerceDto {
     @IsOptional()
     @IsString()
     descripcion?: string;
+
+    @IsOptional()
+    @IsString()
+    rubros?: Rubro[];
 
     @IsOptional()
     @IsString()
