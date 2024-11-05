@@ -7,7 +7,7 @@
 <ion-content>
   <form [formGroup]="localComercialDataForm" (ngSubmit)="enviarFormulario()">
 
-    <ion-item [button]="true" [detail]="false" (click)="openRubroSelect()">
+    <ion-item [button]="true" (click)="openRubroSelect()">
       <ion-label>Seleccione Rubro/s</ion-label>
       <!-- <div slot="end" id="selected-fruits">{{ selectedFruitsText }}</div> -->
     </ion-item>
