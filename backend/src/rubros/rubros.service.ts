@@ -33,8 +33,8 @@ export class RubrosService {
     return await this.rubroRepository.find();
   }
   
-  findOne(id: number) {
-    return `This action returns a #${id} rubro`;
+  async findOne(id: number) {
+    return await this.rubroRepository.findOne({ where: {id: id} });
   }
 
   update(id: number, updateRubroDto: UpdateRubroDto) {

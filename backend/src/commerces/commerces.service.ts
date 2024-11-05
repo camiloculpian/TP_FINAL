@@ -17,7 +17,7 @@ export class CommercesService {
   
   async create(createCommerceDto: CreateCommerceDto) {
     try {
-      return await this.commerceRepository.save({...createCommerceDto});;
+      return await this.commerceRepository.save({...createCommerceDto});
     } catch (error) {
       throw new InternalServerErrorException('Error al guardar en la base de datos: ' + error.message);
     }

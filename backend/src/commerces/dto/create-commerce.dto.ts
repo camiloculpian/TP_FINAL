@@ -1,6 +1,6 @@
 // export class CreateCommerceDto {}
 
-import { IsEnum, IsNotEmpty, IsOptional, IsString, IsEmail } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString, IsEmail, isArray } from 'class-validator';
 import { Tramite } from '../entities/commerce.entity';
 import { Rubro } from 'src/rubros/entities/rubro.entity';
 
@@ -11,6 +11,7 @@ export class CreateCommerceDto {
     nombre: string;
 
     @IsNotEmpty()
+    
     rubros: Rubro[];
 
     // AGREGAR LUEGO
@@ -26,19 +27,17 @@ export class CreateCommerceDto {
     @IsString()
     imagen?: string; // Opcional, por defecto será null
 
-    @IsNotEmpty()
+    @IsOptional()
     @IsString()
-    direccion: string;
-
-    @IsNotEmpty()
-    @IsString()
-    telefono: string;
-
-    @IsNotEmpty()
-    @IsEmail()
-    correo: string;
+    direccion?: string;
 
     @IsOptional()
-    deletedAt?: Date;
+    @IsString()
+    telefono?: string;
+
+    @IsOptional()
+    @IsEmail()
+    correo?: string;
+
 }
 

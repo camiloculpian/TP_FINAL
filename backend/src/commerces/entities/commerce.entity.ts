@@ -1,6 +1,6 @@
 
 import { Rubro } from 'src/rubros/entities/rubro.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
 
 export enum Tramite {
     ALTA = 'Alta',
@@ -20,6 +20,11 @@ export class Commerce {
     // @Column({ type: 'enum', enum: Rubro })
     // rubro: Rubro;
     @ManyToMany(() => Rubro, (rubro) => rubro.id)
+    @JoinTable({
+        name: 'commerce_rubro',
+        joinColumn: { name: 'commerceId' },
+        inverseJoinColumn: { name: 'rubroId' }
+      })
     rubros: Rubro[];
 
     @Column({ type: 'varchar', length: 100 })
@@ -28,13 +33,11 @@ export class Commerce {
     @Column({ type: 'varchar', length: 20 })
     telefono: string;
 
-
     @Column({ type: 'varchar', length: 255 })
     direccion: string;
 
     // @Column({ type: 'varchar', length: 100, nullable: true })
     // ubicacion: string | null;
-
 
     @Column({ type: 'enum', enum: Tramite, default: Tramite.ALTA,})
     tramite: Tramite;

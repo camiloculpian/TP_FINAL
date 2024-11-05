@@ -7,6 +7,7 @@ import { Rubro } from './entities/rubro.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Rubro])],
   controllers: [RubrosController],
-  providers: [RubrosService, TypeOrmModule]
+  providers: [RubrosService, TypeOrmModule],
+  exports: [RubrosService]
 })
 export class RubrosModule {}
