@@ -1,7 +1,8 @@
 
+import { Photo } from 'src/photos/entities/photo.entity';
 import { Rubro } from 'src/rubros/entities/rubro.entity';
 import { User } from 'src/users/entities/user.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, ManyToOne, DeleteDateColumn, OneToMany } from 'typeorm';
 
 export enum Tramite {
     ALTA = 'Alta',
@@ -18,10 +19,11 @@ export class Commerce {
     @ManyToOne(()=> User, (user) => user.id)
     contrib: User
 
-    
-
     @Column({ type: 'varchar', length: 255 })
     nombre: string;
+
+    @Column({nullable: true})
+    description: string;
 
     // @Column({ type: 'enum', enum: Rubro })
     // rubro: Rubro;
@@ -42,17 +44,17 @@ export class Commerce {
     @Column({ type: 'varchar', length: 255 })
     direccion: string;
 
-    // @Column({ type: 'varchar', length: 100, nullable: true })
-    // ubicacion: string | null;
+    @OneToMany(()=> Photo, (photo) => photo.id)
+    commerce: Photo;
+
+    @Column({ type: 'varchar', length: 100, nullable: true })
+    ubicacion: string;
 
     @Column({ type: 'enum', enum: Tramite, default: Tramite.ALTA,})
     tramite: Tramite;
 
-    // @Column({ type: 'varchar', length: 255, nullable: true, default: null })
-    // imagen: string | null;
-
-    // @Column({ type: 'timestamp', nullable: true })
-    // deletedAt: Date | null;
+    @DeleteDateColumn({ select: false })
+    deletedAt: Date;
 }
 
 

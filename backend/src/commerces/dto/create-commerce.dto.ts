@@ -25,7 +25,7 @@ export class CreateCommerceDto {
 
     @IsOptional()
     @IsString()
-    imagen?: string; // Opcional, por defecto será null
+    fachada?: string; // Opcional, por defecto será null
 
     @IsOptional()
     @IsString()

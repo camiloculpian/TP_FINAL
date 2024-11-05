@@ -31,7 +31,7 @@ export class UpdateCommerceDto {
 
     @IsOptional()
     @IsString()
-    imagen?: string;
+    fachada?: string;
 
     @IsOptional()
     @IsEnum(Tramite)

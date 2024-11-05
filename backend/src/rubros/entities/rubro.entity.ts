@@ -1,5 +1,5 @@
 import { Commerce } from 'src/commerces/entities/commerce.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, DeleteDateColumn } from 'typeorm';
 
 
 @Entity('rubro')
@@ -19,5 +19,8 @@ export class Rubro {
 
     @Column({ type: 'varchar', length: 255 })
     descripcion_l: string;
+
+    @DeleteDateColumn({ select: false })
+    deletedAt: Date;
 
 }
