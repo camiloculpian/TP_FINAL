@@ -3,7 +3,6 @@ import { NgFor, NgForOf, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel, ModalController } from '@ionic/angular/standalone';
 import { Rubro, RubroSelectPage } from '../rubro-select/rubro-select.page';
-import { IonModal } from '@ionic/angular';
 import { RubrosService } from 'src/app/core/services/rubros.service';
 
 @Component({
