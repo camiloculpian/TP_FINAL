@@ -36,5 +36,9 @@ export class HomePage implements OnInit {
     this.router.navigate(['profile']);
   }
 
+  addCommerce(){
+    this.router.navigate(['commerce']);
+  }
+
 }
 

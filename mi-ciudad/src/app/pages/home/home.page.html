@@ -8,14 +8,12 @@
 
   <ion-content>
     <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-      <ion-fab-button [detail]="false" id="add-commerce">
+      <ion-fab-button [detail]="false" (click)="addCommerce()">
         <ion-icon name="add"></ion-icon>
       </ion-fab-button>
     </ion-fab>
   </ion-content>
-  <ion-modal trigger="add-commerce" #modal>
-    <app-commerce></app-commerce>
-  </ion-modal>
+  
 
 
 

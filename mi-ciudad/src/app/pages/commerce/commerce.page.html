@@ -7,14 +7,14 @@
 <ion-content>
   <form [formGroup]="localComercialDataForm" (ngSubmit)="enviarFormulario()">
 
-    <ion-item [button]="true" (click)="openRubroSelect()">
-      <ion-label>Seleccione Rubro/s</ion-label>
-      <!-- <div slot="end" id="selected-fruits">{{ selectedFruitsText }}</div> -->
-    </ion-item>
-
     <ion-item>
       <ion-label position="floating">Nombre del Negocio</ion-label>
       <ion-input formControlName="nombre_negocio" ngDefaultControl name="nombre_negocio" required></ion-input>
+    </ion-item>
+
+    <ion-item [button]="true" (click)="openRubroSelect()">
+      <ion-label>Seleccione Rubro/s</ion-label>
+      <div slot="end" id="selected-rubros">{{ selectedRubrosText }}</div>
     </ion-item>
 
     <ion-item>
