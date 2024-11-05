@@ -38,11 +38,10 @@ export class CommercePage implements OnInit {
     console.log('ENTRANDO CommercePage -> OnInit')
     this.localComercialDataForm = this.formBuilder.group({
       nombre: ['', [Validators.required]],
-      rubro: ['', [Validators.required]],
+      rubros: ['', [Validators.required]],
       correo: ['', [Validators.required]],
       telefono: ['', [Validators.required]],
       direccion: ['', [Validators.required]],
-      foto: ['', [Validators.required]]
     })
     if(this.rubros.length == 0)
     {
@@ -62,6 +61,8 @@ export class CommercePage implements OnInit {
 
   enviarFormulario() {
     console.log('Datos del formulario:', this.localComercialDataForm);
+    this.localComercialDataForm.controls['rubros'].setValue(this.selectedRubros)
+    console.log(this.localComercialDataForm.value)
     this.commerceService.addCommerce(this.localComercialDataForm.value).subscribe(
       {
         next: (resp) => {},
