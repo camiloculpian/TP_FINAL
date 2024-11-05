@@ -68,6 +68,12 @@ export class CommercePage implements OnInit {
 
   rubrosSelectionChanged(rubros :Rubro[]){
     this.selectedRubros = rubros;
+    
+    if(this.selectedRubros.length == 1){
+      this.selectedRubrosText = this.selectedRubros[0].descripcion.length < 20? this.selectedRubros[0].descripcion:this.selectedRubros[0].descripcion.substring(0,16)+'...'
+    }else{
+      this.selectedRubrosText = this.selectedRubros.length.toString() + ' Items';
+    }
   }
 
   async openRubroSelect(){
