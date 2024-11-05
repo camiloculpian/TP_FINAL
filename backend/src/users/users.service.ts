@@ -101,7 +101,7 @@ export class UsersService {
   }
 
   // busca uno by id
-  async findOne(id: number) {
+  async findOne(id: number):Promise<User> {
     try {
       return await this.userRepository.findOne(
         {

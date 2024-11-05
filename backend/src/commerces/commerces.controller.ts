@@ -36,14 +36,18 @@ export class CommercesController {
   }
 
   // TO-DO: aca solo deve devolver los del usuario!!!
+  // Hecho lo anterior, mas adelante tener en cuenta que un admin puede necesitar ver los de otro usuario
+  // Pasar dicho usuario por parametro opcional y tirar un eERROR si quien lo pide no tiene permisos de admin
   @Get()
-  async findAll(){
+  async findAll(
+    @CurrentUser('sub') currentUser: number
+  ){
     try {
       return new Response({
         statusCode:201,
         status:responseStatus.OK,
         message:this.i18n.t('lang.commerce.FindAllOK',{lang:   I18nContext.current().lang }),
-        data: await this.commerceService.findAll()
+        data: await this.commerceService.findAll(currentUser)
       });
       
   } catch (error) {

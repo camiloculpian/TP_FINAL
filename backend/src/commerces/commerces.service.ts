@@ -38,7 +38,14 @@ export class CommercesService {
   //   return `This action returns all commerce`;
   // }
 
-  async findAll() {
+  async findAll(currentUser: number) {
+    try{
+      //TO-DO: si es admin deberia retornar todos los negocios o permitir buscar por id - PARA MAS ADELANTE
+      const contrib = await this.usersService.findOne(currentUser);
+      return await this.commerceRepository.find({where: {contrib: contrib}})
+    }catch(e){
+      throw(e);
+    }
     return await this.commerceRepository.find();
   }
   
