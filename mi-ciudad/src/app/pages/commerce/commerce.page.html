@@ -15,7 +15,7 @@
                 <ion-col>
                   <!-- Mostrar la imagen -->
                   <ion-avatar>
-                    <img style="width: 15em; height: 15em;" [src]="frontPicture" alt="Foto del Negocio" />
+                    <img [src]="frontPicture" alt="Foto del Negocio" />
                   </ion-avatar>
 
                   <!-- Botón para abrir la cámara -->
@@ -59,7 +59,7 @@
               <ion-input formControlName="direccion" ngDefaultControl name="direccion" required></ion-input>
             </ion-item>
 
-            <ion-row style="text-align: center !important; align-content: center;">
+            <ion-row>
               <ion-col>
                 <ion-button disabled={{buttonDisabled}} (click)="addCommerceCancel($event)">Cancelar</ion-button>
               </ion-col>
