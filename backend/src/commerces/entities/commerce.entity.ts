@@ -22,6 +22,10 @@ export class Commerce {
     @Column({ type: 'varchar', length: 255 })
     nombre: string;
 
+    // TO-DO: ver como pongo la foto principal, tal vez convenga ponerla directamente y no como una relacion
+    @Column({nullable: true})
+    frontPicture?: string;
+
     @Column({nullable: true})
     description: string;
 
@@ -44,6 +48,7 @@ export class Commerce {
     @Column({ type: 'varchar', length: 255 })
     direccion: string;
 
+    // Una lista con fotos del local
     @OneToMany(()=> Photo, (photo) => photo.id)
     commerce: Photo;
 

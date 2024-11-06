@@ -11,6 +11,10 @@ export class CreateCommerceDto {
     @IsString()
     nombre: string;
 
+    @IsOptional()
+    @IsString()
+    description?: string; // Opcional, por defecto será null
+
     @IsNotEmpty()
     rubros: Rubro[];
 
@@ -25,7 +29,7 @@ export class CreateCommerceDto {
 
     @IsOptional()
     @IsString()
-    fachada?: string; // Opcional, por defecto será null
+    frontPicture?: string; // Opcional, por defecto será null
 
     @IsOptional()
     @IsString()
