@@ -16,12 +16,10 @@ import { Router } from '@angular/router';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CommercePage implements OnInit {
-  // EL MODAL PARA ABRIR LA PAGINA
-
+  buttonDisabled:boolean = false;
   public localComercialDataForm!: FormGroup;
   
   selectedRubrosText = '0 Items';
-  // ACA VA EL CODIGO DEL RUBRO
   selectedRubros: Rubro[] = [];
 
 
@@ -30,7 +28,6 @@ export class CommercePage implements OnInit {
     private navCtrl: NavController,
     private formBuilder: FormBuilder,
     private commerceService : CommerceService,
-    private routerOutlet: Router,
   ) { }
 
   ngOnInit() {
@@ -46,25 +43,26 @@ export class CommercePage implements OnInit {
     console.log('SALIENDO CommercePage <- OnInit')
   }
 
-  enviarFormulario() {
-    console.log('Datos del formulario:', this.localComercialDataForm);
+  enviarFormulario(e: Event) {
+    e.preventDefault();
     this.localComercialDataForm.controls['rubros'].setValue(this.selectedRubros)
-    console.log(this.localComercialDataForm.value)
+    // console.log('Datos del formulario:', this.localComercialDataForm);
     if(this.localComercialDataForm.valid){
+      this.buttonDisabled =true;
       this.commerceService.addCommerce(this.localComercialDataForm.value).subscribe(
         {
           next: (resp) => {
             // TO-DO: Mostrar El comercio se creo de manera exitosa
-            this.routerOutlet.navigate(['/main/home']);
+            this.modalController.dismiss()
           },
           error: (err) => {
             // TO-DO: Mostrar El ERROR
             console.log(err);
-            alert(err?.message)
+            alert('Ups!!!, Ocurrio un ERROR: \n Codigo del ERROR:'+ err?.status)
+            this.buttonDisabled =false;
           }
         }
       );
-      this.navCtrl.back();
     }else{
       alert('Verifique los datos del formulario')
     }
@@ -98,6 +96,6 @@ export class CommercePage implements OnInit {
 
   addCommerceCancel(e:Event){
     e.preventDefault()
-    this.navCtrl.back();
+    this.modalController.dismiss()
   }
 }

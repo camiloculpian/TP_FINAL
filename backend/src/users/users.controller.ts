@@ -129,7 +129,7 @@ async findAll(@CurrentUser("sub") userId: number) {
     }
   }
 
-  // Eliminar usuario: rol Admin
+  // Eliminar usuario: rol Admin...
   @Delete(':id')
   @UseGuards(AuthGuard)
   @Roles(Role.ADMIN)
