@@ -6,40 +6,70 @@
 
 <ion-content>
   <form [formGroup]="localComercialDataForm" (ngSubmit)="enviarFormulario($event)">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-list>
+            <div class="commerce-container">
+              <ion-item class="ion-text-center">
+                <ion-col>
+                  <!-- Mostrar la imagen -->
+                  <ion-avatar>
+                    <img style="width: 15em; height: 15em;" [src]="frontPicture" alt="Foto del Negocio" />
+                  </ion-avatar>
 
-    <ion-item>
-      <ion-label position="floating">Nombre del Negocio</ion-label>
-      <ion-input formControlName="nombre" ngDefaultControl name="nombre" required></ion-input>
-    </ion-item>
+                  <!-- Botón para abrir la cámara -->
+                  <ion-button shape="round" color="medium" (click)="openCamera()">
+                    <ion-icon slot="icon-only" name="camera" style="padding: 0; margin: 0;"></ion-icon>
+                  </ion-button>
 
-    <ion-item [button]="true" (click)="openRubroSelect()">
-      <ion-label>Seleccione Rubro/s</ion-label>
-      <div slot="end" id="selected-rubros">{{ selectedRubrosText }}</div>
-    </ion-item>
+                  <!-- Botón para abrir la galería -->
+                  <!-- <ion-button shape="round" color="medium" (click)="openCameraRoll()">
+                      <ion-icon name="image"></ion-icon>
+                    </ion-button> -->
+                </ion-col>
+              </ion-item>
+            </div>
+            <ion-item>
+              <ion-label position="floating">Nombre del Negocio</ion-label>
+              <ion-input formControlName="nombre" ngDefaultControl name="nombre" required></ion-input>
+            </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Correo Electrónico</ion-label>
-      <ion-input formControlName="correo" ngDefaultControl name="correo" type="email" required></ion-input>
-    </ion-item>
+            <ion-item>
+              <ion-textarea label="Descripcion" labelPlacement="floating" placeholder="Descripcion"></ion-textarea>
+            </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Teléfono</ion-label>
-      <ion-input formControlName="telefono" ngDefaultControl name="telefono" type="tel" required></ion-input>
-    </ion-item>
+            <ion-item [button]="true" (click)="openRubroSelect()">
+              <ion-label>Seleccione Rubro/s</ion-label>
+              <div slot="end" id="selected-rubros">{{ selectedRubrosText }}</div>
+            </ion-item>
 
-    <ion-item>
-      <ion-label position="floating">Direccion</ion-label>
-      <ion-input formControlName="direccion" ngDefaultControl name="direccion" required></ion-input>
-    </ion-item>
+            <ion-item>
+              <ion-label position="floating">Correo Electrónico</ion-label>
+              <ion-input formControlName="correo" ngDefaultControl name="correo" type="email" required></ion-input>
+            </ion-item>
 
-    <ion-row style="text-align: center !important; align-content: center;">
-      <ion-col>
-        <ion-button disabled={{buttonDisabled}} (click)="addCommerceCancel($event)">Cancelar</ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button disabled={{buttonDisabled}} type="submit">Guardar</ion-button>
-      </ion-col>
-    </ion-row>
+            <ion-item>
+              <ion-label position="floating">Teléfono</ion-label>
+              <ion-input formControlName="telefono" ngDefaultControl name="telefono" type="tel" required></ion-input>
+            </ion-item>
+
+            <ion-item>
+              <ion-label position="floating">Direccion</ion-label>
+              <ion-input formControlName="direccion" ngDefaultControl name="direccion" required></ion-input>
+            </ion-item>
+
+            <ion-row style="text-align: center !important; align-content: center;">
+              <ion-col>
+                <ion-button disabled={{buttonDisabled}} (click)="addCommerceCancel($event)">Cancelar</ion-button>
+              </ion-col>
+              <ion-col>
+                <ion-button disabled={{buttonDisabled}} type="submit">Guardar</ion-button>
+              </ion-col>
+            </ion-row>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </form>
-
 </ion-content>

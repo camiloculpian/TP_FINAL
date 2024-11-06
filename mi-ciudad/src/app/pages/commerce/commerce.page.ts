@@ -5,6 +5,8 @@ import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButt
 import { RubroSelectPage } from '../rubro-select/rubro-select.page';
 import { Rubro } from 'src/app/core/interfaces/rubro';
 import { CommerceService } from 'src/app/core/services/commerce.service';
+import { camera } from 'ionicons/icons';
+import { addIcons } from 'ionicons';
 
 @Component({
   selector: 'app-commerce',
@@ -16,6 +18,8 @@ import { CommerceService } from 'src/app/core/services/commerce.service';
 })
 export class CommercePage implements OnInit {
   buttonDisabled:boolean = false;
+  frontPicture:string='../../../assets/commerce-avatar.svg';// Imagen de frente del negocio predeterminada...
+
   public localComercialDataForm!: FormGroup;
   
   selectedRubrosText = '0 Items';
@@ -26,7 +30,9 @@ export class CommercePage implements OnInit {
     private modalController: ModalController,
     private formBuilder: FormBuilder,
     private commerceService : CommerceService,
-  ) { }
+  ) { 
+    addIcons({ camera });
+  }
 
   ngOnInit() {
     console.log('ENTRANDO CommercePage -> OnInit')
@@ -95,5 +101,9 @@ export class CommercePage implements OnInit {
   addCommerceCancel(e:Event){
     e.preventDefault()
     this.modalController.dismiss()
+  }
+
+  openCamera(){
+
   }
 }

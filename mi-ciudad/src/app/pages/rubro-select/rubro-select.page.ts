@@ -16,6 +16,7 @@ import { RubrosService } from 'src/app/core/services/rubros.service';
 })
 
 export class RubroSelectPage implements OnInit {
+  buttonDisabled:boolean= false;
   @Input() rubros: Rubro[] = [];
   @Input() selectedRubros: Rubro[] = [];
   @Input() title = 'Seleccione Rubros';
@@ -37,15 +38,18 @@ export class RubroSelectPage implements OnInit {
       {
         // TO-DO: descargar la lista de rubros una vez y guardarla en el local storage para que no tenga que descargarla seguido
         // se podria agregar un timestamp para que si es muy vieja la lista vuelva a descargarla > 48hs pej.
+        this.buttonDisabled =true;
         this.rubrosService.getRubros().subscribe(
           {
             next: (resp) => {
               this.rubros = [...resp?.data];
               this.filterList('');
+              this.buttonDisabled =false;
             },
             error: (err) => {
               // TO-DO: enviarte alert del error si lo hubiera...
               console.log(err)
+              this.buttonDisabled =false;
             }
           }
         )

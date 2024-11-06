@@ -4,7 +4,6 @@ import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } 
 import { IonContent, IonHeader, IonTitle, IonToolbar, IonIcon, IonText, IonInput, IonLabel, IonItem, IonAvatar, AlertController, IonButton, IonGrid, IonRow, IonCol, IonThumbnail } from '@ionic/angular/standalone';
 import { pencil, camera, image } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
-import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { environment } from 'src/environments/environment';  
@@ -25,7 +24,6 @@ export class ProfilePage implements OnInit {
 
   constructor(
     public formBuilder: FormBuilder,
-    private router: Router,
     private authService: AuthenticationService,
     private alertController: AlertController
   ) {
