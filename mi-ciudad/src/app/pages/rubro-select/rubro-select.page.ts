@@ -35,6 +35,8 @@ export class RubroSelectPage implements OnInit {
     console.log('export class RubroSelectPage -> OnInit')
     if(this.rubros.length == 0)
       {
+        // TO-DO: descargar la lista de rubros una vez y guardarla en el local storage para que no tenga que descargarla seguido
+        // se podria agregar un timestamp para que si es muy vieja la lista vuelva a descargarla > 48hs pej.
         this.rubrosService.getRubros().subscribe(
           {
             next: (resp) => {
@@ -42,6 +44,7 @@ export class RubroSelectPage implements OnInit {
               this.filterList('');
             },
             error: (err) => {
+              // TO-DO: enviarte alert del error si lo hubiera...
               console.log(err)
             }
           }

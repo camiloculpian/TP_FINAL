@@ -6,8 +6,8 @@
     <ion-searchbar (ionInput)="searchbarInput($event)"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
-
 <ion-content color="light" class="ion-padding">
+
   <ion-list id="modal-list" [inset]="true">
     <ion-item *ngFor="let item of filteredRubros; trackBy: trackRubros">
       <ion-checkbox [value]="item" [checked]="isChecked(item.id)" (ionChange)="checkboxChange($event)"
@@ -15,6 +15,7 @@
       >
     </ion-item>
   </ion-list>
+
 </ion-content>
 <ion-footer>
   <ion-item>
