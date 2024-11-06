@@ -5,7 +5,6 @@ import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButt
 import { RubroSelectPage } from '../rubro-select/rubro-select.page';
 import { Rubro } from 'src/app/core/interfaces/rubro';
 import { CommerceService } from 'src/app/core/services/commerce.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-commerce',
@@ -25,7 +24,6 @@ export class CommercePage implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private navCtrl: NavController,
     private formBuilder: FormBuilder,
     private commerceService : CommerceService,
   ) { }
