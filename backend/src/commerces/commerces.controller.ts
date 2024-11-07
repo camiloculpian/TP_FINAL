@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { CommercesService } from './commerces.service';
 import { CreateCommerceDto } from './dto/create-commerce.dto';
 import { UpdateCommerceDto } from './dto/update-commerce.dto';
@@ -6,6 +6,9 @@ import { Response, responseStatus } from 'src/common/responses/responses';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CurrentUser } from 'src/auth/decorators/currentUser.decorator';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 @Controller('commerce')
 export class CommercesController {
@@ -16,10 +19,25 @@ export class CommercesController {
 
   @UseGuards(AuthGuard)
   @Post()
+  @UseInterceptors(
+    FileInterceptor('profilePicture', {
+      storage: diskStorage({
+        destination: process.env.COMMERCES_PICTURES_DIR,
+        filename: (req, file, cb) => {
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join('');
+          cb(null, `${randomName}${extname(file.originalname)}`);
+        },
+      }),
+    }),
+  )
   async create(
     // TO-DO: si el usuario es admin, permitir crear negocios para otros usuarios...
     @CurrentUser('sub') currentUser: number,
-    @Body() createCommerceDto: CreateCommerceDto
+    @Body() createCommerceDto: CreateCommerceDto,
+    @UploadedFile() frontPicture,
   ) {
     try {
         return new Response({
