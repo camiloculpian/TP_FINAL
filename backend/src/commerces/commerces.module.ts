@@ -8,8 +8,9 @@ import { UsersModule } from 'src/users/users.module';
 
 
 @Module({
-  imports: [RubrosModule, UsersModule, TypeOrmModule.forFeature([Commerce])],
+  imports: [TypeOrmModule.forFeature([Commerce]), RubrosModule, UsersModule],
   controllers: [CommercesController],
-  providers: [CommercesService, TypeOrmModule]
+  providers: [CommercesService],
+  exports: [ CommercesService, TypeOrmModule]
 })
 export class CommercesModule {}

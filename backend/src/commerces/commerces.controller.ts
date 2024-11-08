@@ -20,7 +20,7 @@ export class CommercesController {
   @UseGuards(AuthGuard)
   @Post()
   @UseInterceptors(
-    FileInterceptor('profilePicture', {
+    FileInterceptor('frontPicture', {
       storage: diskStorage({
         destination: process.env.COMMERCES_PICTURES_DIR,
         filename: (req, file, cb) => {
