@@ -62,10 +62,6 @@ export class Commerce {
     deletedAt: Date;
 }
 
-
-
-
-
 export enum Horario {
     LUNES_VIERNES_MATUTINO = 'Lunes a Viernes 8 AM - 12 PM',
     LUNES_VIERNES_VESPERTINO = 'Lunes a Viernes 4 PM - 8 PM',
