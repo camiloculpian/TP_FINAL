@@ -1,12 +1,13 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { NgFor, NgForOf, NgIf } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel, ModalController, NavController } from '@ionic/angular/standalone';
 import { RubroSelectPage } from '../rubro-select/rubro-select.page';
 import { Rubro } from 'src/app/core/interfaces/rubro';
 import { CommerceService } from 'src/app/core/services/commerce.service';
 import { camera } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
+import { Camera, CameraResultType } from '@capacitor/camera';
 
 @Component({
   selector: 'app-commerce',
@@ -17,8 +18,10 @@ import { addIcons } from 'ionicons';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CommercePage implements OnInit {
+
   buttonDisabled:boolean = false;
   frontPicture:string='../../../assets/commerce-avatar.svg';// Imagen de frente del negocio predeterminada...
+  private imageFile: File | null = null;
 
   public localComercialDataForm!: FormGroup;
   
@@ -49,10 +52,16 @@ export class CommercePage implements OnInit {
 
   enviarFormulario(e: Event) {
     e.preventDefault();
-    this.localComercialDataForm.controls['rubros'].setValue(this.selectedRubros)
+    this.localComercialDataForm.controls['rubros'].setValue(this.selectedRubros);
+    if (this.imageFile) {
+      this.localComercialDataForm.addControl('frontPicture', new FormControl('', []))
+      this.localComercialDataForm.
+      controls['frontPicture'].setValue(this.imageFile.name, this.imageFile);
+    }
     // console.log('Datos del formulario:', this.localComercialDataForm);
     if(this.localComercialDataForm.valid){
       this.buttonDisabled =true;
+      console.log(this.localComercialDataForm.value);
       this.commerceService.addCommerce(this.localComercialDataForm.value).subscribe(
         {
           next: (resp) => {
@@ -103,7 +112,21 @@ export class CommercePage implements OnInit {
     this.modalController.dismiss()
   }
 
-  openCamera(){
-
+  async openCamera() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 100,
+        resultType: CameraResultType.Uri,
+      });
+      if (image?.webPath) {
+        this.frontPicture = image.webPath;
+        const response = await fetch(image.webPath); 
+        const blob = await response.blob();
+        this.imageFile = new File([blob], 'frontPicture.jpg', { type: 'image/jpeg' });
+      }
+    } catch (e) {
+      console.log(e);
+      // this.showAlert('Error', 'No se pudo acceder a la cámara.');
+    }
   }
 }
