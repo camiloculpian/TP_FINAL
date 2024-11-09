@@ -46,6 +46,7 @@ export class CommercePage implements OnInit {
     this.localComercialDataForm = this.formBuilder.group({
       nombre: ['', [Validators.required]],
       descripcion: ['', []],
+      frontPicture: [],
       rubros: ['', [Validators.required]],
       correo: ['', [Validators.required]],
       telefono: ['', []],
@@ -53,6 +54,7 @@ export class CommercePage implements OnInit {
     })
     if(this.commerce){
       // TO-DO: si lke paso los datos de un comercio es una edicion y tengo que setear los datos del comercio
+      console.log(this.commerce);
       this.localComercialDataForm.patchValue({
         nombre:this.commerce.nombre,
         descripcion:this.commerce.descripcion,
@@ -62,10 +64,11 @@ export class CommercePage implements OnInit {
         telefono:this.commerce.telefono,
         direccion:this.commerce.direccion        
       });
-      this.selectedRubros = this.commerce.rubros;
+      this.rubrosSelectionChanged(this.commerce.rubros)
       // CHAQUEAR SI frontPicture no es null
-      this.frontPicture = this.relPicturesPath+this.commerce.frontPicture;
-      console.log(this.frontPicture);
+      if(this.commerce.frontPicture){
+        this.frontPicture = this.relPicturesPath+this.commerce.frontPicture;
+      }      
     }
     console.log('SALIENDO CommercePage <- OnInit')
   }
@@ -73,12 +76,11 @@ export class CommercePage implements OnInit {
   enviarFormulario(e: Event) {
     // TO-DO: Falta diferenciar si es una unsercion o si es una edicion (tal vez tener en cienta el input?)
     e.preventDefault();
-    this.localComercialDataForm.controls['rubros'].setValue(this.selectedRubros);
-    
     // console.log('Datos del formulario:', this.localComercialDataForm);
     if(this.localComercialDataForm.valid){
       this.buttonDisabled =true;
-      const formData = new FormData()
+
+      const formData = this.convertModelToFormData(this.selectedRubros,null ,'rubros')
       const commerceData = this.localComercialDataForm.value;
       if (this.imageFile) {
         formData.append('frontPicture', this.imageFile, this.imageFile.name)
@@ -86,13 +88,8 @@ export class CommercePage implements OnInit {
       formData.append('nombre', commerceData.nombre)
       formData.append('descripcion', commerceData.descripcion)
       formData.append('correo', commerceData.correo)
-      formData.append('rubros', commerceData.rubros)
       formData.append('telefono', commerceData.telefono)
       formData.append('direccion', commerceData.direccion)
-
-
-
-      console.log(formData);
       this.commerceService.addCommerce(formData).subscribe(
         {
           next: (resp) => {
@@ -159,5 +156,31 @@ export class CommercePage implements OnInit {
       console.log(e);
       // this.showAlert('Error', 'No se pudo acceder a la cámara.');
     }
+  }
+
+  // TO-DO: DIOS MIO!!! esto es ORRIBLE, pero hace su trabajo
+  convertModelToFormData(model: any, form: FormData|null = null , namespace = ''): FormData {
+    let formData = form || new FormData();
+    for (let propertyName in model) {
+      if (!model.hasOwnProperty(propertyName) || model[propertyName] == undefined) continue;
+      let formKey = namespace ? `${namespace}[${propertyName}]` : propertyName;
+      if (model[propertyName] instanceof Array) {
+        model[propertyName].forEach((element:any, index:any) => {
+          if (typeof element != 'object')
+            formData.append(`${formKey}[]`, element);
+          else {
+            const tempFormKey = `${formKey}[${index}]`;
+            this.convertModelToFormData(element, formData, tempFormKey);
+          }
+        });
+      }
+      else if (typeof model[propertyName] === 'object' && !(model[propertyName] instanceof File)) {        
+        this.convertModelToFormData(model[propertyName], formData, formKey);
+      }
+      else {        
+        formData.append(formKey, model[propertyName].toString());
+      }
+    }
+    return formData;
   }
 }

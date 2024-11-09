@@ -7,6 +7,7 @@ import { DataSource, Repository } from 'typeorm';
 import { Commerce, Tramite } from './entities/commerce.entity';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
+import { Rubro } from 'src/rubros/entities/rubro.entity';
 
 
 @Injectable()
@@ -20,6 +21,7 @@ export class CommercesService {
   ) { }
   
   async create(currenrUser: number, createCommerceDto: CreateCommerceDto, frontPicture?: Express.Multer.File ) {
+    console.log(createCommerceDto);
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();

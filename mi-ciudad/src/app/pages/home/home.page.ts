@@ -33,12 +33,21 @@ export class HomePage implements OnInit{
   }
 
   ionViewWillEnter(){
+    console.log('ionViewWillEnter()')
     this.getCommerces();
   }
 
   ngOnInit() {
     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     // Add 'implements OnInit' to the class.
+    this.getCommerces()
+  }
+
+  navigateToProfile(){
+    this.router.navigate(['profile']);
+  }
+
+  getCommerces(){
     this.commerceService.getCommerces().subscribe(
       {
         next: (resp) => {
@@ -52,21 +61,13 @@ export class HomePage implements OnInit{
     )
   }
 
-  navigateToProfile(){
-    this.router.navigate(['profile']);
-  }
-
-  getCommerces(){
-    
-  }
-
   async addCommerce(){
     const modal = await this.modalController.create({
       component: CommercePage,
       componentProps: { 
       }
     });
-    modal.onDidDismiss().then( (event) => {this.getCommerces()});
+    modal.onDidDismiss().then( (event) => {this.ngOnInit()});
     modal.present();
   }
 
@@ -78,7 +79,7 @@ export class HomePage implements OnInit{
         commerce: commerce
       }
     });
-    modal.onDidDismiss().then( (event) => {this.getCommerces()});
+    modal.onDidDismiss().then((event) => {this.ngOnInit()});
     modal.present();
   }
 }
