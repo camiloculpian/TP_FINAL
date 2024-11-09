@@ -65,15 +65,16 @@ export class CommercesService {
     }
   }
   
-  findOne(id: number) {
+  async findOne(id: number) {
     return `This action returns a #${id} commerce`;
   }
 
-  update(id: number, updateCommerceDto: UpdateCommerceDto) {
+  async update(id: number, updateCommerceDto: UpdateCommerceDto) {
+    console.log(`This action updates a #${id} commerce`);
     return `This action updates a #${id} commerce`;
   }
 
-  remove(id: number) {
+  async remove(id: number) {
     return `This action removes a #${id} commerce`;
   }
 }

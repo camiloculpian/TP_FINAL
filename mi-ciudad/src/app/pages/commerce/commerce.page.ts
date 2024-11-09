@@ -96,26 +96,42 @@ export class CommercePage implements OnInit {
           }
         });
       }
-  
       formData.append('nombre', commerceData.nombre)
       formData.append('descripcion', commerceData.descripcion)
       formData.append('correo', commerceData.correo)
       formData.append('telefono', commerceData.telefono)
       formData.append('direccion', commerceData.direccion)
-      this.commerceService.addCommerce(formData).subscribe(
-        {
-          next: (resp) => {
-            // TO-DO: Mostrar El comercio se creo de manera exitosa
-            this.modalController.dismiss()
-          },
-          error: (err) => {
-            // TO-DO: Mostrar El ERROR
-            console.log(err);
-            alert('Ups!!!, Ocurrio un ERROR: \n Codigo del ERROR:'+ err?.status)
-            this.buttonDisabled =false;
+      if(this.commerce){
+        this.commerceService.editCommerce(this.commerce.id.toString(),formData).subscribe(
+          {
+            next: (resp) => {
+              // TO-DO: Mostrar El comercio se creo de manera exitosa
+              this.modalController.dismiss()
+            },
+            error: (err) => {
+              // TO-DO: Mostrar El ERROR
+              console.log(err);
+              alert('Ups!!!, Ocurrio un ERROR: \n Codigo del ERROR:'+ err?.status)
+              this.buttonDisabled =false;
+            }
           }
-        }
-      );
+        );
+      }else{
+        this.commerceService.addCommerce(formData).subscribe(
+          {
+            next: (resp) => {
+              // TO-DO: Mostrar El comercio se creo de manera exitosa
+              this.modalController.dismiss()
+            },
+            error: (err) => {
+              // TO-DO: Mostrar El ERROR
+              console.log(err);
+              alert('Ups!!!, Ocurrio un ERROR: \n Codigo del ERROR:'+ err?.status)
+              this.buttonDisabled =false;
+            }
+          }
+        );
+      }
     }else{
       alert('Verifique los datos del formulario')
     }

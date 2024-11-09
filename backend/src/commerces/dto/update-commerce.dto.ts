@@ -4,7 +4,7 @@ import { CreateCommerceDto } from './create-commerce.dto';
 // export class UpdateCommerceDto extends PartialType(CreateCommerceDto) {}
 
 
-import { IsEnum, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
 import { Horario, Tramite } from '../entities/commerce.entity';
 import { Rubro } from 'src/rubros/entities/rubro.entity';
 
@@ -18,7 +18,6 @@ export class UpdateCommerceDto {
     descripcion?: string;
 
     @IsOptional()
-    @IsString()
     rubros?: Rubro[];
 
     @IsOptional()
@@ -26,14 +25,18 @@ export class UpdateCommerceDto {
     ubicacion?: string;
 
     @IsOptional()
-    @IsEnum(Tramite)
-    horario?: Horario;
+    @IsString()
+    frontPicture?: string;
 
     @IsOptional()
     @IsString()
-    fachada?: string;
+    direccion?: string;
 
     @IsOptional()
-    @IsEnum(Tramite)
-    tramite?: Tramite; 
+    @IsString()
+    telefono?: string;
+
+    @IsOptional()
+    @IsEmail()
+    correo?: string;
 }

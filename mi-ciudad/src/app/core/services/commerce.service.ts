@@ -21,4 +21,11 @@ export class CommerceService {
         commerce
     );
   }
+
+  editCommerce(commerceId: string, commerce : FormData){
+    return this._httpClient.patch<any>(
+        environment.apiURL + environment.apiVersion + '/commerce/' + commerceId,
+        commerce
+    );
+  }
 }
