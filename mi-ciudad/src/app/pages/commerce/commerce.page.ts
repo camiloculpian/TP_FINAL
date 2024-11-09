@@ -41,9 +41,10 @@ export class CommercePage implements OnInit {
     console.log('ENTRANDO CommercePage -> OnInit')
     this.localComercialDataForm = this.formBuilder.group({
       nombre: ['', [Validators.required]],
+      description: ['', []],
       rubros: ['', [Validators.required]],
       correo: ['', [Validators.required]],
-      telefono: ['', [Validators.required]],
+      telefono: ['', []],
       direccion: ['', [Validators.required]],
     })
     
@@ -53,14 +54,24 @@ export class CommercePage implements OnInit {
   enviarFormulario(e: Event) {
     e.preventDefault();
     this.localComercialDataForm.controls['rubros'].setValue(this.selectedRubros);
-    if (this.imageFile) {
-      this.localComercialDataForm.addControl('frontPicture', new FormControl('', []))
-      this.localComercialDataForm.controls['frontPicture'].setValue([this.imageFile.name, this.imageFile]);
-    }
+    
     // console.log('Datos del formulario:', this.localComercialDataForm);
-    //if(this.localComercialDataForm.valid){
+    if(this.localComercialDataForm.valid){
       this.buttonDisabled =true;
-      console.log(this.localComercialDataForm.value);
+      const formData = new FormData()
+      const commerceData = this.localComercialDataForm.value;
+      if (this.imageFile) {
+        formData.append('frontPicture', this.imageFile, this.imageFile.name)
+      }
+      formData.append('nombre', commerceData.nombre)
+      formData.append('description', commerceData.description)
+      formData.append('correo', commerceData.correo)
+      formData.append('rubros', commerceData.rubros)
+      formData.append('email', commerceData.email)
+
+
+
+      console.log(formData);
       this.commerceService.addCommerce(this.localComercialDataForm.value).subscribe(
         {
           next: (resp) => {
@@ -75,9 +86,9 @@ export class CommercePage implements OnInit {
           }
         }
       );
-    // }else{
-    //   alert('Verifique los datos del formulario')
-    // }
+    }else{
+      alert('Verifique los datos del formulario')
+    }
   }
 
   limpiarFormulario() {
