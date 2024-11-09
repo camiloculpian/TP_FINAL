@@ -8,6 +8,7 @@ import { NgFor, NgForOf, NgIf } from '@angular/common';
 import { CommercePage } from '../commerce/commerce.page';
 import { CommerceService } from 'src/app/core/services/commerce.service';
 import { Commerce } from 'src/app/core/interfaces/commerce';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -46,6 +47,7 @@ export class HomePage implements OnInit{
     this.commerceService.getCommerces().subscribe(
       {
         next(resp) {
+          const frontPicture = environment.apiURL+'/uploads/commerces/pictures/'+resp.data.profilePicture
           console.log(resp);
         },
         error(err) {
