@@ -26,8 +26,7 @@ ConfigModule.forRoot({
       password: process.env.DATABASE_PASSWORD,
       database: process.env.DATABASE_DATABASE,
       autoLoadEntities: true,
-      //synchronize: true,
-      synchronize: false,
+      synchronize: true,
     }),
     I18nModule.forRootAsync({
       useFactory: () => ({
