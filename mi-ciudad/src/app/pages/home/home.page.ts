@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel, ModalController } from '@ionic/angular/standalone';
 import { add } from 'ionicons/icons';
@@ -20,9 +20,9 @@ import { environment } from 'src/environments/environment';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePage implements OnInit{
-  @Input() commerces: Commerce[] = [];
+  commerces: Commerce[] = [];
   
-  public relPicturesPath = environment.apiURL+'/uploads/commerces/pictures/'
+  public relPicturesPath = environment.apiURL+'/uploads/commerces/pictures/';
   
   constructor(
     private modalController: ModalController,
@@ -70,5 +70,16 @@ export class HomePage implements OnInit{
     modal.present();
   }
 
+  async openCommerce(commerce: Commerce){
+    console.log(commerce)
+    const modal = await this.modalController.create({
+      component: CommercePage,
+      componentProps: { 
+        commerce: commerce
+      }
+    });
+    modal.onDidDismiss().then( (event) => {this.getCommerces()});
+    modal.present();
+  }
 }
 

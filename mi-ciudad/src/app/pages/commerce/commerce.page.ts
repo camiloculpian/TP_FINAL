@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit } from '@angular/core';
 import { NgFor, NgForOf, NgIf } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel, ModalController, NavController } from '@ionic/angular/standalone';
@@ -8,6 +8,8 @@ import { CommerceService } from 'src/app/core/services/commerce.service';
 import { camera } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { Commerce } from 'src/app/core/interfaces/commerce';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-commerce',
@@ -18,9 +20,11 @@ import { Camera, CameraResultType } from '@capacitor/camera';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CommercePage implements OnInit {
+  @Input() commerce! : Commerce;
 
   buttonDisabled:boolean = false;
   frontPicture:string='../../../assets/commerce-avatar.svg';// Imagen de frente del negocio predeterminada...
+  public relPicturesPath = environment.apiURL+'/uploads/commerces/pictures/'
   private imageFile!: File;
 
   public localComercialDataForm!: FormGroup;
@@ -47,11 +51,27 @@ export class CommercePage implements OnInit {
       telefono: ['', []],
       direccion: ['', [Validators.required]],
     })
-    
+    if(this.commerce){
+      // TO-DO: si lke paso los datos de un comercio es una edicion y tengo que setear los datos del comercio
+      this.localComercialDataForm.patchValue({
+        nombre:this.commerce.nombre,
+        descripcion:this.commerce.descripcion,
+        frontPicture:this.commerce.frontPicture,
+        rubros:this.commerce.rubros,
+        correo:this.commerce.correo,
+        telefono:this.commerce.telefono,
+        direccion:this.commerce.direccion        
+      });
+      this.selectedRubros = this.commerce.rubros;
+      // CHAQUEAR SI frontPicture no es null
+      this.frontPicture = this.relPicturesPath+this.commerce.frontPicture;
+      console.log(this.frontPicture);
+    }
     console.log('SALIENDO CommercePage <- OnInit')
   }
 
   enviarFormulario(e: Event) {
+    // TO-DO: Falta diferenciar si es una unsercion o si es una edicion (tal vez tener en cienta el input?)
     e.preventDefault();
     this.localComercialDataForm.controls['rubros'].setValue(this.selectedRubros);
     

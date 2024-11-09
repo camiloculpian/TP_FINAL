@@ -10,9 +10,9 @@
 
   <ion-list id="commerces-list" [inset]="true">
     <ion-item *ngFor="let item of commerces;">
-      <ion-chip>
+      <ion-chip (click)="openCommerce(item)">
         <ion-avatar>
-          <img alt=item.nombre src={{relPicturesPath+item.frontPicture}} />
+          <img alt=item.nombre src={{relPicturesPath+item.frontPicture}}/>
         </ion-avatar>
         <ion-label>{{item.nombre}}</ion-label>
       </ion-chip>

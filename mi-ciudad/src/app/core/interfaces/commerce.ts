@@ -9,6 +9,7 @@ export enum Tramite {
 export interface Commerce{
     id: number;
     nombre: string;
+    descripcion: string,
     frontPicture: string,
     rubros: Rubro[];
     tramite: Tramite,
