@@ -21,7 +21,7 @@ export class CommercePage implements OnInit {
 
   buttonDisabled:boolean = false;
   frontPicture:string='../../../assets/commerce-avatar.svg';// Imagen de frente del negocio predeterminada...
-  private imageFile: File | null = null;
+  private imageFile!: File;
 
   public localComercialDataForm!: FormGroup;
   
@@ -55,11 +55,10 @@ export class CommercePage implements OnInit {
     this.localComercialDataForm.controls['rubros'].setValue(this.selectedRubros);
     if (this.imageFile) {
       this.localComercialDataForm.addControl('frontPicture', new FormControl('', []))
-      this.localComercialDataForm.
-      controls['frontPicture'].setValue(this.imageFile.name, this.imageFile);
+      this.localComercialDataForm.controls['frontPicture'].setValue([this.imageFile.name, this.imageFile]);
     }
     // console.log('Datos del formulario:', this.localComercialDataForm);
-    if(this.localComercialDataForm.valid){
+    //if(this.localComercialDataForm.valid){
       this.buttonDisabled =true;
       console.log(this.localComercialDataForm.value);
       this.commerceService.addCommerce(this.localComercialDataForm.value).subscribe(
@@ -76,9 +75,9 @@ export class CommercePage implements OnInit {
           }
         }
       );
-    }else{
-      alert('Verifique los datos del formulario')
-    }
+    // }else{
+    //   alert('Verifique los datos del formulario')
+    // }
   }
 
   limpiarFormulario() {
