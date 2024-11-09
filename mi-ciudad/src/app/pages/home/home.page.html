@@ -7,11 +7,24 @@
   
 
   <ion-content>
-    <ion-fab slot="fixed" vertical="bottom" horizontal="end">
-      <ion-fab-button [detail]="false" (click)="addCommerce()">
-        <ion-icon name="add"></ion-icon>
-      </ion-fab-button>
-    </ion-fab>
+
+  <ion-list id="commerces-list" [inset]="true">
+    <ion-item *ngFor="let item of commerces;">
+      <ion-chip>
+        <ion-avatar>
+          <img alt=item.nombre src={{relPicturesPath+item.frontPicture}} />
+        </ion-avatar>
+        <ion-label>{{item.nombre}}</ion-label>
+      </ion-chip>
+    </ion-item>
+
+  </ion-list>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button [detail]="false" (click)="addCommerce()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
   </ion-content>
   
 
