@@ -59,6 +59,21 @@
               <ion-input formControlName="direccion" ngDefaultControl name="direccion" required></ion-input>
             </ion-item>
 
+
+            <ion-item>
+              <input type="file" (change)="onFileSelected($event)" multiple>
+            </ion-item>
+            
+            <div *ngIf="selectedImages?.length">
+              <ion-grid>
+                <ion-row>
+                  <ion-col *ngFor="let img of selectedImages">
+                    <ion-img [src]="img"></ion-img>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+            
             <ion-row>
               <ion-col>
                 <ion-button disabled={{buttonDisabled}} (click)="addCommerceCancel($event)">Cancelar</ion-button>
