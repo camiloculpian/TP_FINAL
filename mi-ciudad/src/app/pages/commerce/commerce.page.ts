@@ -26,11 +26,13 @@ export class CommercePage implements OnInit {
   frontPicture:string='../../../assets/commerce-avatar.svg';// Imagen de frente del negocio predeterminada...
   public relPicturesPath = environment.apiURL+'/uploads/commerces/pictures/'
   private imageFile!: File;
+  private imageFiles: File[] = [];
 
   public localComercialDataForm!: FormGroup;
   
   selectedRubrosText = '0 Items';
   selectedRubros: Rubro[] = [];
+  selectedImages: string[] = [];
 
 
   constructor(
@@ -82,9 +84,19 @@ export class CommercePage implements OnInit {
 
       const formData = this.convertModelToFormData(this.selectedRubros,null ,'rubros')
       const commerceData = this.localComercialDataForm.value;
-      if (this.imageFile) {
-        formData.append('frontPicture', this.imageFile, this.imageFile.name)
+
+      //if (this.imageFile) {
+    //    formData.append('frontPicture', this.imageFile, this.imageFile.name)
+     // }
+
+      if (this.imageFile && this.imageFiles.length > 0) {
+        this.imageFiles.forEach((file: Blob | File, index) => {
+          if (file instanceof Blob) {
+            formData.append(`photos[${index}]`, file, `photo${index}.jpg`);
+          }
+        });
       }
+  
       formData.append('nombre', commerceData.nombre)
       formData.append('descripcion', commerceData.descripcion)
       formData.append('correo', commerceData.correo)
@@ -108,6 +120,22 @@ export class CommercePage implements OnInit {
       alert('Verifique los datos del formulario')
     }
   }
+
+  
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files) {
+      for (let i = 0; i < input.files.length; i++) {
+        const file = input.files[i];
+        const reader = new FileReader();
+        reader.onload = () => {
+          this.selectedImages.push(reader.result as string);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  }
+
 
   limpiarFormulario() {
     this.localComercialDataForm.reset()

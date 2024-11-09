@@ -9,11 +9,17 @@ export class Photo {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => Commerce, (commerce) => commerce.id)
+   // @ManyToOne(() => Commerce, (commerce) => commerce.id)
+   // commerce: Commerce;
+
+    @ManyToOne(() => Commerce, (commerce) => commerce.photos)
     commerce: Commerce;
 
     @Column({ type: 'timestamp' })
     photoDate: Date;
+
+    //@Column()
+   // url: string;  
 
     @DeleteDateColumn({ select: false })
     deletedAt: Date;

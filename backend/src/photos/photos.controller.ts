@@ -1,16 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { PhotosService } from './photos.service';
 import { CreatePhotoDto } from './dto/create-photo.dto';
 import { UpdatePhotoDto } from './dto/update-photo.dto';
 import { Photo } from './entities/photo.entity';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('photos')
 export class PhotosController {
   constructor(private readonly photosService: PhotosService) {}
 
+  //@Post()
+ // async create(@Body() createPhotoDto: CreatePhotoDto): Promise<Photo> {
+ //   return this.photosService.create(createPhotoDto);
+  //}
+
   @Post()
-  async create(@Body() createPhotoDto: CreatePhotoDto): Promise<Photo> {
-    return this.photosService.create(createPhotoDto);
+  @UseInterceptors(FilesInterceptor('photos')) 
+  async uploadPhotos(
+    @UploadedFiles() files: Array<Express.Multer.File>,
+    @Body() createPhotoDto,
+  ): Promise<Photo[]> {
+    return this.photosService.create(files, createPhotoDto);
   }
 
   @Get()

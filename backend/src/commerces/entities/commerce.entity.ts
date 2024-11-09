@@ -49,8 +49,12 @@ export class Commerce {
     direccion: string;
 
     // Una lista con fotos del local
-    @OneToMany(()=> Photo, (photo) => photo.id)
-    commerce: Photo;
+   // @OneToMany(()=> Photo, (photo) => photo.id)
+   // commerce: Photo;
+
+    // Una lista con fotos del local
+    @OneToMany(() => Photo, (photo) => photo.commerce, { cascade: true })
+    photos: Photo[];
 
     @Column({ type: 'varchar', length: 100, nullable: true })
     ubicacion: string;

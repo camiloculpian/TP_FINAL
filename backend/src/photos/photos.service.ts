@@ -14,9 +14,22 @@ export class PhotosService {
     private readonly photoRepository: Repository<Photo>,
   ) {}
 
-  async create(createPhotoDto: CreatePhotoDto): Promise<Photo> {
-    const photo = this.photoRepository.create(createPhotoDto);
-    return await this.photoRepository.save(photo);
+  //   async create(createPhotoDto: CreatePhotoDto): Promise<Photo> {
+  //     const photo = this.photoRepository.create(createPhotoDto);
+  //    return await this.photoRepository.save(photo);
+  //  }
+
+  async create(
+    files: Array<Express.Multer.File>,
+    createPhotoDto,
+  ): Promise<Photo[]> {
+    const photos = files.map((file) => {
+      const photo = new Photo();
+      photo.commerce = createPhotoDto.commerce;
+      photo.photoDate = new Date();
+      return photo;
+    });
+    return await this.photoRepository.save(photos);
   }
 
   async findAll(): Promise<Photo[]> {
@@ -37,10 +50,6 @@ export class PhotosService {
     await this.photoRepository.delete(id);
   }
 }
-
-
-
-
 
 // @Injectable()
 // export class PhotosService {
