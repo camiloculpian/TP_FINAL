@@ -3,7 +3,7 @@ import { CreateCommerceDto } from './dto/create-commerce.dto';
 import { UpdateCommerceDto } from './dto/update-commerce.dto';
 
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Commerce, Tramite } from './entities/commerce.entity';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
@@ -15,20 +15,30 @@ export class CommercesService {
   constructor(
     @InjectRepository(Commerce)
     private commerceRepository: Repository<Commerce>,
-    private usersService: UsersService
+    private usersService: UsersService,
+    private dataSource: DataSource
   ) { }
   
-  async create(currenrUser: number, createCommerceDto: CreateCommerceDto) {
+  async create(currenrUser: number, createCommerceDto: CreateCommerceDto, frontPicture?: Express.Multer.File ) {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
     try {
+      if(frontPicture){
+        createCommerceDto.frontPicture = frontPicture.filename;
+      }
       const contrib = await this.usersService.findOne(currenrUser);
-      const comerceDto = this.commerceRepository.create(
+      const commerceDto = this.commerceRepository.create(
         {
           ...createCommerceDto,
           contrib,
         }
       );
-      return await this.commerceRepository.save({...comerceDto});
+      const commerce = await this.commerceRepository.save({...commerceDto});
+      await queryRunner.commitTransaction();
+      return commerce
     } catch (e) {
+      await queryRunner.rollbackTransaction();
       throw e;
     }
   }

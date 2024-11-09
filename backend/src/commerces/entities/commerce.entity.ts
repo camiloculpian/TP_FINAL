@@ -27,7 +27,7 @@ export class Commerce {
     frontPicture?: string;
 
     @Column({nullable: true})
-    description: string;
+    descripcion: string;
 
     // @Column({ type: 'enum', enum: Rubro })
     // rubro: Rubro;

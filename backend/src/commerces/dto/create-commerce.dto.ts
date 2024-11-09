@@ -13,7 +13,7 @@ export class CreateCommerceDto {
 
     @IsOptional()
     @IsString()
-    description?: string; // Opcional, por defecto será null
+    descripcion?: string; // Opcional, por defecto será null
 
     @IsNotEmpty()
     rubros: Rubro[];

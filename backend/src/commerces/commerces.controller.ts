@@ -44,7 +44,7 @@ export class CommercesController {
           statusCode:201,
           status:responseStatus.OK,
           message:this.i18n.t('lang.commerce.CreateOK',{lang:   I18nContext.current().lang }),
-          data: await this.commerceService.create(currentUser, createCommerceDto)
+          data: await this.commerceService.create(currentUser, createCommerceDto, frontPicture)
         });
         
     } catch (e) {

@@ -41,7 +41,7 @@ export class CommercePage implements OnInit {
     console.log('ENTRANDO CommercePage -> OnInit')
     this.localComercialDataForm = this.formBuilder.group({
       nombre: ['', [Validators.required]],
-      description: ['', []],
+      descripcion: ['', []],
       rubros: ['', [Validators.required]],
       correo: ['', [Validators.required]],
       telefono: ['', []],
@@ -64,15 +64,16 @@ export class CommercePage implements OnInit {
         formData.append('frontPicture', this.imageFile, this.imageFile.name)
       }
       formData.append('nombre', commerceData.nombre)
-      formData.append('description', commerceData.description)
+      formData.append('descripcion', commerceData.descripcion)
       formData.append('correo', commerceData.correo)
       formData.append('rubros', commerceData.rubros)
-      formData.append('email', commerceData.email)
+      formData.append('telefono', commerceData.telefono)
+      formData.append('direccion', commerceData.direccion)
 
 
 
       console.log(formData);
-      this.commerceService.addCommerce(this.localComercialDataForm.value).subscribe(
+      this.commerceService.addCommerce(formData).subscribe(
         {
           next: (resp) => {
             // TO-DO: Mostrar El comercio se creo de manera exitosa
