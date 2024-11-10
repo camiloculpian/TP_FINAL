@@ -76,6 +76,7 @@ export class CommercesService {
     await queryRunner.startTransaction();
     try {
       if(photos){
+        console.log(photos);
         // TO-DO: Borrar las fotos actuales en photos
         // TO-DO: Insertar las fotos en photos
         // updateCommerceDto.photos = photos;
