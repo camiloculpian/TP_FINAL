@@ -76,7 +76,7 @@ export class CommercePage implements OnInit {
       // CHAQUEAR SI frontPicture no es null
       if(this.commerce.frontPicture){
         this.frontPicture = this.relPicturesPath+this.commerce.frontPicture;
-      }      
+      }
     }
     console.log('SALIENDO CommercePage <- OnInit')
   }
@@ -94,8 +94,7 @@ export class CommercePage implements OnInit {
       if (this.imageFile) {
         formData.append('frontPicture', this.imageFile, this.imageFile.name)
       }
-      console.log('a ver que muestra esto');
-      console.log(this.imageFiles.length > 0)
+
       if (this.imageFiles?.length > 0) {
         this.imageFiles.forEach((file: File, index) => {
           formData.append('photos', file, file.name);
