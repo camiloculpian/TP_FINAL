@@ -6,9 +6,10 @@ import { Response, responseStatus } from 'src/common/responses/responses';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CurrentUser } from 'src/auth/decorators/currentUser.decorator';
-import { FileFieldsInterceptor } from '@nestjs/platform-express';
+import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { Photo } from 'src/photos/entities/photo.entity';
 
 @Controller('commerce')
 export class CommercesController {
@@ -20,46 +21,60 @@ export class CommercesController {
   @UseGuards(AuthGuard)
   @Post()
   @UseInterceptors(
-    FileFieldsInterceptor(
-      [
-        { name: 'frontPicture', maxCount: 1 },
-        { name: 'photos' },
-      ],
-      {
-        storage: diskStorage({
-          destination: (req, file, cb) => {
-            //TO-DO: poner como variable en process.env.UPLOADS_DIR,
-            let directory = process.env.UPLOADS_DIR
-            if( file.originalname.split('.')[0] == "photos" )
-            {
-              directory = process.env.COMMERCES_PICTURES_DIR
-            }else if(file.originalname.split('.')[0] == "frontPicture"){
-              directory = process.env.USER_PROFILE_PICTURES_DIR
-            }
-            // if (!fs.existsSync(directory)) {
-            //   fs.mkdirSync(directory, { recursive: true });
-            // }
-            cb(null, directory);
-          },
-          filename: (req, file, cb) => 
-          {
-            const randomName = Array(32)
-              .fill(null)
-              .map(() => Math.round(Math.random() * 16).toString(16))
-              .join('');
-            cb(null, `${randomName}${extname(file.originalname)}`);
-          },
-        }),
-        //TO-DO: agregar a las demas subidas de imagenes chequeo de tipos
-        fileFilter: (req, file, cb) => {
-          if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-            cb(null, true);
-          } else {
-            cb(new Error('Invalid file type'), false);
-          }
+    FileInterceptor('frontPicture', {
+      storage: diskStorage({
+        destination: process.env.COMMERCES_PICTURES_DIR,
+        filename: (req, file, cb) => {
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join('');
+          cb(null, `${randomName}${extname(file.originalname)}`);
         },
-      }
-    )
+      }),
+    }),
+    ///////////////////////
+    // FileFieldsInterceptor(
+    //   [
+    //     { name: 'frontPicture', maxCount: 1 },
+    //     { name: 'photos' },
+    //   ],
+    //   {
+    //     storage: diskStorage({
+    //       destination: (req, file, cb) => {
+    //         //TO-DO: poner como variable en process.env.UPLOADS_DIR,
+    //         let directory = process.env.UPLOADS_DIR
+    //         if( file.originalname.split('.')[0] == "photos" )
+    //         {
+    //           directory = process.env.COMMERCES_PICTURES_DIR
+    //         }else if(file.originalname.split('.')[0] == "frontPicture"){
+    //           directory = process.env.USER_PROFILE_PICTURES_DIR
+    //         }
+    //         // if (!fs.existsSync(directory)) {
+    //         //   fs.mkdirSync(directory, { recursive: true });
+    //         // }
+    //         cb(null, directory);
+    //       },
+    //       filename: (req, file, cb) => 
+    //       {
+    //         const randomName = Array(32)
+    //           .fill(null)
+    //           .map(() => Math.round(Math.random() * 16).toString(16))
+    //           .join('');
+    //         cb(null, `${randomName}${extname(file.originalname)}`);
+    //       },
+    //     }),
+    //     //TO-DO: agregar a las demas subidas de imagenes chequeo de tipos
+    //     fileFilter: (req, file, cb) => {
+    //       if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    //         cb(null, true);
+    //       } else {
+    //         cb(new Error('Invalid file type'), false);
+    //       }
+    //     },
+    //   }
+    // )
+    ///////////////////////
   )
   async create(
     // TO-DO: si el usuario es admin, permitir crear negocios para otros usuarios...

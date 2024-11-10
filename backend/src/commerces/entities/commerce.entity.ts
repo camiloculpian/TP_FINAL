@@ -53,6 +53,7 @@ export class Commerce {
    // commerce: Photo;
 
     // Una lista con fotos del local
+    // IMPLEMENTAR
     @OneToMany(() => Photo, (photo) => photo.commerce, { cascade: true })
     photos: Photo[];
 

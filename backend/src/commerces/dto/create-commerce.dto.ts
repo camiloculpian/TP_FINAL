@@ -1,10 +1,8 @@
 // export class CreateCommerceDto {}
 
-import { IsEnum, IsNotEmpty, IsOptional, IsString, IsEmail, isArray } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString, IsEmail } from 'class-validator';
 import { Tramite } from '../entities/commerce.entity';
 import { Rubro } from 'src/rubros/entities/rubro.entity';
-import { ManyToMany } from 'typeorm';
-import { PhotosModule } from 'src/photos/photos.module';
 import { Photo } from 'src/photos/entities/photo.entity';
 
 export class CreateCommerceDto {
@@ -45,8 +43,8 @@ export class CreateCommerceDto {
     @IsEmail()
     correo?: string;
 
-    // @IsOptional()
-    // photos?: Photo[];
+    @IsOptional()
+    photos?: Photo[];
 
 }
 

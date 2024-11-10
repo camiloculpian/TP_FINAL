@@ -1,9 +1,3 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateCommerceDto } from './create-commerce.dto';
-
-// export class UpdateCommerceDto extends PartialType(CreateCommerceDto) {}
-
-
 import { IsArray, IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
 import { Horario, Tramite } from '../entities/commerce.entity';
 import { Rubro } from 'src/rubros/entities/rubro.entity';

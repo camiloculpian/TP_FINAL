@@ -9,8 +9,8 @@ export class Photo {
     @PrimaryGeneratedColumn()
     id: number;
 
-   // @ManyToOne(() => Commerce, (commerce) => commerce.id)
-   // commerce: Commerce;
+    @Column()
+    name: string;
 
     @ManyToOne(() => Commerce, (commerce) => commerce.photos)
     commerce: Commerce;
