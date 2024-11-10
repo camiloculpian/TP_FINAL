@@ -1,5 +1,6 @@
-import { IsEmail, IsOptional, IsString } from 'class-validator';
+import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
 import { Rubro } from 'src/rubros/entities/rubro.entity';
+import { Tramite } from '../entities/commerce.entity';
 
 export class UpdateCommerceDto {
     @IsOptional()
@@ -14,8 +15,8 @@ export class UpdateCommerceDto {
     rubros?: Rubro[];
 
     @IsOptional()
-    @IsString()
-    ubicacion?: string;
+    @IsEnum(Tramite)
+    tramite?: Tramite; // Asignado como "Alta" en el backend
 
     @IsOptional()
     @IsString()

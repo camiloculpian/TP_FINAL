@@ -21,7 +21,6 @@ export class CommercesService {
   ) { }
   
   async create(currenrUser: number, createCommerceDto: CreateCommerceDto, frontPicture?: Express.Multer.File ) {
-    console.log(createCommerceDto);
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -69,9 +68,28 @@ export class CommercesService {
     return `This action returns a #${id} commerce`;
   }
 
-  async update(id: number, updateCommerceDto: UpdateCommerceDto) {
-    console.log(`This action updates a #${id} commerce`);
-    return `This action updates a #${id} commerce`;
+  async update(currenrUser: number, commerceId: number, updateCommerceDto: UpdateCommerceDto, frontPicture?: Express.Multer.File, photos?: Array<Express.Multer.File>) {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      if(frontPicture){
+        updateCommerceDto.frontPicture = frontPicture.filename;
+      }
+      if(photos){
+        // TO-DO: Borrar las fotos actuales en photos
+        // TO-DO: Insertar las fotos en photos
+        // updateCommerceDto.photos = photos;
+      }
+      const curentCommerceData = await this.commerceRepository.findOneBy({id:commerceId});
+      //const commerce = await this.commerceRepository.save({...curentCommerceData,...updateCommerceDto});
+      const commerce = await this.commerceRepository.save({...curentCommerceData});
+      await queryRunner.commitTransaction();
+      return commerce
+    } catch (e) {
+      await queryRunner.rollbackTransaction();
+      throw e;
+    }
   }
 
   async remove(id: number) {

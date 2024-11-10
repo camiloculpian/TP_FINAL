@@ -186,7 +186,7 @@ export class CommercesController {
         statusCode:201,
         status:responseStatus.OK,
         message:this.i18n.t('lang.users.UpdateOK',{args: { id: id }, lang:   I18nContext.current().lang }),
-        data: await this.commerceService.update(+id, updateCommerceDto)
+        data: await this.commerceService.update(currentUser,+id, updateCommerceDto, frontPicture, photos)
       });
     }catch (e){
       throw new BadRequestException({'status':'ERROR','message':e.message,'statusCode':e.statusCode});

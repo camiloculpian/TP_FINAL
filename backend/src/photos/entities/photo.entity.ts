@@ -20,7 +20,7 @@ export class Photo {
     //@Column()
    // url: string;  
     // Cuando la borramos la marcamos como borrada y la borramos del server tamnien? o la borramos de la DB (lo ultimo seria lo mejor)
-    @DeleteDateColumn({ select: false })
-    deletedAt: Date;
+    // @DeleteDateColumn({ select: false })
+    // deletedAt: Date;
 }
 

@@ -32,6 +32,9 @@ export class CreateCommerceDto {
     frontPicture?: string; // Opcional, por defecto será null
 
     @IsOptional()
+    photos?: Photo[];
+
+    @IsOptional()
     @IsString()
     direccion?: string;
 
@@ -42,9 +45,6 @@ export class CreateCommerceDto {
     @IsOptional()
     @IsEmail()
     correo?: string;
-
-    @IsOptional()
-    photos?: Photo[];
 
 }
 
