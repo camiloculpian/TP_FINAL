@@ -14,7 +14,7 @@ export class Photo {
     @ManyToOne(() => Commerce, (commerce) => commerce.photos)
     commerce: Commerce;
 
-    @Column({ type: 'timestamp' })
+    @Column({ type: 'timestamp', nullable: true })
     photoDate: Date;
 
     //@Column()
