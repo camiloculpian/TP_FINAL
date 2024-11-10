@@ -79,17 +79,20 @@ export class CommercesService {
     await queryRunner.connect();
     await queryRunner.startTransaction();
     try {
-      if(photos){
-        console.log(photos);
-        // TO-DO: Borrar las fotos actuales en photos
-        // TO-DO: Insertar las fotos en photos
-        // updateCommerceDto.photos = photos;
-      }      
         // TO-DO: en el registro lo hace en el controller y en la modificacion aca, unificar criterios...
         
         
         //updateCommerceDto.photos = 
       const curentCommerce = await this.commerceRepository.findOneBy({id:commerceId});
+      if(photos){
+        console.log(photos);
+        // TO-DO: Borrar las fotos actuales en photos
+        // TO-DO: Insertar las fotos en photos
+        // updateCommerceDto.photos = photos;
+        if(photos){
+          const phot = await this.photosService.create(photos, curentCommerce);
+        }
+      }      
       const updateCommerce = {
         id: curentCommerce.id,
         // contrib: curentCommerce.contrib, // Tengo que decirle que me traiga el contribuyente
