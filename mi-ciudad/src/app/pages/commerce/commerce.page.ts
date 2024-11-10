@@ -96,6 +96,7 @@ export class CommercePage implements OnInit {
         });
       }
      
+
       formData.append('nombre', commerceData.nombre)
       formData.append('descripcion', commerceData.descripcion)
       formData.append('correo', commerceData.correo)
@@ -168,7 +169,7 @@ export class CommercePage implements OnInit {
       this.selectedRubrosText = this.selectedRubros.length.toString() + ' Items';
     }
   }
-
+  
   async openRubroSelect(){
     const modal = await this.modalController.create({
       component: RubroSelectPage,

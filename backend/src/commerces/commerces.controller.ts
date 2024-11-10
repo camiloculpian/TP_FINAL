@@ -139,17 +139,7 @@ export class CommercesController {
       {
         storage: diskStorage({
           destination: (req, file, cb) => {
-            //TO-DO: poner como variable en process.env.UPLOADS_DIR,
-            let directory = process.env.UPLOADS_DIR
-            if( file.originalname.split('.')[0] == "photos" )
-            {
-              directory = process.env.COMMERCES_PICTURES_DIR
-            }else if(file.originalname.split('.')[0] == "frontPicture"){
-              directory = process.env.USER_PROFILE_PICTURES_DIR
-            }
-            // if (!fs.existsSync(directory)) {
-            //   fs.mkdirSync(directory, { recursive: true });
-            // }
+            const directory = process.env.COMMERCES_PICTURES_DIR
             cb(null, directory);
           },
           filename: (req, file, cb) => 
@@ -162,31 +152,28 @@ export class CommercesController {
           },
         }),
         //TO-DO: agregar a las demas subidas de imagenes chequeo de tipos
-        fileFilter: (req, file, cb) => {
-          if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-            cb(null, true);
-          } else {
-            cb(new Error('Invalid file type'), false);
-          }
-        },
+        // fileFilter: (req, file, cb) => {
+        //   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+        //     cb(null, true);
+        //   } else {
+        //     cb(new Error('Invalid file type'), false);
+        //   }
+        // },
       }
     )
   )
   async update(
     @CurrentUser('sub') currentUser: number,
     @Param('id') id: string,
-    @UploadedFile() frontPicture,
-    @UploadedFiles() photos: Express.Multer.File[],
+    @UploadedFiles() files: Express.Multer.File[],
     @Body() updateCommerceDto: UpdateCommerceDto
   ) {
     try{
-      console.log(photos);
-      // console.log(files);
       return new Response({
         statusCode:201,
         status:responseStatus.OK,
         message:this.i18n.t('lang.users.UpdateOK',{args: { id: id }, lang:   I18nContext.current().lang }),
-        data: await this.commerceService.update(currentUser,+id, updateCommerceDto, frontPicture, photos)
+        data: await this.commerceService.update(currentUser,+id, updateCommerceDto, files['frontPicture']? files['frontPicture'][0]:undefined, files['photos'])
       });
     }catch (e){
       throw new BadRequestException({'status':'ERROR','message':e.message,'statusCode':e.statusCode});

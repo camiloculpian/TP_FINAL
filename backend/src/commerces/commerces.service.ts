@@ -8,6 +8,8 @@ import { Commerce, Tramite } from './entities/commerce.entity';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { Rubro } from 'src/rubros/entities/rubro.entity';
+import { Photo } from 'src/photos/entities/photo.entity';
+import { PhotosService } from 'src/photos/photos.service';
 
 
 @Injectable()
@@ -17,6 +19,7 @@ export class CommercesService {
     @InjectRepository(Commerce)
     private commerceRepository: Repository<Commerce>,
     private usersService: UsersService,
+    // photoService: PhotosService,
     private dataSource: DataSource
   ) { }
   
@@ -68,22 +71,49 @@ export class CommercesService {
     return `This action returns a #${id} commerce`;
   }
 
-  async update(currenrUser: number, commerceId: number, updateCommerceDto: UpdateCommerceDto, frontPicture?: Express.Multer.File, photos?: Array<Express.Multer.File>) {
+  async update(currenrUser: number, commerceId: number, updateCommerceDto: UpdateCommerceDto, frontPicture?: Express.Multer.File, photos?: Express.Multer.File[]) {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
+
+    console.log('->async update(currenrUser: number, commerceId: number, updateCommerceDto: UpdateCommerceDto, frontPicture?: Express.Multer.File, photos?: Array<Express.Multer.File>)')
+    console.log(frontPicture)
+    console.log('<-async update(currenrUser: number, commerceId: number, updateCommerceDto: UpdateCommerceDto, frontPicture?: Express.Multer.File, photos?: Array<Express.Multer.File>)')
     try {
-      if(frontPicture){
-        updateCommerceDto.frontPicture = frontPicture.filename;
-      }
       if(photos){
         // TO-DO: Borrar las fotos actuales en photos
         // TO-DO: Insertar las fotos en photos
         // updateCommerceDto.photos = photos;
+      }      
+        // TO-DO: en el registro lo hace en el controller y en la modificacion aca, unificar criterios...
+        
+        
+        //updateCommerceDto.photos = 
+      const curentCommerce = await this.commerceRepository.findOneBy({id:commerceId});
+      const updateCommerce = {
+        id: curentCommerce.id,
+        // contrib: curentCommerce.contrib, // Tengo que decirle que me traiga el contribuyente
+        frontPicture: curentCommerce.frontPicture,
+        nombre:  updateCommerceDto.nombre,
+        descripcion: updateCommerceDto.descripcion,
+        correo: updateCommerceDto.correo,
+        telefono: updateCommerceDto.telefono,
+        direccion: updateCommerceDto.direccion,
       }
-      const curentCommerceData = await this.commerceRepository.findOneBy({id:commerceId});
-      //const commerce = await this.commerceRepository.save({...curentCommerceData,...updateCommerceDto});
-      const commerce = await this.commerceRepository.save({...curentCommerceData});
+      if (frontPicture) {
+        updateCommerce.frontPicture = frontPicture.filename;
+        const fs = require('fs')
+        try {
+          fs.unlinkSync(process.env.COMMERCES_PICTURES_DIR+curentCommerce.frontPicture);
+          console.log('profilePicture removed: '+process.env.COMMERCES_PICTURES_DIR+curentCommerce.frontPicture)
+        } catch(err) {
+          console.error('Something wrong happened removing the profilepicture', err)
+        }
+      }
+      console.log(updateCommerce)
+      const contrib = await this.usersService.findOne(currenrUser);
+      const commerce = await this.commerceRepository.save({...curentCommerce,...updateCommerce});
+      // const commerce = await this.commerceRepository.save({...curentCommerceData});
       await queryRunner.commitTransaction();
       return commerce
     } catch (e) {
