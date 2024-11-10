@@ -1,5 +1,4 @@
-import { IsArray, IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
-import { Horario, Tramite } from '../entities/commerce.entity';
+import { IsEmail, IsOptional, IsString } from 'class-validator';
 import { Rubro } from 'src/rubros/entities/rubro.entity';
 
 export class UpdateCommerceDto {
