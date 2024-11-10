@@ -75,10 +75,6 @@ export class CommercesService {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
-
-    console.log('->async update(currenrUser: number, commerceId: number, updateCommerceDto: UpdateCommerceDto, frontPicture?: Express.Multer.File, photos?: Array<Express.Multer.File>)')
-    console.log(frontPicture)
-    console.log('<-async update(currenrUser: number, commerceId: number, updateCommerceDto: UpdateCommerceDto, frontPicture?: Express.Multer.File, photos?: Array<Express.Multer.File>)')
     try {
       if(photos){
         // TO-DO: Borrar las fotos actuales en photos
