@@ -1,7 +1,6 @@
 import { IsArray, IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
 import { Horario, Tramite } from '../entities/commerce.entity';
 import { Rubro } from 'src/rubros/entities/rubro.entity';
-import { Photo } from 'src/photos/entities/photo.entity';
 
 export class UpdateCommerceDto {
     @IsOptional()
@@ -24,7 +23,8 @@ export class UpdateCommerceDto {
     frontPicture?: string;
 
     @IsOptional()
-    photos?: Photo[];
+    @IsArray()
+    photos?: string[];
 
     @IsOptional()
     @IsString()

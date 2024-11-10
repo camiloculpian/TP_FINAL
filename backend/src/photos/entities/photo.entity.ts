@@ -1,6 +1,5 @@
 
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, DeleteDateColumn } from 'typeorm';
-import { User } from 'src/users/entities/user.entity';
 import { Commerce } from 'src/commerces/entities/commerce.entity';
 // import { Commerce } from 'src/commerce/entities/commerce.entity';
 
@@ -20,7 +19,7 @@ export class Photo {
 
     //@Column()
    // url: string;  
-
+    // Cuando la borramos la marcamos como borrada y la borramos del server tamnien? o la borramos de la DB (lo ultimo seria lo mejor)
     @DeleteDateColumn({ select: false })
     deletedAt: Date;
 }
