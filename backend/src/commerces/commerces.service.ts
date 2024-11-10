@@ -9,7 +9,6 @@ import { User } from '../users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { Rubro } from 'src/rubros/entities/rubro.entity';
 import { Photo } from 'src/photos/entities/photo.entity';
-import { PhotosService } from 'src/photos/photos.service';
 
 
 @Injectable()
