@@ -71,6 +71,7 @@ export class CommercePage implements OnInit {
         direccion:this.commerce.direccion,   
         photos:this.selectedImages     
       });
+      // TO-DO: para actualizar las imagenes hay que ver si van imagenes nuevas... si es asi agregarlas, y poner un botoncito para eliminar las otras o editarlas...      
       this.rubrosSelectionChanged(this.commerce.rubros)
       // CHAQUEAR SI frontPicture no es null
       if(this.commerce.frontPicture){
@@ -84,7 +85,7 @@ export class CommercePage implements OnInit {
     // TO-DO: Falta diferenciar si es una unsercion o si es una edicion (tal vez tener en cienta el input?)
     e.preventDefault();
     // console.log('Datos del formulario:', this.localComercialDataForm);
-    if(this.localComercialDataForm.valid || true){
+    if(this.localComercialDataForm.valid){
       this.buttonDisabled =true;
 
       const formData = this.convertModelToFormData(this.selectedRubros,null ,'rubros')
@@ -100,14 +101,11 @@ export class CommercePage implements OnInit {
           formData.append('photos', file, file.name);
         });
       }
-     
-
       formData.append('nombre', commerceData.nombre)
       formData.append('descripcion', commerceData.descripcion)
       formData.append('correo', commerceData.correo)
       formData.append('telefono', commerceData.telefono)
       formData.append('direccion', commerceData.direccion)
-      
       console.log(formData.getAll);
       if(this.commerce){
         this.commerceService.editCommerce(this.commerce.id.toString(),formData).subscribe(
