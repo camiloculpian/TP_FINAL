@@ -86,22 +86,23 @@ export class CommercePage implements OnInit {
       const commerceData = this.localComercialDataForm.value;
 
       if (this.imageFile) {
-       formData.append('frontPicture', this.imageFile, this.imageFile.name)
-     }
-
-      if (this.imageFile && this.imageFiles.length > 0) {
-        this.imageFiles.forEach((file: Blob | File, index) => {
-          if (file instanceof Blob) {
-            formData.append(`photos[${index}]`, file, `photo${index}.jpg`);
-          }
+        formData.append('frontPicture', this.imageFile, this.imageFile.name)
+      }
+      console.log('a ver que muestra esto');
+      console.log(this.imageFiles.length > 0)
+      if (this.imageFiles?.length > 0) {
+        this.imageFiles.forEach((file: File, index) => {
+          formData.append('photos', file, file.name);
         });
       }
+     
       formData.append('nombre', commerceData.nombre)
       formData.append('descripcion', commerceData.descripcion)
       formData.append('correo', commerceData.correo)
       formData.append('telefono', commerceData.telefono)
       formData.append('direccion', commerceData.direccion)
-      this.convertModelToFormData(this.imageFiles, formData, 'photos');
+      
+      console.log(formData.getAll);
       if(this.commerce){
         this.commerceService.editCommerce(this.commerce.id.toString(),formData).subscribe(
           {
@@ -213,7 +214,7 @@ export class CommercePage implements OnInit {
         this.selectedImages.push(image.webPath);
         const response = await fetch(image.webPath); 
         const blob = await response.blob();
-        this.imageFiles.push(new File([blob], image.dataUrl||'photo.jpg', { type: 'image/jpeg' }));
+        this.imageFiles.push(new File([blob], 'photos.jpg', { type: 'image/jpeg' }));
       }
     } catch (e) {
       console.log(e);

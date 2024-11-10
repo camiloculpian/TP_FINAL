@@ -45,8 +45,8 @@ export class CreateCommerceDto {
     @IsEmail()
     correo?: string;
 
-    @IsOptional()
-    photos?: Photo[];
+    // @IsOptional()
+    // photos?: Photo[];
 
 }
 

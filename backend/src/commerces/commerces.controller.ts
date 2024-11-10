@@ -6,7 +6,7 @@ import { Response, responseStatus } from 'src/common/responses/responses';
 import { I18nContext, I18nService } from 'nestjs-i18n';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CurrentUser } from 'src/auth/decorators/currentUser.decorator';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { Photo } from 'src/photos/entities/photo.entity';
@@ -38,8 +38,7 @@ export class CommercesController {
     // TO-DO: si el usuario es admin, permitir crear negocios para otros usuarios...
     @CurrentUser('sub') currentUser: number,
     @Body() createCommerceDto: CreateCommerceDto,
-    @UploadedFile() frontPicture,
-    @UploadedFiles() photos
+    @UploadedFile() frontPicture
   ) {
     try {
         return new Response({
@@ -90,26 +89,52 @@ export class CommercesController {
   @UseGuards(AuthGuard)
   @Patch(':id')
   @UseInterceptors(
-    FileInterceptor('profilePicture', {
-      storage: diskStorage({
-        destination: process.env.USER_PROFILE_PICTURES_DIR,
-        filename: (req, file, cb) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          cb(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
-    }),
+    // FileInterceptor('frontPicture', {
+    //   storage: diskStorage({
+    //     destination: process.env.COMMERCES_PICTURES_DIR,
+    //     filename: (req, file, cb) => {
+    //       const randomName = Array(32)
+    //         .fill(null)
+    //         .map(() => Math.round(Math.random() * 16).toString(16))
+    //         .join('');
+    //       cb(null, `${randomName}${extname(file.originalname)}`);
+    //     },
+    //   }),
+    // }),
+    ////////////////////////////////////////////////////////////////////////////////////
+    FilesInterceptor('photos',undefined,
+      {
+        storage: diskStorage({
+          destination: (req, file, cb) => {
+            const brandNo = req.params.brandNo;
+            const directory = process.env.COMMERCES_PICTURES_DIR;
+            // if (!fs.existsSync(directory)) {
+            //   fs.mkdirSync(directory, { recursive: true });
+            // }
+            cb(null, directory);
+          },
+          filename: (req, file, cb) => {
+                  const randomName = Array(32)
+                    .fill(null)
+                    .map(() => Math.round(Math.random() * 16).toString(16))
+                    .join('');
+                  cb(null, `${randomName}${extname(file.originalname)}`);
+          },
+        })
+      }
+    )
+    /////////////////////////////////////////////////////////////////////////////////////
   )
   async update(
     @CurrentUser('sub') currentUser: number,
     @Param('id') id: string,
-    @UploadedFile() file,
+    @UploadedFile() frontPicture,
+    @UploadedFiles() photos: Express.Multer.File[],
     @Body() updateCommerceDto: UpdateCommerceDto
   ) {
     try{
+      console.log(photos);
+      // console.log(files);
       return new Response({
         statusCode:201,
         status:responseStatus.OK,
