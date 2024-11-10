@@ -85,9 +85,9 @@ export class CommercePage implements OnInit {
       const formData = this.convertModelToFormData(this.selectedRubros,null ,'rubros')
       const commerceData = this.localComercialDataForm.value;
 
-      //if (this.imageFile) {
-    //    formData.append('frontPicture', this.imageFile, this.imageFile.name)
-     // }
+      if (this.imageFile) {
+       formData.append('frontPicture', this.imageFile, this.imageFile.name)
+     }
 
       if (this.imageFile && this.imageFiles.length > 0) {
         this.imageFiles.forEach((file: Blob | File, index) => {
@@ -101,6 +101,7 @@ export class CommercePage implements OnInit {
       formData.append('correo', commerceData.correo)
       formData.append('telefono', commerceData.telefono)
       formData.append('direccion', commerceData.direccion)
+      this.convertModelToFormData(this.imageFiles, formData, 'photos');
       if(this.commerce){
         this.commerceService.editCommerce(this.commerce.id.toString(),formData).subscribe(
           {
@@ -195,6 +196,24 @@ export class CommercePage implements OnInit {
         const response = await fetch(image.webPath); 
         const blob = await response.blob();
         this.imageFile = new File([blob], 'frontPicture.jpg', { type: 'image/jpeg' });
+      }
+    } catch (e) {
+      console.log(e);
+      // this.showAlert('Error', 'No se pudo acceder a la cámara.');
+    }
+  }
+
+  async openCameraForImageFiles() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 100,
+        resultType: CameraResultType.Uri,
+      });
+      if (image?.webPath) {
+        this.selectedImages.push(image.webPath);
+        const response = await fetch(image.webPath); 
+        const blob = await response.blob();
+        this.imageFiles.push(new File([blob], image.dataUrl||'photo.jpg', { type: 'image/jpeg' }));
       }
     } catch (e) {
       console.log(e);

@@ -4,6 +4,8 @@ import { IsEnum, IsNotEmpty, IsOptional, IsString, IsEmail, isArray } from 'clas
 import { Tramite } from '../entities/commerce.entity';
 import { Rubro } from 'src/rubros/entities/rubro.entity';
 import { ManyToMany } from 'typeorm';
+import { PhotosModule } from 'src/photos/photos.module';
+import { Photo } from 'src/photos/entities/photo.entity';
 
 export class CreateCommerceDto {
     
@@ -42,6 +44,9 @@ export class CreateCommerceDto {
     @IsOptional()
     @IsEmail()
     correo?: string;
+
+    @IsOptional()
+    photos?: Photo[];
 
 }
 

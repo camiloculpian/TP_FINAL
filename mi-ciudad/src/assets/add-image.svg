@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="800px"
+   height="800px"
+   viewBox="0 0 24 24"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="add-image.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs12" />
+  <sodipodi:namedview
+     id="namedview10"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="0.7327394"
+     inkscape:cx="398.50457"
+     inkscape:cy="309.79636"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g6" />
+  <rect
+     x="0"
+     fill="none"
+     width="24"
+     height="24"
+     id="rect2" />
+  <g
+     id="g6">
+    <rect
+       style="fill:#222d3a;fill-opacity:1;stroke:#b3bac0;stroke-width:0.03;stroke-opacity:0.901961"
+       id="rect1296"
+       width="24.074043"
+       height="24.155928"
+       x="-0.081884503"
+       y="-0.081884503" />
+    <path
+       d="m 22.426808,4.9007295 v 2 h -3 v 3 h -2 v -3 h -3 v -2 h 3 v -3 h 2 v 3 z m -8.5,6.9999995 c 0.828,0 1.5,-0.672 1.5,-1.5 0,-0.8279995 -0.672,-1.4999995 -1.5,-1.4999995 -0.828,0 -1.5,0.672 -1.5,1.4999995 0,0.828 0.672,1.5 1.5,1.5 z m 3.5,3.234 -0.513,-0.57 c -0.794,-0.885 -2.18,-0.885 -2.976,0 l -0.655,0.73 -4.8559995,-5.3939995 -3,3.3329995 V 6.9007295 h 6.9999995 v -2 H 5.4268085 c -1.105,0 -2,0.895 -2,2 V 18.900729 c 0,1.105 0.895,2 2,2 H 17.426808 c 1.105,0 2,-0.895 2,-2 v -7 h -2 z"
+       id="path4"
+       style="fill:#b3bac0;fill-opacity:1" />
+  </g>
+</svg>

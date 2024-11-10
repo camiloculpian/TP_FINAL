@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, UseGuards, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, UseGuards, UseInterceptors, UploadedFile, UploadedFiles } from '@nestjs/common';
 import { CommercesService } from './commerces.service';
 import { CreateCommerceDto } from './dto/create-commerce.dto';
 import { UpdateCommerceDto } from './dto/update-commerce.dto';
@@ -9,6 +9,7 @@ import { CurrentUser } from 'src/auth/decorators/currentUser.decorator';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
+import { Photo } from 'src/photos/entities/photo.entity';
 
 @Controller('commerce')
 export class CommercesController {
@@ -38,6 +39,7 @@ export class CommercesController {
     @CurrentUser('sub') currentUser: number,
     @Body() createCommerceDto: CreateCommerceDto,
     @UploadedFile() frontPicture,
+    @UploadedFiles() photos
   ) {
     try {
         return new Response({
