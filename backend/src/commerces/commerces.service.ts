@@ -9,6 +9,7 @@ import { User } from '../users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { Rubro } from 'src/rubros/entities/rubro.entity';
 import { Photo } from 'src/photos/entities/photo.entity';
+import { PhotosService } from 'src/photos/photos.service';
 
 
 @Injectable()
@@ -17,12 +18,12 @@ export class CommercesService {
   constructor(
     @InjectRepository(Commerce)
     private commerceRepository: Repository<Commerce>,
+    private photosService: PhotosService,
     private usersService: UsersService,
-    // photoService: PhotosService,
     private dataSource: DataSource
   ) { }
   
-  async create(currenrUser: number, createCommerceDto: CreateCommerceDto, frontPicture?: Express.Multer.File ) {
+  async create(currenrUser: number, createCommerceDto: CreateCommerceDto, frontPicture?: Express.Multer.File, photos?: Express.Multer.File[] ) {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
     await queryRunner.startTransaction();
@@ -38,6 +39,9 @@ export class CommercesService {
         }
       );
       const commerce = await this.commerceRepository.save({...commerceDto});
+      if(photos){
+        const phot = await this.photosService.create(photos, commerce);
+      }
       await queryRunner.commitTransaction();
       return commerce
     } catch (e) {
@@ -58,7 +62,7 @@ export class CommercesService {
       return await this.commerceRepository.find(
         {
           where: {contrib: contrib},
-          relations: {rubros: true,}
+          relations: {rubros: true,photos:true}
         }
       )
     }catch(e){

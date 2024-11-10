@@ -10,6 +10,7 @@ import { addIcons } from 'ionicons';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { Commerce } from 'src/app/core/interfaces/commerce';
 import { environment } from 'src/environments/environment';
+import { Photo } from 'src/app/core/interfaces/photos';
 
 @Component({
   selector: 'app-commerce',
@@ -48,7 +49,6 @@ export class CommercePage implements OnInit {
     this.localComercialDataForm = this.formBuilder.group({
       nombre: ['', [Validators.required]],
       descripcion: ['', []],
-      frontPicture: [],
       rubros: ['', [Validators.required]],
       correo: ['', [Validators.required]],
       telefono: ['', []],
@@ -56,6 +56,10 @@ export class CommercePage implements OnInit {
     })
     if(this.commerce){
       // TO-DO: si lke paso los datos de un comercio es una edicion y tengo que setear los datos del comercio
+      this.commerce.photos.forEach( (photo ) => {
+        let p2 = photo as Photo
+        this.selectedImages.push(environment.apiURL+'/uploads/commerces/pictures/'+p2.filename)
+      })
       console.log(this.commerce);
       this.localComercialDataForm.patchValue({
         nombre:this.commerce.nombre,
@@ -64,7 +68,8 @@ export class CommercePage implements OnInit {
         rubros:this.commerce.rubros,
         correo:this.commerce.correo,
         telefono:this.commerce.telefono,
-        direccion:this.commerce.direccion        
+        direccion:this.commerce.direccion,   
+        photos:this.selectedImages     
       });
       this.rubrosSelectionChanged(this.commerce.rubros)
       // CHAQUEAR SI frontPicture no es null
@@ -79,7 +84,7 @@ export class CommercePage implements OnInit {
     // TO-DO: Falta diferenciar si es una unsercion o si es una edicion (tal vez tener en cienta el input?)
     e.preventDefault();
     // console.log('Datos del formulario:', this.localComercialDataForm);
-    if(this.localComercialDataForm.valid){
+    if(this.localComercialDataForm.valid || true){
       this.buttonDisabled =true;
 
       const formData = this.convertModelToFormData(this.selectedRubros,null ,'rubros')

@@ -9,7 +9,7 @@ export class Photo {
     id: number;
 
     @Column()
-    name: string;
+    filename: string;
 
     @ManyToOne(() => Commerce, (commerce) => commerce.id)
     commerce: Commerce;

@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Photo } from './entities/photo.entity';
+import { Commerce } from 'src/commerces/entities/commerce.entity';
 
 @Injectable()
 export class PhotosService {
@@ -20,11 +21,12 @@ export class PhotosService {
 
   async create(
     files: Array<Express.Multer.File>,
-    createPhotoDto,
+    commerce: Commerce,
   ): Promise<Photo[]> {
     const photos = files.map((file) => {
       const photo = new Photo();
-      photo.commerce = createPhotoDto.commerce;
+      photo.filename = file.filename;
+      photo.commerce = commerce;
       photo.photoDate = new Date();
       return photo;
     });

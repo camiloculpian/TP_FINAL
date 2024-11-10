@@ -1,3 +1,4 @@
+import { Photo } from "./photos";
 import { Rubro } from "./rubro";
 
 export enum Tramite {
@@ -17,4 +18,5 @@ export interface Commerce{
     telefono: string,
     direccion: string,
     ubicacion: string,
+    photos: string[] | Photo[];
 }

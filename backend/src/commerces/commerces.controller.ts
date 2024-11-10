@@ -21,73 +21,63 @@ export class CommercesController {
   @UseGuards(AuthGuard)
   @Post()
   @UseInterceptors(
-    FileInterceptor('frontPicture', {
-      storage: diskStorage({
-        destination: process.env.COMMERCES_PICTURES_DIR,
-        filename: (req, file, cb) => {
-          const randomName = Array(32)
-            .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
-            .join('');
-          cb(null, `${randomName}${extname(file.originalname)}`);
-        },
-      }),
-    }),
-    ///////////////////////
-    // FileFieldsInterceptor(
-    //   [
-    //     { name: 'frontPicture', maxCount: 1 },
-    //     { name: 'photos' },
-    //   ],
-    //   {
-    //     storage: diskStorage({
-    //       destination: (req, file, cb) => {
-    //         //TO-DO: poner como variable en process.env.UPLOADS_DIR,
-    //         let directory = process.env.UPLOADS_DIR
-    //         if( file.originalname.split('.')[0] == "photos" )
-    //         {
-    //           directory = process.env.COMMERCES_PICTURES_DIR
-    //         }else if(file.originalname.split('.')[0] == "frontPicture"){
-    //           directory = process.env.USER_PROFILE_PICTURES_DIR
-    //         }
-    //         // if (!fs.existsSync(directory)) {
-    //         //   fs.mkdirSync(directory, { recursive: true });
-    //         // }
-    //         cb(null, directory);
-    //       },
-    //       filename: (req, file, cb) => 
-    //       {
-    //         const randomName = Array(32)
-    //           .fill(null)
-    //           .map(() => Math.round(Math.random() * 16).toString(16))
-    //           .join('');
-    //         cb(null, `${randomName}${extname(file.originalname)}`);
-    //       },
-    //     }),
-    //     //TO-DO: agregar a las demas subidas de imagenes chequeo de tipos
-    //     fileFilter: (req, file, cb) => {
-    //       if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-    //         cb(null, true);
-    //       } else {
-    //         cb(new Error('Invalid file type'), false);
-    //       }
+    // FileInterceptor('frontPicture', {
+    //   storage: diskStorage({
+    //     destination: process.env.COMMERCES_PICTURES_DIR,
+    //     filename: (req, file, cb) => {
+    //       const randomName = Array(32)
+    //         .fill(null)
+    //         .map(() => Math.round(Math.random() * 16).toString(16))
+    //         .join('');
+    //       cb(null, `${randomName}${extname(file.originalname)}`);
     //     },
-    //   }
-    // )
+    //   }),
+    // }
+    // ),
+    ///////////////////////
+    FileFieldsInterceptor(
+      [
+        { name: 'frontPicture', maxCount: 1 },
+        { name: 'photos' },
+      ],
+      {
+        storage: diskStorage({
+          destination: (req, file, cb) => {
+            const directory = process.env.COMMERCES_PICTURES_DIR
+            cb(null, directory);
+          },
+          filename: (req, file, cb) => 
+          {
+            const randomName = Array(32)
+              .fill(null)
+              .map(() => Math.round(Math.random() * 16).toString(16))
+              .join('');
+            cb(null, `${randomName}${extname(file.originalname)}`);
+          },
+        }),
+        //TO-DO: agregar a las demas subidas de imagenes chequeo de tipos
+        fileFilter: (req, file, cb) => {
+          if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+            cb(null, true);
+          } else {
+            cb(new Error('Invalid file type'), false);
+          }
+        },
+      })
     ///////////////////////
   )
   async create(
     // TO-DO: si el usuario es admin, permitir crear negocios para otros usuarios...
     @CurrentUser('sub') currentUser: number,
     @Body() createCommerceDto: CreateCommerceDto,
-    @UploadedFile() frontPicture
+    @UploadedFiles() files
   ) {
     try {
         return new Response({
           statusCode:201,
           status:responseStatus.OK,
           message:this.i18n.t('lang.commerce.CreateOK',{lang:   I18nContext.current().lang }),
-          data: await this.commerceService.create(currentUser, createCommerceDto, frontPicture)
+          data: await this.commerceService.create(currentUser, createCommerceDto, files['frontPicture']? files['frontPicture'][0]:undefined, files['photos'])
         });
         
     } catch (e) {
@@ -152,13 +142,13 @@ export class CommercesController {
           },
         }),
         //TO-DO: agregar a las demas subidas de imagenes chequeo de tipos
-        // fileFilter: (req, file, cb) => {
-        //   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-        //     cb(null, true);
-        //   } else {
-        //     cb(new Error('Invalid file type'), false);
-        //   }
-        // },
+        fileFilter: (req, file, cb) => {
+          if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+            cb(null, true);
+          } else {
+            cb(new Error('Invalid file type'), false);
+          }
+        },
       }
     )
   )
