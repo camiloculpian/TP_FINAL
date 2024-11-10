@@ -23,7 +23,6 @@ export class UpdateCommerceDto {
     frontPicture?: string;
 
     @IsOptional()
-    @IsArray()
     photos?: string[];
 
     @IsOptional()
