@@ -18,10 +18,10 @@ export class CreateCommerceDto {
     @IsNotEmpty()
     rubros: Rubro[];
 
-    // AGREGAR LUEGO
-    // @IsNotEmpty()
-    // @IsString()
-    // ubicacion: string;
+
+    @IsNotEmpty()
+    @IsString()
+    ubicacion: string;
 
     @IsOptional()
     @IsEnum(Tramite)

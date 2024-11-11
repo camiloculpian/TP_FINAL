@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, WritableSignal, signal} from '@angular/core';
 import { NgFor, NgForOf, NgIf } from '@angular/common';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel, ModalController, NavController } from '@ionic/angular/standalone';
@@ -11,6 +11,7 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 import { Commerce } from 'src/app/core/interfaces/commerce';
 import { environment } from 'src/environments/environment';
 import { Photo } from 'src/app/core/interfaces/photos';
+import {Geolocation, Position, WatchPositionCallback} from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-commerce',
@@ -22,6 +23,11 @@ import { Photo } from 'src/app/core/interfaces/photos';
 })
 export class CommercePage implements OnInit {
   @Input() commerce! : Commerce;
+
+
+  locationInicial: WritableSignal<Position | undefined> = signal(undefined)
+  locationActual: WritableSignal<Position | undefined> = signal(undefined)
+  hasPermissions: boolean = false;
 
   buttonDisabled:boolean = false;
   frontPicture:string='../../../assets/commerce-avatar.svg';// Imagen de frente del negocio predeterminada...
@@ -45,6 +51,9 @@ export class CommercePage implements OnInit {
   }
 
   ngOnInit() {
+
+    this.initPlugin();
+
     console.log('ENTRANDO CommercePage -> OnInit')
     this.localComercialDataForm = this.formBuilder.group({
       nombre: ['', [Validators.required]],
@@ -69,6 +78,7 @@ export class CommercePage implements OnInit {
         correo:this.commerce.correo,
         telefono:this.commerce.telefono,
         direccion:this.commerce.direccion,   
+        ubicacion:this.commerce.ubicacion,   
         photos:this.selectedImages     
       });
       // TO-DO: para actualizar las imagenes hay que ver si van imagenes nuevas... si es asi agregarlas, y poner un botoncito para eliminar las otras o editarlas...      
@@ -91,6 +101,10 @@ export class CommercePage implements OnInit {
       const formData = this.convertModelToFormData(this.selectedRubros,null ,'rubros')
       const commerceData = this.localComercialDataForm.value;
 
+      const locInicial = this.getLocationInicial() || ''; 
+      const locActual = this.getLocationActual() || '';   
+      
+
       if (this.imageFile) {
         formData.append('frontPicture', this.imageFile, this.imageFile.name)
       }
@@ -105,6 +119,8 @@ export class CommercePage implements OnInit {
       formData.append('correo', commerceData.correo)
       formData.append('telefono', commerceData.telefono)
       formData.append('direccion', commerceData.direccion)
+      formData.append('ubicacion', locActual || locInicial)
+
       console.log(formData.getAll);
       if(this.commerce){
         this.commerceService.editCommerce(this.commerce.id.toString(),formData).subscribe(
@@ -250,4 +266,48 @@ export class CommercePage implements OnInit {
     }
     return formData;
   }
+  //Geolocalizacion
+  async initPlugin() {
+    let locPermissions = (await Geolocation.checkPermissions()).location;
+    let coarseLocPermissions = (await Geolocation.checkPermissions()).coarseLocation;
+
+    if (locPermissions !== 'granted' || coarseLocPermissions !== 'granted') {
+      const resp = await Geolocation.requestPermissions({permissions: ['location', 'coarseLocation']});
+      locPermissions = resp.location;
+      coarseLocPermissions = resp.coarseLocation;
+    }
+    this.hasPermissions = locPermissions === 'granted' && coarseLocPermissions === 'granted'
+    await this.getLocation();
+  }
+
+  getLocationInicial() {
+    const loc = this.locationInicial()
+    if (!loc) {
+      return null;
+    }
+    const {coords: {latitude, longitude}} = loc;
+    return `${latitude},${longitude}`;
+  }
+
+  getLocationActual() {
+    const loc = this.locationActual()
+    if (!loc) {
+      return null;
+    }
+    const {coords: {latitude, longitude, accuracy}} = loc;
+    return `${latitude},${longitude}, precision: ${accuracy}`;
+  }
+
+  async getLocation() {
+    if (!this.hasPermissions) {
+      return;
+    }
+    this.locationInicial.set((await Geolocation.getCurrentPosition({enableHighAccuracy: true})));
+    await Geolocation.watchPosition({enableHighAccuracy: true, maximumAge: 3000}, (position) => {
+      if (position) {
+        this.locationActual.set(position);
+      }
+    })
+  }
 }
+
