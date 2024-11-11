@@ -3,6 +3,7 @@
 /node_modules
 /build
 /uploads
+/src/config
 
 # Logs
 logs
