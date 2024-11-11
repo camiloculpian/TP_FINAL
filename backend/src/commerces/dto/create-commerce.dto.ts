@@ -18,7 +18,6 @@ export class CreateCommerceDto {
     @IsNotEmpty()
     rubros: Rubro[];
 
-
     @IsNotEmpty()
     @IsString()
     ubicacion: string;

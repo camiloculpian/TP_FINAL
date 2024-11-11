@@ -15,6 +15,10 @@ export class UpdateCommerceDto {
     rubros?: Rubro[];
 
     @IsOptional()
+    @IsString()
+    ubicacion: string;
+
+    @IsOptional()
     @IsEnum(Tramite)
     tramite?: Tramite; // Asignado como "Alta" en el backend
 
