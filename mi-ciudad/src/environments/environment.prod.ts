@@ -7,6 +7,5 @@ export const environment = {
   apiVersion: '/api/v1',
   loggedIn: false,
   username: '',
-  googleMapsApiKey: 'AIzaSyCsNqLEQkj-X0mmEJ7TL9eIMFjpdZByyJk'
 
 };
