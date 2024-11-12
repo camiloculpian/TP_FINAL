@@ -57,7 +57,7 @@ export class Commerce {
     @OneToMany(() => Photo, (photo) => photo.commerce, { cascade: true })
     photos: Photo[];
 
-    @Column({ type: 'varchar', length: 100, nullable: true })
+    @Column({ type: 'varchar', length: 100, nullable: true }) 
     ubicacion: string;
 
     @Column({ type: 'enum', enum: Tramite, default: Tramite.ALTA,})
