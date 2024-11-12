@@ -24,7 +24,6 @@ import { Geolocation, Position } from '@capacitor/geolocation';
 export class CommercePage implements OnInit {
   @Input() commerce! : Commerce;
 
-
   locationInicial: WritableSignal<Position | undefined> = signal(undefined);
   locationActual: WritableSignal<Position | undefined> = signal(undefined);
   hasPermissions: boolean = false;

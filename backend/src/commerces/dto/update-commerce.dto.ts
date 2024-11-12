@@ -20,7 +20,7 @@ export class UpdateCommerceDto {
 
     @IsOptional()
     @IsEnum(Tramite)
-    tramite?: Tramite; // Asignado como "Alta" en el backend
+    tramite?: Tramite; // Asignado como "Alta" en el backend.
 
     @IsOptional()
     @IsString()
