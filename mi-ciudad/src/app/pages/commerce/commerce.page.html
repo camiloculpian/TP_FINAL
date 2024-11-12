@@ -58,9 +58,26 @@
               <ion-label position="floating">Direccion</ion-label>
               <ion-input formControlName="direccion" ngDefaultControl name="direccion" required></ion-input>
             </ion-item>
-            <p>Ubicación Actual: {{ ubicacionActual }}</p>
+
+
+
+            <!-- Coordenadas de Geolocalización -->
+            <ion-item>
+              <ion-label position="stacked">Latitud</ion-label>
+              <ion-input type="text" formControlName="latitud" [value]="locationActual()?.coords?.latitude || 'No disponible'" readonly></ion-input>
+            </ion-item>
             
-        
+            <ion-item>
+              <ion-label position="stacked">Longitud</ion-label>
+              <ion-input type="text" formControlName="longitud" [value]="locationActual()?.coords?.longitude || 'No disponible'" readonly></ion-input>
+            </ion-item>
+            
+            <div *ngIf="locationActual()">
+              <p>Ubicación en tiempo real:</p>
+              <p>Latitud: {{ locationActual()?.coords?.latitude || 'No disponible' }}</p>
+              <p>Longitud: {{ locationActual()?.coords?.longitude || 'No disponible' }}</p>
+            </div>
+            
             <div>
               <ion-grid>
                 <ion-row>

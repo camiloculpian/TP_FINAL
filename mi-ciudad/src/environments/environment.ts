@@ -5,10 +5,12 @@
 export const environment = {
   production: false,
   // de Camilo
-  apiURL: 'http://10.68.1.100:3000',
+  apiURL: 'http://192.168.100.4:3000',
   apiVersion: '/api/v1',
   loggedIn: false,
-  username: ''
+  username: '',
+  googleMapsApiKey: 'AIzaSyCsNqLEQkj-X0mmEJ7TL9eIMFjpdZByyJk'
+
 };
 /*
  * For easier debugging in development mode, you can import the following file

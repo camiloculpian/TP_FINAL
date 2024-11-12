@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit} from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, WritableSignal, signal } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonTabBar, IonIcon, IonItem, ModalController } from '@ionic/angular/standalone';
@@ -11,7 +11,7 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 import { Commerce } from 'src/app/core/interfaces/commerce';
 import { environment } from 'src/environments/environment';
 import { Photo } from 'src/app/core/interfaces/photos';
-import {Geolocation, Position, WatchPositionCallback} from '@capacitor/geolocation';
+import { Geolocation, Position } from '@capacitor/geolocation';
 
 @Component({
   selector: 'app-commerce',
@@ -25,7 +25,9 @@ export class CommercePage implements OnInit {
   @Input() commerce! : Commerce;
 
 
-  ubicacionActual: string = '';
+  locationInicial: WritableSignal<Position | undefined> = signal(undefined);
+  locationActual: WritableSignal<Position | undefined> = signal(undefined);
+  hasPermissions: boolean = false;
 
   buttonDisabled:boolean = false;
   frontPicture:string='../../../assets/commerce-avatar.svg';// Imagen de frente del negocio predeterminada...
@@ -50,7 +52,7 @@ export class CommercePage implements OnInit {
 
   ngOnInit() {
 
-    this.obtenerUbicacion();
+    this.initGeolocationPlugin();
 
     console.log('ENTRANDO CommercePage -> OnInit')
     this.localComercialDataForm = this.formBuilder.group({
@@ -60,6 +62,8 @@ export class CommercePage implements OnInit {
       correo: ['', [Validators.required]],
       telefono: ['', []],
       direccion: ['', [Validators.required]],
+      latitud: ['', ],
+      longitud: ['',],
     })
     if(this.commerce){
       // TO-DO: si lke paso los datos de un comercio es una edicion y tengo que setear los datos del comercio
@@ -262,16 +266,45 @@ export class CommercePage implements OnInit {
     }
     return formData;
   }
+
+  
   //Geolocalizacion
-  obtenerUbicacion() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        this.ubicacionActual = `${position.coords.latitude}, ${position.coords.longitude}`;
-      },
-      (error) => {
-        console.error('Error obteniendo ubicación:', error);
-      }
-    );
+  
+  async initGeolocationPlugin() {
+    let { location, coarseLocation } = await Geolocation.checkPermissions();
+
+    if (location !== 'granted' || coarseLocation !== 'granted') {
+      const permissions = await Geolocation.requestPermissions({ permissions: ['location', 'coarseLocation'] });
+      location = permissions.location;
+      coarseLocation = permissions.coarseLocation;
+    }
+    this.hasPermissions = location === 'granted' && coarseLocation === 'granted';
+    await this.getCurrentLocation();
   }
+
+  async getCurrentLocation() {
+    if (!this.hasPermissions) return;
+    
+    const position = await Geolocation.getCurrentPosition({ enableHighAccuracy: true });
+    this.locationInicial.set(position);
+    this.updateLocationFields(position);
+
+    Geolocation.watchPosition({ enableHighAccuracy: true }, (position) => {
+      if (position) {
+        this.locationActual.set(position);
+        this.updateLocationFields(position);
+      }
+    });
+  }
+
+   updateLocationFields(position: Position | undefined) {
+    if (!position) return; // Sale si position es undefined
+    
+    this.localComercialDataForm.patchValue({
+      latitud: position.coords.latitude,
+      longitud: position.coords.longitude,
+    });
+  }
+  
 }
 
