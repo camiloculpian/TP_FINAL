@@ -48,7 +48,8 @@ export class CommercePage implements OnInit {
 
   buttonDisabled:boolean = false;
   frontPicture:string='../../../assets/commerce-avatar.svg';// Imagen de frente del negocio predeterminada...
-  public relPicturesPath = environment.apiURL+'/uploads/commerces/pictures/'
+  public relPicturesPath = environment.apiURL+'/uploads/commerces/pictures/';
+  public getCommercesDataPath = environment.apiURL+'/commerces/data/';
   private imageFile!: File;
   private imageFiles: File[] = [];
 
