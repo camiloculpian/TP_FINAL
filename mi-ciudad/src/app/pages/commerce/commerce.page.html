@@ -72,9 +72,9 @@
               <ion-input type="text" formControlName="longitud" [value]="locationActual()?.coords?.longitude || 'No disponible'" readonly></ion-input>
             </ion-item>
 
-            <ion-item class="ion-text-center">
+            <ion-item class="ion-text-center" *ngIf="commerce">
               <ion-col>
-                <qrcode [qrdata]="'Your data string'" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+                <qrcode [qrdata]="getCommercesDataPath+commerce.id" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
               </ion-col>
             </ion-item>
             
