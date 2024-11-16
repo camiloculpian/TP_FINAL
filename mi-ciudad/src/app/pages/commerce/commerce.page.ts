@@ -12,15 +12,12 @@ import { Commerce } from 'src/app/core/interfaces/commerce';
 import { environment } from 'src/environments/environment';
 import { Photo } from 'src/app/core/interfaces/photos';
 import { Geolocation, Position } from '@capacitor/geolocation';
-<<<<<<< HEAD
 import { GoogleMap } from '@capacitor/google-maps';
 import { ToastController } from '@ionic/angular';
 import {MarcadorTemporal, Point} from "src/app/core/interfaces";
 import {SearchComponent} from "../commerce/search/search.component";
 
-=======
 import { QRCodeModule } from 'angularx-qrcode';
->>>>>>> 1a8546422fb531b624d0ee487cbb1af6337108c6
 
 @Component({
   selector: 'app-commerce',
