@@ -1,0 +1,3 @@
+<plugin name = "cordova-plugin-googlemaps" spec = "2.4.6">
+        <preference name="GOOGLE_MAPS_ANDROID_API_KEY" value="AIzaSyCsNqLEQkj-X0mmEJ7TL9eIMFjpdZByyJk"/>
+</plugin>
