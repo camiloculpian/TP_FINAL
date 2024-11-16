@@ -71,6 +71,10 @@
               <ion-label position="stacked">Longitud</ion-label>
               <ion-input type="text" formControlName="longitud" [value]="locationActual()?.coords?.longitude || 'No disponible'" readonly></ion-input>
             </ion-item>
+
+            <ion-item>
+              <qrcode [qrdata]="'Your data string'" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+            </ion-item>
             
             <div *ngIf="locationActual()">
               <p>Ubicación en tiempo real:</p>

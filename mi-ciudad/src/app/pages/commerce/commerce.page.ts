@@ -12,13 +12,31 @@ import { Commerce } from 'src/app/core/interfaces/commerce';
 import { environment } from 'src/environments/environment';
 import { Photo } from 'src/app/core/interfaces/photos';
 import { Geolocation, Position } from '@capacitor/geolocation';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-commerce',
   templateUrl: './commerce.page.html',
   styleUrls: ['./commerce.page.scss'],
   standalone: true,
-  imports: [ IonItem, IonIcon, IonTabBar, IonApp, IonButton, IonHeader, IonToolbar, IonTitle, IonContent, IonInput, FormsModule, ReactiveFormsModule, NgIf, NgFor, RubroSelectPage],
+  imports: [
+    IonItem,
+    IonIcon,
+    IonTabBar,
+    IonApp,
+    IonButton,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonInput,
+    FormsModule,
+    ReactiveFormsModule,
+    NgIf,
+    NgFor,
+    RubroSelectPage,
+    QRCodeModule
+  ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CommercePage implements OnInit {
