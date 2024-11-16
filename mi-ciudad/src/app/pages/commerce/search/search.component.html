@@ -1,0 +1,6 @@
+<ion-searchbar
+  show-cancel-button="always"
+  (ionCancel)="onClose()"
+  [(ngModel)]="ubicacion"
+  (search)="reverseGeocode()"
+  show-clear-button="focus"></ion-searchbar>

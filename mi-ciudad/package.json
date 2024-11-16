@@ -18,6 +18,7 @@
     "@angular/compiler": "^18.0.0",
     "@angular/core": "^18.0.0",
     "@angular/forms": "^18.0.0",
+    "@angular/google-maps": "^18.2.13",
     "@angular/platform-browser": "^18.0.0",
     "@angular/platform-browser-dynamic": "^18.0.0",
     "@angular/router": "^18.0.0",
@@ -32,9 +33,15 @@
     "@capacitor/keyboard": "6.0.2",
     "@capacitor/preferences": "^6.0.2",
     "@capacitor/status-bar": "6.0.1",
+    "@capgo/nativegeocoder": "^6.1.16",
     "@ionic/angular": "^8.0.0",
     "@types/crypto-js": "^4.2.2",
     "@types/cryptojs": "^3.1.33",
+<<<<<<< HEAD
+    "@types/googlemaps": "^3.43.3",
+    "cordova-plugin-googlemaps": "^2.7.1",
+=======
+>>>>>>> 1a8546422fb531b624d0ee487cbb1af6337108c6
     "crypto-js": "^4.2.0",
     "ionicons": "^7.2.1",
     "leaflet": "^1.9.4",
@@ -55,6 +62,7 @@
     "@angular/language-service": "^18.0.0",
     "@capacitor/cli": "6.1.2",
     "@ionic/angular-toolkit": "^11.0.1",
+    "@types/google.maps": "^3.58.1",
     "@types/jasmine": "~5.1.0",
     "@types/leaflet": "^1.9.14",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
