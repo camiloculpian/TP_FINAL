@@ -36,7 +36,6 @@
     "@ionic/angular": "^8.0.0",
     "@types/crypto-js": "^4.2.2",
     "@types/cryptojs": "^3.1.33",
-    "angularx-qrcode": "^18.0.2",
     "crypto-js": "^4.2.0",
     "ionicons": "^7.2.1",
     "leaflet": "^1.9.4",
