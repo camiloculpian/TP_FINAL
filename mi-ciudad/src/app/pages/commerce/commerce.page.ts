@@ -12,7 +12,7 @@ import { Commerce } from 'src/app/core/interfaces/commerce';
 import { environment } from 'src/environments/environment';
 import { Photo } from 'src/app/core/interfaces/photos';
 import { Geolocation, Position } from '@capacitor/geolocation';
-//import { QRCodeModule } from 'angularx-qrcode';
+import { QRCodeModule } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-commerce',
@@ -35,7 +35,7 @@ import { Geolocation, Position } from '@capacitor/geolocation';
     NgIf,
     NgFor,
     RubroSelectPage,
-    //QRCodeModule
+    QRCodeModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
