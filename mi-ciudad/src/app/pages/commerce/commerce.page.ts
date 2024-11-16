@@ -21,7 +21,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 @Component({
   selector: 'app-commerce',
   templateUrl: './commerce.page.html',
-  //styleUrls: ['./commerce.page.scss'],
+  styleUrls: ['./commerce.page.scss'],
   standalone: true,
   imports: [
     IonItem,
