@@ -12,7 +12,7 @@ import { Commerce } from 'src/app/core/interfaces/commerce';
 import { environment } from 'src/environments/environment';
 import { Photo } from 'src/app/core/interfaces/photos';
 import { Geolocation, Position } from '@capacitor/geolocation';
-import { GoogleMap } from '@capacitor/google-maps';
+//import { GoogleMap } from '@capacitor/google-maps';
 import { ToastController } from '@ionic/angular';
 import {MarcadorTemporal, Point} from "src/app/core/interfaces";
 import {SearchComponent} from "../commerce/search/search.component";
