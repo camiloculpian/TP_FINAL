@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, WritableSignal, signal, ViewChild, ElementRef } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, WritableSignal, signal } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonTabBar, IonIcon, IonItem, ModalController } from '@ionic/angular/standalone';
@@ -16,13 +16,12 @@ import { GoogleMap } from '@capacitor/google-maps';
 import { ToastController } from '@ionic/angular';
 import {MarcadorTemporal, Point} from "src/app/core/interfaces";
 import {SearchComponent} from "../commerce/search/search.component";
-
 import { QRCodeModule } from 'angularx-qrcode';
 
 @Component({
   selector: 'app-commerce',
   templateUrl: './commerce.page.html',
-  styleUrls: ['./commerce.page.scss'],
+  //styleUrls: ['./commerce.page.scss'],
   standalone: true,
   imports: [
     IonItem,
@@ -40,14 +39,9 @@ import { QRCodeModule } from 'angularx-qrcode';
     NgIf,
     NgFor,
     RubroSelectPage,
-<<<<<<< HEAD
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
-=======
     QRCodeModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
->>>>>>> 1a8546422fb531b624d0ee487cbb1af6337108c6
 })
 export class CommercePage implements OnInit {
   @Input() commerce!: Commerce;
@@ -65,6 +59,7 @@ export class CommercePage implements OnInit {
   buttonDisabled:boolean = false;
   frontPicture:string='../../../assets/commerce-avatar.svg';// Imagen de frente del negocio predeterminada...
   public relPicturesPath = environment.apiURL+'/uploads/commerces/pictures/'
+  public getCommercesDataPath = environment.apiURL+'/commerces/'
   private imageFile!: File;
   private imageFiles: File[] = [];
 
