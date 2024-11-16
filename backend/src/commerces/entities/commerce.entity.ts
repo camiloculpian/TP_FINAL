@@ -57,8 +57,22 @@ export class Commerce {
     @OneToMany(() => Photo, (photo) => photo.commerce, { cascade: true })
     photos: Photo[];
 
-    @Column({ type: 'varchar', length: 100, nullable: true }) 
+
+    @Column({ type: 'varchar', length: 50 })
     ubicacion: string;
+    
+    getLat(): number {
+        return parseFloat(this.ubicacion.split(';')[0]);
+    }
+    
+    getLng(): number {
+        return parseFloat(this.ubicacion.split(';')[1]);
+    }
+    
+    setUbicacion(lat: number, lng: number): void {
+        this.ubicacion = `${lat};${lng}`;
+    }
+    
 
     @Column({ type: 'enum', enum: Tramite, default: Tramite.ALTA,})
     tramite: Tramite;
