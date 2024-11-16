@@ -29,7 +29,6 @@
     "@capacitor/core": "6.1.2",
     "@capacitor/filesystem": "^6.0.1",
     "@capacitor/geolocation": "^6.0.1",
-    "@capacitor/google-maps": "^6.0.1",
     "@capacitor/haptics": "6.0.1",
     "@capacitor/keyboard": "6.0.2",
     "@capacitor/preferences": "^6.0.2",
@@ -38,8 +37,11 @@
     "@ionic/angular": "^8.0.0",
     "@types/crypto-js": "^4.2.2",
     "@types/cryptojs": "^3.1.33",
+<<<<<<< HEAD
     "@types/googlemaps": "^3.43.3",
     "cordova-plugin-googlemaps": "^2.7.1",
+=======
+>>>>>>> 1a8546422fb531b624d0ee487cbb1af6337108c6
     "crypto-js": "^4.2.0",
     "ionicons": "^7.2.1",
     "leaflet": "^1.9.4",

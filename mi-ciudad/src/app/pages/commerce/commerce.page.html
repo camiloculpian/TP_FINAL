@@ -83,9 +83,30 @@
             <ion-item>
               <capacitor-google-map #map></capacitor-google-map>
             </ion-item>
+<<<<<<< HEAD
 
 
 
+=======
+            
+            <ion-item>
+              <ion-label position="stacked">Longitud</ion-label>
+              <ion-input type="text" formControlName="longitud" [value]="locationActual()?.coords?.longitude || 'No disponible'" readonly></ion-input>
+            </ion-item>
+
+            <ion-item class="ion-text-center">
+              <ion-col>
+                <qrcode [qrdata]="'Your data string'" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+              </ion-col>
+            </ion-item>
+            
+            <div *ngIf="locationActual()">
+              <p>Ubicación en tiempo real:</p>
+              <p>Latitud: {{ locationActual()?.coords?.latitude || 'No disponible' }}</p>
+              <p>Longitud: {{ locationActual()?.coords?.longitude || 'No disponible' }}</p>
+            </div>
+            
+>>>>>>> 1a8546422fb531b624d0ee487cbb1af6337108c6
             <div>
               <ion-grid>
                 <ion-row>
