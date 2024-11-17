@@ -90,13 +90,6 @@ export class HomePage implements OnInit{
       }
     });
     modal.onDidDismiss().then((event) => {this.ngOnInit()});
-
-    const nodeList = document.querySelectorAll('._gmaps_cdv_');
-
-    for (let k = 0; k < nodeList.length; ++k) {
-        nodeList.item(k).classList.remove('_gmaps_cdv_');
-    }
-
     modal.present();
   }
 }

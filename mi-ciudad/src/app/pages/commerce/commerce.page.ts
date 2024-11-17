@@ -342,6 +342,7 @@ export class CommercePage implements OnInit {
       60);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    L.Icon.Default.imagePath = "../../assets/leaflet/"
     L.marker([parseFloat(this.commerce.ubicacion.split(',')[0].trim()), parseFloat(this.commerce.ubicacion.split(',')[1].trim())]).addTo(map).bindPopup(this.commerce.nombre);
 
   }
