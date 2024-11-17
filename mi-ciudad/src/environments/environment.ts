@@ -9,9 +9,7 @@ export const environment = {
   apiVersion: '/api/v1',
   loggedIn: false,
   username: '',
-  googleMapsKey: 'AIzaSyCsNqLEQkj-X0mmEJ7TL9eIMFjpdZByyJk'
-
-
+  googleMapsKey: 'AIzaSyBdk7EfxufK4tCPARbjw-eLEm8PWQ2xOA0'
 };
 /*
  * For easier debugging in development mode, you can import the following file

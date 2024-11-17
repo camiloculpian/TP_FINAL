@@ -37,6 +37,16 @@ export class HomePage implements OnInit{
     this.getCommerces();
   }
 
+  ionViewWillLeave() {
+
+    const nodeList = document.querySelectorAll('._gmaps_cdv_');
+
+    for (let k = 0; k < nodeList.length; ++k) {
+        nodeList.item(k).classList.remove('_gmaps_cdv_');
+    }
+
+}
+
   ngOnInit() {
     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     // Add 'implements OnInit' to the class.
@@ -80,6 +90,13 @@ export class HomePage implements OnInit{
       }
     });
     modal.onDidDismiss().then((event) => {this.ngOnInit()});
+
+    const nodeList = document.querySelectorAll('._gmaps_cdv_');
+
+    for (let k = 0; k < nodeList.length; ++k) {
+        nodeList.item(k).classList.remove('_gmaps_cdv_');
+    }
+
     modal.present();
   }
 }

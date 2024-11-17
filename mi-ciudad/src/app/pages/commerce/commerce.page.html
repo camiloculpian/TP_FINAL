@@ -6,7 +6,7 @@
 
 </ion-header>
 
-<ion-content>
+<ion-content [style.opacity]="1" >
   <form [formGroup]="localComercialDataForm" (ngSubmit)="enviarFormulario($event)" id="localComercialDataForm">
     <ion-grid>
       <ion-row>
@@ -58,10 +58,12 @@
             </ion-item>
 
             <ion-item>
-              <ion-label position="floating">Direccion</ion-label>
-              <ion-input formControlName="direccion" ngDefaultControl name="direccion" required></ion-input>
+              <ion-label position="floating" >Direccion</ion-label>
+              <ion-input formControlName="direccion" ngDefaultControl name="direccion" id="direccion" required></ion-input>
                 <p>Ubicacion en el mapa</p>
-                <capacitor-google-map #map></capacitor-google-map>
+                <div class="container">
+                  <div id="map" #map class="googMap"></div>
+                </div>
             </ion-item>
 
             <ion-item class="ion-text-center" *ngIf="commerce">
