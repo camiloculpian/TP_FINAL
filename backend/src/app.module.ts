@@ -44,6 +44,7 @@ ConfigModule.forRoot({
       renderPath: 'api/v1/uploads',
     }),
     UsersModule,
+    
     AuthModule,
     
     CommercesModule,

@@ -1,12 +1,6 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateCommerceDto } from './create-commerce.dto';
-
-// export class UpdateCommerceDto extends PartialType(CreateCommerceDto) {}
-
-
-import { IsEnum, IsOptional, IsString } from 'class-validator';
-import { Horario, Tramite } from '../entities/commerce.entity';
+import { IsEmail, IsEnum, IsOptional, IsString } from 'class-validator';
 import { Rubro } from 'src/rubros/entities/rubro.entity';
+import { Tramite } from '../entities/commerce.entity';
 
 export class UpdateCommerceDto {
     @IsOptional()
@@ -18,22 +12,32 @@ export class UpdateCommerceDto {
     descripcion?: string;
 
     @IsOptional()
-    @IsString()
     rubros?: Rubro[];
 
     @IsOptional()
     @IsString()
-    ubicacion?: string;
+    ubicacion: string;
 
     @IsOptional()
     @IsEnum(Tramite)
-    horario?: Horario;
+    tramite?: Tramite; // Asignado como "Alta" en el backend.
 
     @IsOptional()
     @IsString()
-    fachada?: string;
+    frontPicture?: string;
 
     @IsOptional()
-    @IsEnum(Tramite)
-    tramite?: Tramite; 
+    photos?: string[];
+
+    @IsOptional()
+    @IsString()
+    direccion?: string;
+
+    @IsOptional()
+    @IsString()
+    telefono?: string;
+
+    @IsOptional()
+    @IsEmail()
+    correo?: string;
 }

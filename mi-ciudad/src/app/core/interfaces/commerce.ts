@@ -1,3 +1,4 @@
+import { Photo } from "./photos";
 import { Rubro } from "./rubro";
 
 export enum Tramite {
@@ -9,10 +10,15 @@ export enum Tramite {
 export interface Commerce{
     id: number;
     nombre: string;
+    descripcion: string,
+    frontPicture: string,
     rubros: Rubro[];
     tramite: Tramite,
     correo: string,
     telefono: string,
     direccion: string,
     ubicacion: string,
+    latitud: number;
+    longitud: number;
+    photos: string[] | Photo[];
 }

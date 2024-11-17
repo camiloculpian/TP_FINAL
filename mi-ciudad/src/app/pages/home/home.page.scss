@@ -1,3 +1,9 @@
+////////////TESTING MAP NOT SHHOWN///////////////////
+// ion-app._gmaps_cdv_ .ion-page:not(._gmaps_cdv_),
+// ion-app._gmaps_cdv_ ion-modal:not(._gmaps_cdv_) {
+//     display: none;
+// }
+/////////////////////////////////////////////////////
 #container {
   text-align: center;
   position: absolute;
@@ -26,4 +32,9 @@
 
 #container a {
   text-decoration: none;
+}
+
+ion-thumbnail {
+  --size: 140px;
+  --border-radius: 14px;
 }

@@ -4,10 +4,12 @@
 
 export const environment = {
   production: false,
+  // de Camilo
   apiURL: 'http://10.68.1.100:3000',
   apiVersion: '/api/v1',
   loggedIn: false,
-  username: ''
+  username: '',
+  googleMapsKey: 'AIzaSyBdk7EfxufK4tCPARbjw-eLEm8PWQ2xOA0'
 };
 /*
  * For easier debugging in development mode, you can import the following file

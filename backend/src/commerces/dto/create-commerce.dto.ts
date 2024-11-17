@@ -1,9 +1,9 @@
 // export class CreateCommerceDto {}
 
-import { IsEnum, IsNotEmpty, IsOptional, IsString, IsEmail, isArray } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString, IsEmail } from 'class-validator';
 import { Tramite } from '../entities/commerce.entity';
 import { Rubro } from 'src/rubros/entities/rubro.entity';
-import { ManyToMany } from 'typeorm';
+import { Photo } from 'src/photos/entities/photo.entity';
 
 export class CreateCommerceDto {
     
@@ -11,13 +11,16 @@ export class CreateCommerceDto {
     @IsString()
     nombre: string;
 
+    @IsOptional()
+    @IsString()
+    descripcion?: string; // Opcional, por defecto será null
+
     @IsNotEmpty()
     rubros: Rubro[];
 
-    // AGREGAR LUEGO
-    // @IsNotEmpty()
-    // @IsString()
-    // ubicacion: string;
+    @IsNotEmpty()
+    @IsString()
+    ubicacion: string;
 
     @IsOptional()
     @IsEnum(Tramite)
@@ -25,7 +28,10 @@ export class CreateCommerceDto {
 
     @IsOptional()
     @IsString()
-    fachada?: string; // Opcional, por defecto será null
+    frontPicture?: string; // Opcional, por defecto será null
+
+    @IsOptional()
+    photos?: Photo[];
 
     @IsOptional()
     @IsString()

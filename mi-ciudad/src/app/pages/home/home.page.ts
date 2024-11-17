@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, OnChanges, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonRouterOutlet, IonTabs, IonTabBar, IonIcon, IonItem, IonLabel, ModalController } from '@ionic/angular/standalone';
 import { add } from 'ionicons/icons';
@@ -8,6 +8,7 @@ import { NgFor, NgForOf, NgIf } from '@angular/common';
 import { CommercePage } from '../commerce/commerce.page';
 import { CommerceService } from 'src/app/core/services/commerce.service';
 import { Commerce } from 'src/app/core/interfaces/commerce';
+import { environment } from 'src/environments/environment';
 
 
 @Component({
@@ -19,8 +20,10 @@ import { Commerce } from 'src/app/core/interfaces/commerce';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePage implements OnInit{
-
   commerces: Commerce[] = [];
+  
+  public relPicturesPath = environment.apiURL+'/uploads/commerces/pictures/';
+  
   constructor(
     private modalController: ModalController,
     private commerceService: CommerceService,
@@ -30,12 +33,24 @@ export class HomePage implements OnInit{
   }
 
   ionViewWillEnter(){
+    console.log('ionViewWillEnter()')
     this.getCommerces();
   }
+
+  ionViewWillLeave() {
+
+    const nodeList = document.querySelectorAll('._gmaps_cdv_');
+
+    for (let k = 0; k < nodeList.length; ++k) {
+        nodeList.item(k).classList.remove('_gmaps_cdv_');
+    }
+
+}
 
   ngOnInit() {
     // Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     // Add 'implements OnInit' to the class.
+    this.getCommerces()
   }
 
   navigateToProfile(){
@@ -45,10 +60,11 @@ export class HomePage implements OnInit{
   getCommerces(){
     this.commerceService.getCommerces().subscribe(
       {
-        next(resp) {
+        next: (resp) => {
           console.log(resp);
+          this.commerces = resp.data
         },
-        error(err) {
+        error: (err) => {
           console.log(err);
         }
       }
@@ -61,9 +77,27 @@ export class HomePage implements OnInit{
       componentProps: { 
       }
     });
-    modal.onDidDismiss().then( (event) => {this.getCommerces()});
+    modal.onDidDismiss().then( (event) => {this.ngOnInit()});
     modal.present();
   }
 
+  async openCommerce(commerce: Commerce){
+    console.log(commerce)
+    const modal = await this.modalController.create({
+      component: CommercePage,
+      componentProps: { 
+        commerce: commerce
+      }
+    });
+    modal.onDidDismiss().then((event) => {this.ngOnInit()});
+
+    const nodeList = document.querySelectorAll('._gmaps_cdv_');
+
+    for (let k = 0; k < nodeList.length; ++k) {
+        nodeList.item(k).classList.remove('_gmaps_cdv_');
+    }
+
+    modal.present();
+  }
 }
 

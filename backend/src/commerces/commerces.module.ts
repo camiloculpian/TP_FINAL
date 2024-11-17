@@ -5,11 +5,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Commerce } from './entities/commerce.entity';
 import { RubrosModule } from 'src/rubros/rubros.module';
 import { UsersModule } from 'src/users/users.module';
+import { PhotosModule } from 'src/photos/photos.module';
 
 
 @Module({
-  imports: [RubrosModule, UsersModule, TypeOrmModule.forFeature([Commerce])],
+  imports: [TypeOrmModule.forFeature([Commerce]), RubrosModule, UsersModule, PhotosModule],
   controllers: [CommercesController],
-  providers: [CommercesService, TypeOrmModule]
+  providers: [CommercesService],
+  exports: [ CommercesService, TypeOrmModule]
 })
 export class CommercesModule {}

@@ -2,10 +2,12 @@
   <ion-toolbar>
     <ion-title>Comercio</ion-title>
   </ion-toolbar>
+
+
 </ion-header>
 
-<ion-content>
-  <form [formGroup]="localComercialDataForm" (ngSubmit)="enviarFormulario($event)">
+<ion-content [style.opacity]="1" >
+  <form [formGroup]="localComercialDataForm" (ngSubmit)="enviarFormulario($event)" id="localComercialDataForm">
     <ion-grid>
       <ion-row>
         <ion-col>
@@ -15,7 +17,7 @@
                 <ion-col>
                   <!-- Mostrar la imagen -->
                   <ion-avatar>
-                    <img style="width: 15em; height: 15em;" [src]="frontPicture" alt="Foto del Negocio" />
+                    <img [src]="frontPicture" alt="Foto del Negocio" />
                   </ion-avatar>
 
                   <!-- Botón para abrir la cámara -->
@@ -36,7 +38,8 @@
             </ion-item>
 
             <ion-item>
-              <ion-textarea label="Descripcion" labelPlacement="floating" placeholder="Descripcion"></ion-textarea>
+              <ion-textarea formControlName="descripcion" label="Descripcion" labelPlacement="floating" ngDefaultControl
+                name="Descripcion"></ion-textarea>
             </ion-item>
 
             <ion-item [button]="true" (click)="openRubroSelect()">
@@ -55,11 +58,39 @@
             </ion-item>
 
             <ion-item>
-              <ion-label position="floating">Direccion</ion-label>
-              <ion-input formControlName="direccion" ngDefaultControl name="direccion" required></ion-input>
+              <ion-label position="floating" >Direccion</ion-label>
+              <ion-input formControlName="direccion" ngDefaultControl name="direccion" id="direccion" required></ion-input>
+                <p>Ubicacion en el mapa</p>
+                <div class="container">
+                  <div id="map" #map class="googMap"></div>
+                </div>
             </ion-item>
 
-            <ion-row style="text-align: center !important; align-content: center;">
+            <ion-item class="ion-text-center" *ngIf="commerce">
+              <ion-col>
+                <qrcode [qrdata]="getCommercesDataPath+commerce.id" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+              </ion-col>
+            </ion-item>
+            
+            <div>
+              <ion-grid>
+                <ion-row>
+                  <ion-col *ngFor="let img of selectedImages">
+                    <ion-thumbnail>
+                      <ion-img [src]="img"></ion-img>
+                    </ion-thumbnail>
+                  </ion-col>
+                  <ion-col>
+                    <ion-thumbnail>
+                      <ion-img [src]="'../../../assets/add-image.svg'" (click)="openCameraForImageFiles()" />
+                    </ion-thumbnail>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </div>
+
+            <ion-item-divider></ion-item-divider>
+            <ion-row>
               <ion-col>
                 <ion-button disabled={{buttonDisabled}} (click)="addCommerceCancel($event)">Cancelar</ion-button>
               </ion-col>

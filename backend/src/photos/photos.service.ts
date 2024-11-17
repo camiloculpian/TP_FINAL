@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { CreatePhotoDto } from './dto/create-photo.dto';
 import { UpdatePhotoDto } from './dto/update-photo.dto';
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Photo } from './entities/photo.entity';
+import { Commerce } from 'src/commerces/entities/commerce.entity';
 
 @Injectable()
 export class PhotosService {
@@ -14,9 +14,23 @@ export class PhotosService {
     private readonly photoRepository: Repository<Photo>,
   ) {}
 
-  async create(createPhotoDto: CreatePhotoDto): Promise<Photo> {
-    const photo = this.photoRepository.create(createPhotoDto);
-    return await this.photoRepository.save(photo);
+  //   async create(createPhotoDto: CreatePhotoDto): Promise<Photo> {
+  //     const photo = this.photoRepository.create(createPhotoDto);
+  //    return await this.photoRepository.save(photo);
+  //  }
+
+  async create(
+    files: Array<Express.Multer.File>,
+    commerce: Commerce,
+  ): Promise<Photo[]> {
+    const photos = files.map((file) => {
+      const photo = new Photo();
+      photo.filename = file.filename;
+      photo.commerce = commerce;
+      photo.photoDate = new Date();
+      return photo;
+    });
+    return await this.photoRepository.save(photos);
   }
 
   async findAll(): Promise<Photo[]> {
@@ -37,10 +51,6 @@ export class PhotosService {
     await this.photoRepository.delete(id);
   }
 }
-
-
-
-
 
 // @Injectable()
 // export class PhotosService {
