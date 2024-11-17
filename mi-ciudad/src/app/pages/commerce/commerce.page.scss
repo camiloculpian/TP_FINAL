@@ -83,21 +83,25 @@ ion-app._gmaps_cdv_ ion-modal:not(._gmaps_cdv_) {
     background-color: transparent !important;
   }
 
-  capacitor-google-map {
-    display: inline-block;
-    width: 100%;
-    height: 500px;
-    //background-color: aqua;
-    background-color: transparent !important;
+  #leafletMap {
+    height: 100%;
   }
 
-  .googMap {
+  app-leaflet-map {
     display: inline-block;
     width: 100%;
     height: 500px;
     //background-color: aqua;
     //background-color: transparent !important;
   }
+
+  // .googMap {
+  //   display: inline-block;
+  //   width: 100%;
+  //   height: 500px;
+  //   //background-color: aqua;
+  //   //background-color: transparent !important;
+  // }
   
   // ion-app._gmaps_cdv_ .nav-decor{
   //   background-color: transparent !important;

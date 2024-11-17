@@ -12,9 +12,11 @@ import { Commerce } from 'src/app/core/interfaces/commerce';
 import { environment } from 'src/environments/environment';
 import { Photo } from 'src/app/core/interfaces/photos';
 import { Position } from '@capacitor/geolocation';
-import { GoogleMap, Marker } from '@capacitor/google-maps';
+//import { GoogleMap, Marker } from '@capacitor/google-maps';
 import { ToastController } from '@ionic/angular';
 import { QRCodeModule } from 'angularx-qrcode';
+import * as L from "leaflet";
+import { NominatimService } from 'src/app/core/services/nominatim.service';
 
 @Component({
   selector: 'app-commerce',
@@ -44,10 +46,10 @@ import { QRCodeModule } from 'angularx-qrcode';
 export class CommercePage implements OnInit {
   @Input() commerce!: Commerce;
 
-  @ViewChild('map', { static: true }) 
-  mapRef!: ElementRef;
-  map!: GoogleMap;
-  showSearch: boolean = false;
+  // @ViewChild('map', { static: true }) 
+  // mapRef!: ElementRef;
+  // map!: GoogleMap;
+  // showSearch: boolean = false;
 
 
 
@@ -73,6 +75,7 @@ export class CommercePage implements OnInit {
     private modalController: ModalController,
     private formBuilder: FormBuilder,
     private commerceService: CommerceService,
+    private nominatimService: NominatimService,
     private toastCtl: ToastController
   ) {
     addIcons({ camera });
@@ -126,7 +129,12 @@ export class CommercePage implements OnInit {
   }
 
   async ionViewDidEnter(){
-    await this.createMap();
+    //await this.createMap();
+    if(this.commerce){
+      await this.initMap();
+    }else{
+      await this.getCoordinatesByAddress('');
+    }
   }
 
   enviarFormulario(e: Event) {
@@ -326,46 +334,71 @@ export class CommercePage implements OnInit {
   ////////////////////////////////////////////////////////////////
   //                        Geolocalizacion                     //
   ////////////////////////////////////////////////////////////////
-  async createMap() {
-    console.log('-> async createMap()')
-    try{
-      console.log('lat:'+this.commerce.latitud)
-      console.log('lng:'+this.commerce.longitud)
-      console.log('this.mapref')
-      console.log(this.mapRef)
-      this.map = await GoogleMap.create({
-        id: 'map',
-        element: this.mapRef.nativeElement,
-        apiKey: 'AIzaSyBdk7EfxufK4tCPARbjw-eLEm8PWQ2xOA0',
-        forceCreate: true,
-        config: {
-          center: {
-            lat: parseFloat(this.commerce.ubicacion.split(',')[0].trim()),
-            lng: parseFloat(this.commerce.ubicacion.split(',')[1].trim()),
-          },
-          zoom: 30,
-        },
-      });
-      await this.addMarkers();
-      console.log('<- async createMap()')
-    }catch(e)
-    {
-      console.log(e)
-    }
+
+  private initMap(): void {
+    const map = L.map('map').setView([
+      parseFloat(this.commerce.ubicacion.split(',')[0].trim()), 
+      parseFloat(this.commerce.ubicacion.split(',')[1].trim())], 
+      60);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    L.marker([parseFloat(this.commerce.ubicacion.split(',')[0].trim()), parseFloat(this.commerce.ubicacion.split(',')[1].trim())]).addTo(map).bindPopup(this.commerce.nombre);
+
   }
-  async addMarkers(){
-    const markers: Marker[] = [
-      {
-        coordinate: {
-          lat: parseFloat(this.commerce.ubicacion.split(',')[0].trim()),
-          lng: parseFloat(this.commerce.ubicacion.split(',')[1].trim()),
-        }, 
-        title: this.commerce.nombre,
-        snippet: this.commerce.descripcion
+
+  getCoordinatesByAddress(address: string){
+    this.nominatimService.getCoordByAddress(address).subscribe({
+      next: (resp) =>{
+        console.log(resp)
+        // this.commerce.latitud = resp.lat
+        // this.commerce.longitud = resp.lon
+        this.initMap()
+      },error: (err) =>{
+        console.log(err)
+        alert('No se pudo encontrar la dirección')
       }
-    ]
-    this.map.addMarkers(markers);
+    })
   }
+  // async createMap() {
+  //   console.log('-> async createMap()')
+  //   try{
+  //     console.log('lat:'+this.commerce.latitud)
+  //     console.log('lng:'+this.commerce.longitud)
+  //     console.log('this.mapref')
+  //     console.log(this.mapRef)
+  //     this.map = await GoogleMap.create({
+  //       id: 'map',
+  //       element: this.mapRef.nativeElement,
+  //       apiKey: 'AIzaSyBdk7EfxufK4tCPARbjw-eLEm8PWQ2xOA0',
+  //       forceCreate: true,
+  //       config: {
+  //         center: {
+  //           lat: parseFloat(this.commerce.ubicacion.split(',')[0].trim()),
+  //           lng: parseFloat(this.commerce.ubicacion.split(',')[1].trim()),
+  //         },
+  //         zoom: 30,
+  //       },
+  //     });
+  //     await this.addMarkers();
+  //     console.log('<- async createMap()')
+  //   }catch(e)
+  //   {
+  //     console.log(e)
+  //   }
+  // }
+  // async addMarkers(){
+  //   const markers: Marker[] = [
+  //     {
+  //       coordinate: {
+  //         lat: parseFloat(this.commerce.ubicacion.split(',')[0].trim()),
+  //         lng: parseFloat(this.commerce.ubicacion.split(',')[1].trim()),
+  //       }, 
+  //       title: this.commerce.nombre,
+  //       snippet: this.commerce.descripcion
+  //     }
+  //   ]
+  //   this.map.addMarkers(markers);
+  // }
   // async showMap(){
   //   console.log('-> async showMap()')
   //   const modal = await this.modalController.create({

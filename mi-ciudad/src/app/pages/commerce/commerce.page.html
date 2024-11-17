@@ -62,7 +62,8 @@
               <ion-input formControlName="direccion" ngDefaultControl name="direccion" id="direccion" required></ion-input>
                 <p>Ubicacion en el mapa</p>
                 <div class="container">
-                  <div id="map" #map class="googMap"></div>
+                  <!-- <div id="map" #map ></div> -->
+                  <app-leaflet-map id="map" #map></app-leaflet-map>
                 </div>
             </ion-item>
 
