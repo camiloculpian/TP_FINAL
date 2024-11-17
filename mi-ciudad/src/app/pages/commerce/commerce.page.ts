@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, WritableSignal, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, WritableSignal, signal, ElementRef, ViewChild } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonInput, IonText, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonTabBar, IonIcon, IonItem, ModalController } from '@ionic/angular/standalone';
@@ -12,7 +12,7 @@ import { Commerce } from 'src/app/core/interfaces/commerce';
 import { environment } from 'src/environments/environment';
 import { Photo } from 'src/app/core/interfaces/photos';
 import { Geolocation, Position } from '@capacitor/geolocation';
-//import { GoogleMap } from '@capacitor/google-maps';
+import { GoogleMap } from '@capacitor/google-maps';
 import { ToastController } from '@ionic/angular';
 import {MarcadorTemporal, Point} from "src/app/core/interfaces";
 import {SearchComponent} from "../commerce/search/search.component";
@@ -46,9 +46,9 @@ import { QRCodeModule } from 'angularx-qrcode';
 export class CommercePage implements OnInit {
   @Input() commerce!: Commerce;
 
-  // @ViewChild('map', { static: true }) mapRef!: ElementRef<HTMLElement>;
-  // map!: GoogleMap;
-  // showSearch: boolean = false;
+  @ViewChild('map', { static: true }) mapRef!: ElementRef<HTMLElement>;
+  map!: GoogleMap;
+  showSearch: boolean = false;
 
 
    
@@ -78,8 +78,9 @@ export class CommercePage implements OnInit {
     addIcons({ camera });
   }
 
-  ngOnInit() {
-    //this.initGoogleMaps();
+  async ngOnInit() {
+
+    await this.initPlugin();
 
     this.checkPermissions();
     this.getLocation(); 
@@ -123,6 +124,10 @@ export class CommercePage implements OnInit {
       }
     }
     console.log('SALIENDO CommercePage <- OnInit');
+  }
+
+  ionViewDidEnter(){
+    this.initGoogleMaps();
   }
 
   enviarFormulario(e: Event) {
@@ -408,89 +413,84 @@ async checkPermissions() {
     return false;
   }
 }
+//}
+
+    //google maps
+  updateLocationFields(position: Position | undefined) {
+    if (!position) return; // Sale si position es undefined
+
+    this.localComercialDataForm.patchValue({
+      latitud: position.coords.latitude,
+      longitud: position.coords.longitude,
+    });
+  }
+
+  async initGoogleMaps() {
+    const hasPermission = await this.checkPermissions();
+    if (!hasPermission) {
+      const toast = await this.toastCtl.create({
+        message: 'No tiene permisos suficientes para mostrar el mapa',
+        color: 'danger',
+        buttons: [{role: 'cancel', text: 'OK'}]
+      })
+      await toast.present();
+      return;
+    }
+    if (!this.mapRef) {
+      const toast = await this.toastCtl.create({
+        message: 'Error al cargar el mapa',
+        color: 'danger',
+        buttons: [{role: 'cancel', text: 'OK'}]
+      })
+      await toast.present();
+      return;
+    }
+    const position = await Geolocation.getCurrentPosition({enableHighAccuracy: true}); // Si se saca position muestra el mapa 
+    const {coords: {latitude, longitude}} = position
+    this.map = await GoogleMap.create({
+      id: 'map',
+      element: this.mapRef.nativeElement,
+      apiKey: environment.googleMapsKey,
+      config: {
+        center: {
+          lat: latitude,
+          lng: longitude,
+        },
+        zoom: 10,
+      }, //-31.385029717302707, -58.014671743803156
+    });
+
+    this.map.enableCurrentLocation(true);
+  }
+
+  // async checkPermissions() {
+  //   const permisos = await Geolocation.checkPermissions();
+  //   if (permisos.coarseLocation !== 'granted' || permisos.location !== 'granted') {
+  //     const resultado = await Geolocation.requestPermissions();
+  //     if (resultado.coarseLocation !== 'granted' || resultado.location !== 'granted') {
+  //       console.error('Permisos de localización no concedidos');
+  //       return false;
+  //     }
+  //   }
+
+  //   return true;
+  // }
+
+toggleSearchBar(){
+  this.showSearch = !this.showSearch;
 }
 
-//     //google maps
-//   updateLocationFields(position: Position | undefined) {
-//     if (!position) return; // Sale si position es undefined
+ async onNewCoordinates(punto: Point){
+  const {lat, lng} = punto;
+    console.log(punto)
+    this.map.setCamera({
+      coordinate: {lat, lng},
+      zoom:18
+    });
 
-//     this.localComercialDataForm.patchValue({
-//       latitud: position.coords.latitude,
-//       longitud: position.coords.longitude,
-//     });
-//   }
-
-//   ionViewDidEnter(){
-//     console.log("hola")
-//     console.log(this.mapRef)
-//     this.initGoogleMaps();
-//   }
-//   async initGoogleMaps() {
-//     const hasPermission = await this.checkPermissions();
-//     if (!hasPermission) {
-//       const toast = await this.toastCtl.create({
-//         message: 'No tiene permisos suficientes para mostrar el mapa',
-//         color: 'danger',
-//         buttons: [{role: 'cancel', text: 'OK'}]
-//       })
-//       await toast.present();
-//       return;
-//     }
-//     if (!this.mapRef) {
-//       const toast = await this.toastCtl.create({
-//         message: 'Error al cargar el mapa',
-//         color: 'danger',
-//         buttons: [{role: 'cancel', text: 'OK'}]
-//       })
-//       await toast.present();
-//       return;
-//     }
-//     const position = await Geolocation.getCurrentPosition({enableHighAccuracy: true}); // Si se saca position muestra el mapa 
-//     const {coords: {latitude, longitude}} = position
-//     this.map = await GoogleMap.create({
-//       id: 'map',
-//       element: this.mapRef.nativeElement,
-//       apiKey: environment.googleMapsKey,
-//       config: {
-//         center: {
-//           lat: latitude,
-//           lng: longitude,
-//         },
-//         zoom: 10,
-//       }, //-31.385029717302707, -58.014671743803156
-//     });
-
-//     this.map.enableCurrentLocation(true);
-//   }
-
-//   async checkPermissions() {
-//     const permisos = await Geolocation.checkPermissions();
-//     if (permisos.coarseLocation !== 'granted' || permisos.location !== 'granted') {
-//       const resultado = await Geolocation.requestPermissions();
-//       if (resultado.coarseLocation !== 'granted' || resultado.location !== 'granted') {
-//         console.error('Permisos de localización no concedidos');
-//         return false;
-//       }
-//     }
-
-//     return true;
-//   }
-
-// toggleSearchBar(){
-//   this.showSearch = !this.showSearch;
-// }
-
-//  async onNewCoordinates(punto: Point){
-//   const {lat, lng} = punto;
-//     console.log(punto)
-//     this.map.setCamera({
-//       coordinate: {lat, lng},
-//       zoom:18
-//     });
-
-//   await this.map.addMarker({
-//     coordinate: {lat, lng},
-//   })
-//   }
-
+  await this.map.addMarker({
+    coordinate: {lat, lng},
+  })
+  }
+}
 // 
