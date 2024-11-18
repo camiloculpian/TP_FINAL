@@ -60,7 +60,7 @@
             <ion-item>
               <ion-label position="floating" >Direccion</ion-label>
               <!-- <ion-input formControlName="direccion" ngDefaultControl name="direccion" id="direccion" required></ion-input> -->
-               <app-geocoding ></app-geocoding>
+               <app-geocoding (locationSelect)="getCoordinatesByAddress($event)"></app-geocoding>
                 <p>Ubicacion en el mapa</p>
                 <div class="container">
                   <!-- <div id="map" #map ></div> -->

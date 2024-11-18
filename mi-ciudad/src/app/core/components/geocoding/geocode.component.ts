@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import { NominatimResponse } from '../../interfaces/nominatim-response';
 import { NominatimService } from '../../services/nominatim.service';
-import { IonButton, IonIcon, IonInput, IonItem, IonLabel, IonList, IonRow, IonSearchbar } from '@ionic/angular/standalone';
+import { IonButton, IonCheckbox, IonIcon, IonInput, IonItem, IonLabel, IonList, IonRow, IonSearchbar, IonSelect, IonSelectOption } from '@ionic/angular/standalone';
 import { NgFor } from '@angular/common';
 import { search } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
@@ -13,7 +13,7 @@ import { addIcons } from 'ionicons';
   templateUrl: './geocoding.component.html',
   //styleUrls: ['./geocoding.component.scss']
   standalone: true,
-  imports: [IonInput, IonRow, IonSearchbar, IonList, IonItem, IonLabel, IonButton, IonIcon, NgFor],
+  imports: [IonInput, IonRow, IonSearchbar, IonList, IonItem, IonLabel, IonButton, IonIcon, IonSelect, IonSelectOption, IonCheckbox, NgFor],
   providers: [NominatimService],
 })
 
@@ -47,7 +47,8 @@ export class GeocodingComponent {
     }
     this.onSearch.emit(this.searchResults);
   }
-
+  // Espera 2.5 segundos entre cada techa presionada para llamar la funcion, 
+  // la idea es que escrica toda la direccion y la busque cuando este completa
   callEvent(event: any){
     if(this.timeout != null){
       clearTimeout(this.timeout);
@@ -55,6 +56,14 @@ export class GeocodingComponent {
     this.timeout = setTimeout(() => {
       this.addressLookup(event)
     },2500);     
-  } 
+  }
+
+  selectAddress(event: any){
+    console.log('-> selectAddress(event:any)')
+    console.log(event)
+    this.locationSelect.emit(event.target.value);
+    console.log('<- selectAddress(event:any)')
+    this.searchResults = [];
+  }
 
 }

@@ -4,10 +4,15 @@
             <ion-icon slot="icon-only" name="search"></ion-icon>
         </ion-button> -->
     </ion-input>
-    
 </ion-row>
 <!-- <ion-list>
-    <ion-item *ngFor="let result of results">
+    <ion-item *ngFor="let result of searchResults" >
         <ion-label>{{ result }}</ion-label>
     </ion-item>
 </ion-list> -->
+<ion-list>
+    <!-- <ion-select-option interface="popover" *ngFor="let result of searchResults" value="{{result.lat+','+result.lon}}">{{ result.display_name }}</ion-select-option> -->
+    <ion-item *ngFor="let item of searchResults" >
+        <ion-checkbox value="{{item.lat+','+item.lon}}" (click)="selectAddress($event)">{{ item.display_name }}> </ion-checkbox>
+    </ion-item>
+</ion-list>

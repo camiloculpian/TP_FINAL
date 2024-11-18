@@ -43,7 +43,7 @@ export class NominatimService {
       map((response: any) => 
         response.map ((item:any) => new NominatimResponse(
           item.lat,
-          item.long,
+          item.lon,
           item.display_name
         ))
       )     

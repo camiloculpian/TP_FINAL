@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, WritableSignal, signal, ElementRef, ViewChild } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, WritableSignal, signal } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonInput, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonTabBar, IonIcon, IonItem, ModalController } from '@ionic/angular/standalone';
@@ -348,33 +348,8 @@ export class CommercePage implements OnInit {
     L.marker([parseFloat(ubicacion.split(',')[0].trim()), parseFloat(ubicacion.split(',')[1].trim())]).addTo(map).bindPopup(popUp?popUp:'');
   }
 
-  refreshSearchList(ev:any) {
-    //console.log(ev)
-  }
-
-  async getCoordinatesByAddress(address: string){
-    // this.nominatimService.getCoordByAddress(address).subscribe({
-    //   next: (resp) =>{
-    //     console.log(resp)
-    //     // this.commerce.latitud = resp.lat
-    //     // this.commerce.longitud = resp.lon
-    //     this.initMap()
-    //   },error: (err) =>{
-    //     console.log(err)
-    //     alert('No se pudo encontrar la dirección')
-    //   }
-    // })
-    this.nominatimService.addressLookup('Cepeda 496 general campos entre rios argentina').subscribe({
-      next: (resp) =>{
-        console.log('->this.nominatimService.addressLookup(Concordia,Argentina)')
-        console.log(resp[0].lat+','+resp[0].lon)
-        this.initMap(resp[0].lat+','+resp[0].lon)
-        console.log('<-this.nominatimService.addressLookup(Concordia,Argentina)')
-      },error: (err) =>{
-        console.log(err)
-        alert('No se pudo encontrar la dirección')
-      }
-    })
+  async getCoordinatesByAddress(ubicacion: string) {
+    console.log(ubicacion)
   }
 }
 // 
