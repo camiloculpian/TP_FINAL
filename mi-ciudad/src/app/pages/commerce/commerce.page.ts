@@ -12,7 +12,6 @@ import { Commerce } from 'src/app/core/interfaces/commerce';
 import { environment } from 'src/environments/environment';
 import { Photo } from 'src/app/core/interfaces/photos';
 import { Position } from '@capacitor/geolocation';
-//import { GoogleMap, Marker } from '@capacitor/google-maps';
 import { ToastController } from '@ionic/angular';
 import { QRCodeModule } from 'angularx-qrcode';
 import * as L from "leaflet";
@@ -64,7 +63,7 @@ export class CommercePage implements OnInit {
   buttonDisabled:boolean = false;
   frontPicture:string='../../../assets/commerce-avatar.svg';// Imagen de frente del negocio predeterminada...
   public relPicturesPath = environment.apiURL+'/uploads/commerces/pictures/'
-  public getCommercesDataPath = environment.apiURL+environment.apiVersion+'/commerces/'
+  public getCommercesDataPath = environment.apiURL + environment.apiVersion + '/commerce/pdf/'
   private imageFile!: File;
   private imageFiles: File[] = [];
 
@@ -78,7 +77,6 @@ export class CommercePage implements OnInit {
     private modalController: ModalController,
     private formBuilder: FormBuilder,
     private commerceService: CommerceService,
-    private nominatimService: NominatimService,
     private toastCtl: ToastController
   ) {
     addIcons({camera,trash});
@@ -136,7 +134,7 @@ export class CommercePage implements OnInit {
     if(this.commerce){
       await this.initMap(this.commerce.ubicacion);
     }else{
-      await this.getCoordinatesByAddress('');
+      //await this.getCoordinatesByAddress('');
     }
   }
 
@@ -354,9 +352,15 @@ export class CommercePage implements OnInit {
     L.Icon.Default.imagePath = "../../assets/leaflet/"
     L.marker([parseFloat(ubicacion.split(',')[0].trim()), parseFloat(ubicacion.split(',')[1].trim())]).addTo(map).bindPopup(popUp?popUp:'');
   }
-
-  async getCoordinatesByAddress(ubicacion: string) {
-    console.log(ubicacion)
-  }
+  // async showMap(){
+  //   console.log('-> async showMap()')
+  //   const modal = await this.modalController.create({
+  //     component: GoogleMap,
+  //   });
+  //   modal.onDidDismiss().then((event) => {this.ngOnInit()});
+  //   modal.present();
+  //   console.log('<- async showMap()')
+  // }
+  
 }
 // 

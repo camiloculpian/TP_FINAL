@@ -140,7 +140,10 @@
                 </ion-row>
               </ion-grid>
             </div>
-
+            <div *ngIf="commerce"> 
+              <button (click)="downloadPDF(1)">Descargar PDF</button>
+            </div>
+            
             <ion-item-divider></ion-item-divider>
             <ion-row>
               <ion-col>
