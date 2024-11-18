@@ -42,6 +42,7 @@ import { QRCodeModule } from 'angularx-qrcode';
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CommercePage implements OnInit {
+[x: string]: any;
   @Input() commerce!: Commerce;
 
   @ViewChild('map', { static: true }) 
@@ -129,6 +130,12 @@ export class CommercePage implements OnInit {
     await this.createMap();
   }
 
+  eliminarImagen(index: number) {
+    // Elimina la imagen en la posición específica
+    this.selectedImages.splice(index, 1);
+  }
+  
+  
   enviarFormulario(e: Event) {
     // TO-DO: Falta diferenciar si es una unsercion o si es una edicion (tal vez tener en cienta el input?)
     e.preventDefault();
