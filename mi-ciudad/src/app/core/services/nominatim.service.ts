@@ -36,8 +36,9 @@ export class NominatimService {
   }
 
   addressLookup(req?: any): Observable<any>/*: Observable<NominatimResponse[]>*/ {
+    console.log('->addressLookup(req?: any): Observable<any>')
     let url = `https://${BASE_NOMINATIM_URL}/search?format=json&q=${req}&bounded=1`;
+    console.log('<-addressLookup(req?: any): Observable<any>')
     return this._httpClient.get(url)
   }
-
 }

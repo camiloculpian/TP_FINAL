@@ -17,6 +17,7 @@ import { ToastController } from '@ionic/angular';
 import { QRCodeModule } from 'angularx-qrcode';
 import * as L from "leaflet";
 import { NominatimService } from 'src/app/core/services/nominatim.service';
+import { GeocodingComponent } from 'src/app/core/components/geocoding/geocode.component';
 
 @Component({
   selector: 'app-commerce',
@@ -39,7 +40,8 @@ import { NominatimService } from 'src/app/core/services/nominatim.service';
     NgIf,
     NgFor,
     RubroSelectPage,
-    QRCodeModule
+    QRCodeModule,
+    GeocodingComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
@@ -344,7 +346,10 @@ export class CommercePage implements OnInit {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     L.Icon.Default.imagePath = "../../assets/leaflet/"
     L.marker([parseFloat(ubicacion.split(',')[0].trim()), parseFloat(ubicacion.split(',')[1].trim())]).addTo(map).bindPopup(popUp?popUp:'');
+  }
 
+  refreshSearchList(ev:any) {
+    //console.log(ev)
   }
 
   async getCoordinatesByAddress(address: string){
@@ -362,14 +367,8 @@ export class CommercePage implements OnInit {
     this.nominatimService.addressLookup('Cepeda 496 general campos entre rios argentina').subscribe({
       next: (resp) =>{
         console.log('->this.nominatimService.addressLookup(Concordia,Argentina)')
-        // console.log(resp)
-        // console.log(resp[0])
         console.log(resp[0].lat+','+resp[0].lon)
-        
         this.initMap(resp[0].lat+','+resp[0].lon)
-        // this.commerce.latitud = resp[0].lat
-        // this.commerce.longitud = resp[0].lon
-        // this.initMap()
         console.log('<-this.nominatimService.addressLookup(Concordia,Argentina)')
       },error: (err) =>{
         console.log(err)
@@ -377,55 +376,5 @@ export class CommercePage implements OnInit {
       }
     })
   }
-  // async createMap() {
-  //   console.log('-> async createMap()')
-  //   try{
-  //     console.log('lat:'+this.commerce.latitud)
-  //     console.log('lng:'+this.commerce.longitud)
-  //     console.log('this.mapref')
-  //     console.log(this.mapRef)
-  //     this.map = await GoogleMap.create({
-  //       id: 'map',
-  //       element: this.mapRef.nativeElement,
-  //       apiKey: 'AIzaSyBdk7EfxufK4tCPARbjw-eLEm8PWQ2xOA0',
-  //       forceCreate: true,
-  //       config: {
-  //         center: {
-  //           lat: parseFloat(this.commerce.ubicacion.split(',')[0].trim()),
-  //           lng: parseFloat(this.commerce.ubicacion.split(',')[1].trim()),
-  //         },
-  //         zoom: 30,
-  //       },
-  //     });
-  //     await this.addMarkers();
-  //     console.log('<- async createMap()')
-  //   }catch(e)
-  //   {
-  //     console.log(e)
-  //   }
-  // }
-  // async addMarkers(){
-  //   const markers: Marker[] = [
-  //     {
-  //       coordinate: {
-  //         lat: parseFloat(this.commerce.ubicacion.split(',')[0].trim()),
-  //         lng: parseFloat(this.commerce.ubicacion.split(',')[1].trim()),
-  //       }, 
-  //       title: this.commerce.nombre,
-  //       snippet: this.commerce.descripcion
-  //     }
-  //   ]
-  //   this.map.addMarkers(markers);
-  // }
-  // async showMap(){
-  //   console.log('-> async showMap()')
-  //   const modal = await this.modalController.create({
-  //     component: GoogleMap,
-  //   });
-  //   modal.onDidDismiss().then((event) => {this.ngOnInit()});
-  //   modal.present();
-  //   console.log('<- async showMap()')
-  // }
-  
 }
 // 
