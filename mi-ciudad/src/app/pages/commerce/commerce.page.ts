@@ -5,7 +5,7 @@ import { IonInput, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonAp
 import { RubroSelectPage } from '../rubro-select/rubro-select.page';
 import { Rubro } from 'src/app/core/interfaces/rubro';
 import { CommerceService } from 'src/app/core/services/commerce.service';
-import { camera } from 'ionicons/icons';
+import { camera, trash } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { Camera, CameraResultType } from '@capacitor/camera';
 import { Commerce } from 'src/app/core/interfaces/commerce';
@@ -81,7 +81,7 @@ export class CommercePage implements OnInit {
     private nominatimService: NominatimService,
     private toastCtl: ToastController
   ) {
-    addIcons({ camera });
+    addIcons({camera,trash});
   }
 
   ngOnInit() {
