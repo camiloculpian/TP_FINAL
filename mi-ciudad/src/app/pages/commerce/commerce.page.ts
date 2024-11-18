@@ -171,7 +171,7 @@ export class CommercePage implements OnInit {
       formData.append('correo', commerceData.correo);
       formData.append('telefono', commerceData.telefono);
       formData.append('direccion', commerceData.direccion);
-      formData.append('ubicacion', `${commerceData.latitud};${commerceData.longitud}`);
+      formData.append('ubicacion', commerceData.ubicacion);
 
       console.log(formData.getAll);
       if (this.commerce) {
@@ -208,6 +208,7 @@ export class CommercePage implements OnInit {
         });
       }
     } else {
+      console.log(this.localComercialDataForm.value)
       alert('Verifique los datos del formulario');
     }
   }
@@ -232,6 +233,9 @@ export class CommercePage implements OnInit {
 
   rubrosSelectionChanged(rubros: Rubro[]) {
     this.selectedRubros = rubros;
+    this.localComercialDataForm.patchValue({
+      rubros: this.selectedRubros.map((rubro) => rubro.id),
+    })
 
     if (this.selectedRubros.length == 1) {
       this.selectedRubrosText =
@@ -359,7 +363,12 @@ export class CommercePage implements OnInit {
   getCoordinatesByAddress(ubicacion:NominatimResponse){
     console.log(ubicacion.display_name);
     console.log(ubicacion.lat+','+ubicacion.lon);
-    //this.initMap(ubicacion)
+    this.localComercialDataForm.patchValue({
+      direccion: ubicacion.display_name,
+      ubicacion: ubicacion.lat+','+ubicacion.lon
+    })
+    console.log(this.localComercialDataForm.value)
+    this.initMap(ubicacion.lat+','+ubicacion.lon)
   }
   // async showMap(){
   //   console.log('-> async showMap()')
