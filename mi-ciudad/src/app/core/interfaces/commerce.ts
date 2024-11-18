@@ -18,7 +18,5 @@ export interface Commerce{
     telefono: string,
     direccion: string,
     ubicacion: string,
-    latitud: number;
-    longitud: number;
     photos: string[] | Photo[];
 }

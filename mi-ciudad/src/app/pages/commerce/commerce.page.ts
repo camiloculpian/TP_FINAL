@@ -12,12 +12,11 @@ import { Commerce } from 'src/app/core/interfaces/commerce';
 import { environment } from 'src/environments/environment';
 import { Photo } from 'src/app/core/interfaces/photos';
 import { Position } from '@capacitor/geolocation';
-import { ToastController } from '@ionic/angular';
 import { QRCodeModule } from 'angularx-qrcode';
 import * as L from "leaflet";
-import { NominatimService } from 'src/app/core/services/nominatim.service';
 import { GeocodingComponent } from 'src/app/core/components/geocoding/geocode.component';
 import { NominatimResponse } from 'src/app/core/interfaces/nominatim-response';
+import { MapPoint } from 'src/app/core/interfaces/map-point';
 
 @Component({
   selector: 'app-commerce',
@@ -27,8 +26,6 @@ import { NominatimResponse } from 'src/app/core/interfaces/nominatim-response';
   imports: [
     IonItem,
     IonIcon,
-    IonTabBar,
-    IonApp,
     IonButton,
     IonHeader,
     IonToolbar,
@@ -39,7 +36,6 @@ import { NominatimResponse } from 'src/app/core/interfaces/nominatim-response';
     ReactiveFormsModule,
     NgIf,
     NgFor,
-    RubroSelectPage,
     QRCodeModule,
     GeocodingComponent
   ],
@@ -48,10 +44,10 @@ import { NominatimResponse } from 'src/app/core/interfaces/nominatim-response';
 export class CommercePage implements OnInit {
   @Input() commerce!: Commerce;
 
-  // @ViewChild('map', { static: true }) 
-  // mapRef!: ElementRef;
-  // map!: GoogleMap;
-  // showSearch: boolean = false;
+  map!: L.Map;
+  mapPoint!: MapPoint;
+  options!: L.MapOptions;
+  lastLayer: any;
 
   locationInicial: WritableSignal<Position | undefined> = signal(undefined);
   locationActual: WritableSignal<Position | undefined> = signal(undefined);
@@ -74,7 +70,6 @@ export class CommercePage implements OnInit {
     private modalController: ModalController,
     private formBuilder: FormBuilder,
     private commerceService: CommerceService,
-    private toastCtl: ToastController
   ) {
     addIcons({camera,trash});
   }
@@ -98,10 +93,6 @@ export class CommercePage implements OnInit {
           environment.apiURL + '/uploads/commerces/pictures/' + p2.filename
         );
       });
-      // console.log('COMMERCE UBICACION')
-      // console.log(this.commerce.ubicacion);
-      // console.log('lat: '+ this.commerce.ubicacion.split(',')[0].trim())
-      // console.log('long: '+ this.commerce.ubicacion.split(',')[1].trim())
       this.localComercialDataForm.patchValue({
         nombre: this.commerce.nombre,
         descripcion: this.commerce.descripcion,
@@ -112,8 +103,6 @@ export class CommercePage implements OnInit {
         direccion: this.commerce.direccion,
         ubicacion: this.commerce.ubicacion,
         photos: this.selectedImages,
-        // latitud: parseFloat(this.commerce.ubicacion.split(',')[0].trim()),
-        // longitud: parseFloat(this.commerce.ubicacion.split(',')[1].trim()),
       });
       // TO-DO: para actualizar las imagenes hay que ver si van imagenes nuevas... si es asi agregarlas, y poner un botoncito para eliminar las otras o editarlas...
       this.rubrosSelectionChanged(this.commerce.rubros);
@@ -126,11 +115,8 @@ export class CommercePage implements OnInit {
   }
 
   async ionViewDidEnter(){
-    //await this.createMap();
     if(this.commerce){
       await this.initMap(this.commerce.ubicacion, this.commerce.nombre);
-    }else{
-      //await this.getCoordinatesByAddress('');
     }
   }
 
@@ -143,7 +129,6 @@ export class CommercePage implements OnInit {
   enviarFormulario(e: Event) {
     // TO-DO: Falta diferenciar si es una unsercion o si es una edicion (tal vez tener en cienta el input?)
     e.preventDefault();
-    // console.log('Datos del formulario:', this.localComercialDataForm);
     if (this.localComercialDataForm.valid) {
       this.buttonDisabled = true;
 
@@ -281,7 +266,7 @@ export class CommercePage implements OnInit {
       }
     } catch (e) {
       console.log(e);
-      // this.showAlert('Error', 'No se pudo acceder a la cámara.');
+       // this.showAlert('Error', 'No se pudo acceder a la cámara.');
     }
   }
 
@@ -348,13 +333,18 @@ export class CommercePage implements OnInit {
   ////////////////////////////////////////////////////////////////
 
   private async initMap(ubicacion:string, popUp?:string) {
-    const map = L.map('map').setView([
-      parseFloat(ubicacion.split(',')[0].trim()), 
-      parseFloat(ubicacion.split(',')[1].trim())], 
-      60);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    if (this.lastLayer && this.map.hasLayer(this.lastLayer)){ 
+      this.map.removeLayer(this.lastLayer);
+      this.map.setView([parseFloat(ubicacion.split(',')[0].trim()), parseFloat(ubicacion.split(',')[1].trim())], this.map.getZoom());
+    }else{
+      this.map = L.map('map').setView([
+        parseFloat(ubicacion.split(',')[0].trim()), 
+        parseFloat(ubicacion.split(',')[1].trim())], 
+        60);
+    }
     L.Icon.Default.imagePath = "../../assets/leaflet/"
-    L.marker([parseFloat(ubicacion.split(',')[0].trim()), parseFloat(ubicacion.split(',')[1].trim())]).addTo(map).bindPopup(popUp?popUp:'');
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(this.map);
+    this.lastLayer =  L.marker([parseFloat(ubicacion.split(',')[0].trim()), parseFloat(ubicacion.split(',')[1].trim())]).addTo(this.map).bindPopup(popUp?popUp:'');
   }
 
   getCoordinatesByAddress(ubicacion:NominatimResponse){
@@ -367,15 +357,5 @@ export class CommercePage implements OnInit {
     console.log(this.localComercialDataForm.value)
     this.initMap(ubicacion.lat+','+ubicacion.lon,this.localComercialDataForm.value.nombre)
   }
-  // async showMap(){
-  //   console.log('-> async showMap()')
-  //   const modal = await this.modalController.create({
-  //     component: GoogleMap,
-  //   });
-  //   modal.onDidDismiss().then((event) => {this.ngOnInit()});
-  //   modal.present();
-  //   console.log('<- async showMap()')
-  // }
-  
 }
 // 
