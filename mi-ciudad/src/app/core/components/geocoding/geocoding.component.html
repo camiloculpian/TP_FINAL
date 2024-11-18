@@ -13,6 +13,6 @@
 <ion-list>
     <!-- <ion-select-option interface="popover" *ngFor="let result of searchResults" value="{{result.lat+','+result.lon}}">{{ result.display_name }}</ion-select-option> -->
     <ion-item *ngFor="let item of searchResults" >
-        <ion-checkbox value="{{item.lat+','+item.lon}}" (click)="selectAddress($event)">{{ item.display_name }}> </ion-checkbox>
+        <ion-label (click)="selectAddress(item)">{{ item.display_name }}> </ion-label>
     </ion-item>
 </ion-list>

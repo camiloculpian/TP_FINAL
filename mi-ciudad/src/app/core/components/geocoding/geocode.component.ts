@@ -33,10 +33,9 @@ export class GeocodingComponent {
     console.log('-> addressLookup(event:any)')
     console.log(event?.target?.value)
     let address = event?.target?.value
-    if (address?.length > 10) {
+    if (address?.length > 5) {
       this.nominatimService.addressLookup(address).subscribe(
         results => {
-            console.log(results);
             console.log('<- addressLookup(event:any)')
             this.searchResults = results;
             //this.searchResults = [];
@@ -58,10 +57,10 @@ export class GeocodingComponent {
     },2500);     
   }
 
-  selectAddress(event: any){
+  selectAddress(address: NominatimResponse){
     console.log('-> selectAddress(event:any)')
-    console.log(event)
-    this.locationSelect.emit(event.target.value);
+    console.log(address)
+    this.locationSelect.emit(address);
     console.log('<- selectAddress(event:any)')
     this.searchResults = [];
   }

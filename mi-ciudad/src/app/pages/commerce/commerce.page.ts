@@ -17,6 +17,7 @@ import { QRCodeModule } from 'angularx-qrcode';
 import * as L from "leaflet";
 import { NominatimService } from 'src/app/core/services/nominatim.service';
 import { GeocodingComponent } from 'src/app/core/components/geocoding/geocode.component';
+import { NominatimResponse } from 'src/app/core/interfaces/nominatim-response';
 
 @Component({
   selector: 'app-commerce',
@@ -90,8 +91,7 @@ export class CommercePage implements OnInit {
       correo: ['', [Validators.required]],
       telefono: ['', []],
       direccion: ['', [Validators.required]],
-      latitud: [''],
-      longitud: [''],
+      ubicacion: ['', [Validators.required]],
     });
     if (this.commerce) {
       // TO-DO: si lke paso los datos de un comercio es una edicion y tengo que setear los datos del comercio
@@ -356,9 +356,10 @@ export class CommercePage implements OnInit {
     L.marker([parseFloat(ubicacion.split(',')[0].trim()), parseFloat(ubicacion.split(',')[1].trim())]).addTo(map).bindPopup(popUp?popUp:'');
   }
 
-  getCoordinatesByAddress(ubicacion:string){
-    console.log(ubicacion)
-    this.initMap(ubicacion)
+  getCoordinatesByAddress(ubicacion:NominatimResponse){
+    console.log(ubicacion.display_name);
+    console.log(ubicacion.lat+','+ubicacion.lon);
+    //this.initMap(ubicacion)
   }
   // async showMap(){
   //   console.log('-> async showMap()')
