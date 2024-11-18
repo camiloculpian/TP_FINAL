@@ -1,27 +1,29 @@
 import { Component } from '@angular/core';
 import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
-import {Platform, ToastController} from '@ionic/angular';
-import { HttpClient } from '@angular/common/http';
-import { Network } from '@awesome-cordova-plugins/network/ngx';
+import { Platform, ToastController } from '@ionic/angular';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+//import { Network } from '@awesome-cordova-plugins/network/ngx';
+import { Network } from '@capacitor/network';
 import { AuthenticationService } from './core/services/authentication.service';
 import { Router } from '@angular/router';
 import { environment } from '../environments/environment';  
+import { Observable, timeout } from 'rxjs';
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   standalone: true,
   imports: [IonApp, IonRouterOutlet],
-  providers:[
-    Network
-  ]
+  // providers:[
+  //   Network
+  // ]
 })
 export class AppComponent {
   private lastBack = Date.now();
   constructor(
     private platform: Platform,
-    private network: Network,
-    private http: HttpClient,
+    //private network: Network,
+    private _httpClient: HttpClient,
     private router: Router,
     private toastController: ToastController,
     private authService : AuthenticationService,
@@ -36,8 +38,15 @@ export class AppComponent {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.verificarConexion();
-    console.log('INICIALIZANDO APP...');
+    console.log('-> INICIALIZANDO APP...');
+    // 1 - Chequear coneccion de red
+    Network.addListener('networkStatusChange', status => {
+      console.log(status.connected);
+      status.connected?null:this.mostrarErrorToast('Verifique que este conectado a la red....');
+      // 2 - Chequear si hay coneccion con el backend
+      this.getNetworkTestRequest();
+    })
+
     this.authService.isLoggedIn().subscribe(
       {
         next: (resp) => {
@@ -49,35 +58,9 @@ export class AppComponent {
         error: (error) => {}
       }
     )
-    // let storedUser = localStorage.getItem('user')
-    // console.log(storedUser);
-    // if (storedUser) {
-    //   this.currentUser = JSON.parse(String(storedUser));
-    //   environment.loggedIn = true;
-    //   environment.username = this.currentUser?.username
-    // }
+    console.log('<- INICIALIZANDO APP...');
   }
 
-  async verificarConexion() {
-    // Verificar la conexión de red
-    const tipoConexion = this.network.type;
-    if (!tipoConexion || tipoConexion === 'none') {
-      await this.mostrarErrorToast('No hay conexión de red...');
-      return;
-    }
-    // Verificar la conexión con el backend
-    console.log('chequeando coneccion con el servidor....');
-    await this.http.get(environment.apiURL+environment.apiVersion).subscribe(
-      {
-        next: (resp) =>{},
-        error: (err) => {
-          console.log('Error de conexión con el servidor:', err);
-          console.log(err);
-          this.mostrarErrorToast('No hay coneccion con el servidor!!!')
-        }
-      }
-    );
-  }
   // Función para mostrar el toast
   async mostrarErrorToast(mensaje: string) {
     const toast = await this.toastController.create({
@@ -87,5 +70,22 @@ export class AppComponent {
       position: 'bottom',
     });
     await toast.present();
+  }
+
+  
+
+  private getNetworkTestRequest() {
+    this._httpClient.get(environment.apiURL + environment.apiVersion)
+    .pipe(
+      timeout(5000) // CAMBIAR A UN PARAMETRO CORRECTO SEGUN ESTADISTICAS DE RED
+    )
+    .subscribe({
+      next: (resp) => {
+        console.log('-> RESPUESTA DESDE BACKEND: OK!', resp);
+      },
+      error: (error) => {
+        this.mostrarErrorToast('Error en la conexión al backend!...');
+      }
+    });
   }
 }
