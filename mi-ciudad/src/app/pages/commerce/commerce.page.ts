@@ -53,9 +53,6 @@ export class CommercePage implements OnInit {
   // map!: GoogleMap;
   // showSearch: boolean = false;
 
-
-
-   
   locationInicial: WritableSignal<Position | undefined> = signal(undefined);
   locationActual: WritableSignal<Position | undefined> = signal(undefined);
   hasPermissions: boolean = false;
@@ -131,7 +128,7 @@ export class CommercePage implements OnInit {
   async ionViewDidEnter(){
     //await this.createMap();
     if(this.commerce){
-      await this.initMap(this.commerce.ubicacion);
+      await this.initMap(this.commerce.ubicacion, this.commerce.nombre);
     }else{
       //await this.getCoordinatesByAddress('');
     }
@@ -173,6 +170,7 @@ export class CommercePage implements OnInit {
       formData.append('direccion', commerceData.direccion);
       formData.append('ubicacion', commerceData.ubicacion);
 
+      console.log('ANTES DE GUARDAR:')
       console.log(formData.getAll);
       if (this.commerce) {
         this.commerceService
@@ -350,11 +348,10 @@ export class CommercePage implements OnInit {
   ////////////////////////////////////////////////////////////////
 
   private async initMap(ubicacion:string, popUp?:string) {
-      const map = L.map('map').setView([
-        parseFloat(ubicacion.split(',')[0].trim()), 
-        parseFloat(ubicacion.split(',')[1].trim())], 
-        60);
-
+    const map = L.map('map').setView([
+      parseFloat(ubicacion.split(',')[0].trim()), 
+      parseFloat(ubicacion.split(',')[1].trim())], 
+      60);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     L.Icon.Default.imagePath = "../../assets/leaflet/"
     L.marker([parseFloat(ubicacion.split(',')[0].trim()), parseFloat(ubicacion.split(',')[1].trim())]).addTo(map).bindPopup(popUp?popUp:'');
@@ -368,7 +365,7 @@ export class CommercePage implements OnInit {
       ubicacion: ubicacion.lat+','+ubicacion.lon
     })
     console.log(this.localComercialDataForm.value)
-    this.initMap(ubicacion.lat+','+ubicacion.lon)
+    this.initMap(ubicacion.lat+','+ubicacion.lon,this.localComercialDataForm.value.nombre)
   }
   // async showMap(){
   //   console.log('-> async showMap()')

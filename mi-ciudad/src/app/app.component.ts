@@ -46,7 +46,6 @@ export class AppComponent {
       // 2 - Chequear si hay coneccion con el backend
       this.getNetworkTestRequest();
     })
-
     this.authService.isLoggedIn().subscribe(
       {
         next: (resp) => {
@@ -55,7 +54,9 @@ export class AppComponent {
           localStorage.setItem('user', JSON.stringify(resp.data));
           this.router.navigate(['']);
         },
-        error: (error) => {}
+        error: (error) => {
+          this.mostrarErrorToast('Hubo un error verificando su sesion!'+error.status)
+        }
       }
     )
     console.log('<- INICIALIZANDO APP...');

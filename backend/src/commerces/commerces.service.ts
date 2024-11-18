@@ -104,6 +104,7 @@ export class CommercesService {
         correo: updateCommerceDto.correo,
         telefono: updateCommerceDto.telefono,
         direccion: updateCommerceDto.direccion,
+        ubicacion: updateCommerceDto.ubicacion,
       }
       if (frontPicture) {
         updateCommerce.frontPicture = frontPicture.filename;
