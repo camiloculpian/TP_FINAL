@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException, UseGuards, UseInterceptors, UploadedFile, UploadedFiles } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Res, Param, Delete, BadRequestException, UseGuards, UseInterceptors, UploadedFile, UploadedFiles } from '@nestjs/common';
 import { CommercesService } from './commerces.service';
 import { CreateCommerceDto } from './dto/create-commerce.dto';
 import { UpdateCommerceDto } from './dto/update-commerce.dto';
@@ -9,7 +9,10 @@ import { CurrentUser } from 'src/auth/decorators/currentUser.decorator';
 import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
-import { Photo } from 'src/photos/entities/photo.entity';
+import { HttpStatus } from '@nestjs/common';
+import { Response as ExpressResponse } from 'express';
+
+
 
 @Controller('commerce')
 export class CommercesController {
@@ -104,6 +107,34 @@ export class CommercesController {
       throw new BadRequestException({'status':'ERROR','message':e.message,'statusCode':e.statusCode});
     }
   }
+
+  @Get('pdf/:id')
+  async generatePDF(@Param('id') id: number, @Res() res: ExpressResponse): Promise<void> {
+    try {
+      const pdfBuffer = await this.commerceService.generateCommercePDF(id);
+
+      if (!pdfBuffer || pdfBuffer.length === 0) {
+        throw new BadRequestException('Error al generar el PDF');
+      }
+
+      res.set({
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename=comercio-${id}.pdf`,
+      });
+
+      // Enviar el buffer del PDF como respuesta
+      res.send(pdfBuffer);
+    } catch (error) {
+      console.error('Error al generar el PDF:', error);
+      throw new BadRequestException({
+        status: 'ERROR',
+        message: error.message,
+        statusCode: HttpStatus.BAD_REQUEST,
+      });
+    }
+  }
+    
+    
 
   @UseGuards(AuthGuard)
   @Get(':id')

@@ -13,7 +13,6 @@ import { environment } from 'src/environments/environment';
 import { Photo } from 'src/app/core/interfaces/photos';
 import { Position } from '@capacitor/geolocation';
 import { GoogleMap, Marker } from '@capacitor/google-maps';
-import { ToastController } from '@ionic/angular';
 import { QRCodeModule } from 'angularx-qrcode';
 
 @Component({
@@ -60,7 +59,7 @@ export class CommercePage implements OnInit {
   buttonDisabled:boolean = false;
   frontPicture:string='../../../assets/commerce-avatar.svg';// Imagen de frente del negocio predeterminada...
   public relPicturesPath = environment.apiURL+'/uploads/commerces/pictures/'
-  public getCommercesDataPath = environment.apiURL+environment.apiVersion+'/commerces/'
+  public getCommercesDataPath = environment.apiURL + environment.apiVersion + '/commerce/pdf/'
   private imageFile!: File;
   private imageFiles: File[] = [];
 
@@ -73,8 +72,7 @@ export class CommercePage implements OnInit {
   constructor(
     private modalController: ModalController,
     private formBuilder: FormBuilder,
-    private commerceService: CommerceService,
-    private toastCtl: ToastController
+    private commerceService: CommerceService
   ) {
     addIcons({ camera });
   }
@@ -382,6 +380,23 @@ export class CommercePage implements OnInit {
   //   modal.present();
   //   console.log('<- async showMap()')
   // }
+  
+
+
+   downloadPDF(id: number): void {
+    this.commerceService.downloadPDF(id).subscribe(
+      (response: Blob) => {
+        const blob = new Blob([response], { type: 'application/pdf' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);  
+        link.download = `comercio-${id}.pdf`;  
+        link.click();  
+      },
+      (error) => {
+        console.error('Error al descargar el PDF', error);
+      }
+    );
+  }
   
 }
 // 

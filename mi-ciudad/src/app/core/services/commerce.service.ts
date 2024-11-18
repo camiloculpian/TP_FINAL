@@ -28,4 +28,12 @@ export class CommerceService {
         commerce
     );
   }
+
+  downloadPDF(commerceId: number): Observable<Blob> {
+    return this._httpClient.get<any>(
+      environment.apiURL + environment.apiVersion + '/commerce/pdf/' + commerceId, {
+      responseType: 'blob' as 'json',
+    });
+
+  }
 }

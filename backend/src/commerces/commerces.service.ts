@@ -10,6 +10,8 @@ import { UsersService } from 'src/users/users.service';
 import { Rubro } from 'src/rubros/entities/rubro.entity';
 import { Photo } from 'src/photos/entities/photo.entity';
 import { PhotosService } from 'src/photos/photos.service';
+import { Buffer } from 'buffer'; 
+import { jsPDF } from 'jspdf';
 
 
 @Injectable()
@@ -124,6 +126,46 @@ export class CommercesService {
       throw e;
     }
   }
+
+ //No sube las fotos
+  async generateCommercePDF(id: number): Promise<Buffer> {
+    const commerce = await this.commerceRepository.findOne({
+      where: { id },
+      relations: ['rubros'], 
+    });
+
+    if (!commerce) {
+      throw new Error('Commerce not found');
+    }
+
+    // Crear 
+    const doc = new jsPDF(); 
+
+    doc.text('INFORME DE COMERCIO', 105, 20, { align: 'center' });  
+    doc.text(`Nombre del Comercio: ${commerce.nombre}`, 10, 40); 
+    doc.text(`Descripción: ${commerce.descripcion || 'No disponible'}`, 10, 50); 
+    doc.text(`Ubicación: ${commerce.ubicacion || 'No disponible'}`, 10, 60);  
+    doc.text(`Dirección: ${commerce.direccion || 'No disponible'}`, 10, 70); 
+    doc.text(`Teléfono: ${commerce.telefono || 'No disponible'}`, 10, 80);  
+    doc.text(`Correo: ${commerce.correo || 'No disponible'}`, 10, 90);  
+
+    if (commerce.rubros.length > 0) {
+      doc.text('Categorías:', 10, 100);
+      commerce.rubros.forEach((rubro, index) => {
+        doc.text(`- ${rubro.descripcion}`, 10, 110 + (index * 10));
+      });
+    } else {
+      doc.text('No se han especificado categorías.', 10, 110);
+    }
+
+    // Obtener el PDF 
+    const pdfBuffer = Buffer.from(doc.output('arraybuffer'));
+
+    return pdfBuffer;
+  }
+
+
+
 
   async remove(id: number) {
     return `This action removes a #${id} commerce`;
