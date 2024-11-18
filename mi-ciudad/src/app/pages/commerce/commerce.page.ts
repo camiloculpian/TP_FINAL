@@ -351,6 +351,10 @@ export class CommercePage implements OnInit {
     L.Icon.Default.imagePath = "../../assets/leaflet/"
     L.marker([parseFloat(ubicacion.split(',')[0].trim()), parseFloat(ubicacion.split(',')[1].trim())]).addTo(map).bindPopup(popUp?popUp:'');
   }
+
+  getCoordinatesByAddress(ubicacion:string){
+    console.log(ubicacion)
+  }
   // async showMap(){
   //   console.log('-> async showMap()')
   //   const modal = await this.modalController.create({
