@@ -131,7 +131,7 @@ export class CommercePage implements OnInit {
   async ionViewDidEnter(){
     //await this.createMap();
     if(this.commerce){
-      await this.initMap();
+      await this.initMap(this.commerce.ubicacion);
     }else{
       await this.getCoordinatesByAddress('');
     }
@@ -335,25 +335,42 @@ export class CommercePage implements OnInit {
   //                        Geolocalizacion                     //
   ////////////////////////////////////////////////////////////////
 
-  private initMap(): void {
-    const map = L.map('map').setView([
-      parseFloat(this.commerce.ubicacion.split(',')[0].trim()), 
-      parseFloat(this.commerce.ubicacion.split(',')[1].trim())], 
-      60);
+  private async initMap(ubicacion:string, popUp?:string) {
+      const map = L.map('map').setView([
+        parseFloat(ubicacion.split(',')[0].trim()), 
+        parseFloat(ubicacion.split(',')[1].trim())], 
+        60);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
     L.Icon.Default.imagePath = "../../assets/leaflet/"
-    L.marker([parseFloat(this.commerce.ubicacion.split(',')[0].trim()), parseFloat(this.commerce.ubicacion.split(',')[1].trim())]).addTo(map).bindPopup(this.commerce.nombre);
+    L.marker([parseFloat(ubicacion.split(',')[0].trim()), parseFloat(ubicacion.split(',')[1].trim())]).addTo(map).bindPopup(popUp?popUp:'');
 
   }
 
-  getCoordinatesByAddress(address: string){
-    this.nominatimService.getCoordByAddress(address).subscribe({
+  async getCoordinatesByAddress(address: string){
+    // this.nominatimService.getCoordByAddress(address).subscribe({
+    //   next: (resp) =>{
+    //     console.log(resp)
+    //     // this.commerce.latitud = resp.lat
+    //     // this.commerce.longitud = resp.lon
+    //     this.initMap()
+    //   },error: (err) =>{
+    //     console.log(err)
+    //     alert('No se pudo encontrar la dirección')
+    //   }
+    // })
+    this.nominatimService.addressLookup('Cepeda 496 general campos entre rios argentina').subscribe({
       next: (resp) =>{
-        console.log(resp)
-        // this.commerce.latitud = resp.lat
-        // this.commerce.longitud = resp.lon
-        this.initMap()
+        console.log('->this.nominatimService.addressLookup(Concordia,Argentina)')
+        // console.log(resp)
+        // console.log(resp[0])
+        console.log(resp[0].lat+','+resp[0].lon)
+        
+        this.initMap(resp[0].lat+','+resp[0].lon)
+        // this.commerce.latitud = resp[0].lat
+        // this.commerce.longitud = resp[0].lon
+        // this.initMap()
+        console.log('<-this.nominatimService.addressLookup(Concordia,Argentina)')
       },error: (err) =>{
         console.log(err)
         alert('No se pudo encontrar la dirección')

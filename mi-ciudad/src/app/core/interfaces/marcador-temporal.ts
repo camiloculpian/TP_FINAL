@@ -1,5 +1,5 @@
 export interface MarcadorTemporal {
-    lat: number;
-    lng: number;
-    id: string;
-  }
+  lat: number;
+  lng: number;
+  id: string;
+}
