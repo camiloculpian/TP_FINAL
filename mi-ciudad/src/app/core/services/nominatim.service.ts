@@ -35,10 +35,33 @@ export class NominatimService {
   constructor(private _httpClient: HttpClient) {
   }
 
-  addressLookup(req?: any): Observable<any>/*: Observable<NominatimResponse[]>*/ {
+  addressLookup(req?: any): Observable<NominatimResponse[]> {
     console.log('->addressLookup(req?: any): Observable<any>')
     let url = `https://${BASE_NOMINATIM_URL}/search?format=json&q=${req}&bounded=1`;
     console.log('<-addressLookup(req?: any): Observable<any>')
-    return this._httpClient.get(url)
+    return this._httpClient.get(url).pipe(
+      map((response: any) => 
+        response.map ((item:any) => new NominatimResponse(
+          item.lat,
+          item.long,
+          item.display_name
+        ))
+      )     
+    )
   }
 }
+
+// FUNCION ORIGINAL DE https://blog.mestwin.net/angular-8-with-leaflet-map-geocoding-using-nominatim-api/
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+// addressLookup(req?: any): Observable<NominatimResponse[]> {
+//   let url = `https://${BASE_NOMINATIM_URL}/search?format=json&q=${req}&${DEFAULT_VIEW_BOX}&bounded=1`;
+//   return this.http
+//     .get(url).pipe(
+//       map((data: any[]) => data.map((item: any) => new NominatimResponse(
+//         item.lat,
+//         item.lon,
+//         item.display_name
+//         ))
+//       )
+//     )
+// }
