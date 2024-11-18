@@ -337,6 +337,10 @@ export class CommercePage implements OnInit {
     }
     return formData;
   }
+
+  downloadPDF(param:any){
+
+  }
   ////////////////////////////////////////////////////////////////
   //                        Geolocalizacion                     //
   ////////////////////////////////////////////////////////////////
@@ -354,6 +358,7 @@ export class CommercePage implements OnInit {
 
   getCoordinatesByAddress(ubicacion:string){
     console.log(ubicacion)
+    this.initMap(ubicacion)
   }
   // async showMap(){
   //   console.log('-> async showMap()')
