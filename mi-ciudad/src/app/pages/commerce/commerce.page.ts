@@ -45,7 +45,6 @@ import { GeocodingComponent } from 'src/app/core/components/geocoding/geocode.co
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CommercePage implements OnInit {
-[x: string]: any;
   @Input() commerce!: Commerce;
 
   // @ViewChild('map', { static: true }) 
