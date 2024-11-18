@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, WritableSignal, signal, ElementRef, ViewChild } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, WritableSignal, signal } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IonInput, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonTabBar, IonIcon, IonItem, ModalController } from '@ionic/angular/standalone';
@@ -12,9 +12,12 @@ import { Commerce } from 'src/app/core/interfaces/commerce';
 import { environment } from 'src/environments/environment';
 import { Photo } from 'src/app/core/interfaces/photos';
 import { Position } from '@capacitor/geolocation';
-import { GoogleMap, Marker } from '@capacitor/google-maps';
+//import { GoogleMap, Marker } from '@capacitor/google-maps';
 import { ToastController } from '@ionic/angular';
 import { QRCodeModule } from 'angularx-qrcode';
+import * as L from "leaflet";
+import { NominatimService } from 'src/app/core/services/nominatim.service';
+import { GeocodingComponent } from 'src/app/core/components/geocoding/geocode.component';
 
 @Component({
   selector: 'app-commerce',
@@ -37,7 +40,8 @@ import { QRCodeModule } from 'angularx-qrcode';
     NgIf,
     NgFor,
     RubroSelectPage,
-    QRCodeModule
+    QRCodeModule,
+    GeocodingComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
@@ -45,10 +49,10 @@ export class CommercePage implements OnInit {
 [x: string]: any;
   @Input() commerce!: Commerce;
 
-  @ViewChild('map', { static: true }) 
-  mapRef!: ElementRef;
-  map!: GoogleMap;
-  showSearch: boolean = false;
+  // @ViewChild('map', { static: true }) 
+  // mapRef!: ElementRef;
+  // map!: GoogleMap;
+  // showSearch: boolean = false;
 
 
 
@@ -74,6 +78,7 @@ export class CommercePage implements OnInit {
     private modalController: ModalController,
     private formBuilder: FormBuilder,
     private commerceService: CommerceService,
+    private nominatimService: NominatimService,
     private toastCtl: ToastController
   ) {
     addIcons({ camera });
@@ -127,7 +132,12 @@ export class CommercePage implements OnInit {
   }
 
   async ionViewDidEnter(){
-    await this.createMap();
+    //await this.createMap();
+    if(this.commerce){
+      await this.initMap(this.commerce.ubicacion);
+    }else{
+      await this.getCoordinatesByAddress('');
+    }
   }
 
   eliminarImagen(index: number) {
@@ -333,55 +343,20 @@ export class CommercePage implements OnInit {
   ////////////////////////////////////////////////////////////////
   //                        Geolocalizacion                     //
   ////////////////////////////////////////////////////////////////
-  async createMap() {
-    console.log('-> async createMap()')
-    try{
-      console.log('lat:'+this.commerce.latitud)
-      console.log('lng:'+this.commerce.longitud)
-      console.log('this.mapref')
-      console.log(this.mapRef)
-      this.map = await GoogleMap.create({
-        id: 'map',
-        element: this.mapRef.nativeElement,
-        apiKey: 'AIzaSyBdk7EfxufK4tCPARbjw-eLEm8PWQ2xOA0',
-        forceCreate: true,
-        config: {
-          center: {
-            lat: parseFloat(this.commerce.ubicacion.split(',')[0].trim()),
-            lng: parseFloat(this.commerce.ubicacion.split(',')[1].trim()),
-          },
-          zoom: 30,
-        },
-      });
-      await this.addMarkers();
-      console.log('<- async createMap()')
-    }catch(e)
-    {
-      console.log(e)
-    }
+
+  private async initMap(ubicacion:string, popUp?:string) {
+      const map = L.map('map').setView([
+        parseFloat(ubicacion.split(',')[0].trim()), 
+        parseFloat(ubicacion.split(',')[1].trim())], 
+        60);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    L.Icon.Default.imagePath = "../../assets/leaflet/"
+    L.marker([parseFloat(ubicacion.split(',')[0].trim()), parseFloat(ubicacion.split(',')[1].trim())]).addTo(map).bindPopup(popUp?popUp:'');
   }
-  async addMarkers(){
-    const markers: Marker[] = [
-      {
-        coordinate: {
-          lat: parseFloat(this.commerce.ubicacion.split(',')[0].trim()),
-          lng: parseFloat(this.commerce.ubicacion.split(',')[1].trim()),
-        }, 
-        title: this.commerce.nombre,
-        snippet: this.commerce.descripcion
-      }
-    ]
-    this.map.addMarkers(markers);
+
+  async getCoordinatesByAddress(ubicacion: string) {
+    console.log(ubicacion)
   }
-  // async showMap(){
-  //   console.log('-> async showMap()')
-  //   const modal = await this.modalController.create({
-  //     component: GoogleMap,
-  //   });
-  //   modal.onDidDismiss().then((event) => {this.ngOnInit()});
-  //   modal.present();
-  //   console.log('<- async showMap()')
-  // }
-  
 }
 // 
