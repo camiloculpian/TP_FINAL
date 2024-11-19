@@ -1,7 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, WritableSignal, signal } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonInput, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonApp, IonTabBar, IonIcon, IonItem, ModalController } from '@ionic/angular/standalone';
+import { IonInput, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon, IonItem, ModalController } from '@ionic/angular/standalone';
 import { RubroSelectPage } from '../rubro-select/rubro-select.page';
 import { Rubro } from 'src/app/core/interfaces/rubro';
 import { CommerceService } from 'src/app/core/services/commerce.service';
@@ -11,7 +11,7 @@ import { Camera, CameraResultType } from '@capacitor/camera';
 import { Commerce } from 'src/app/core/interfaces/commerce';
 import { environment } from 'src/environments/environment';
 import { Photo } from 'src/app/core/interfaces/photos';
-import { Position } from '@capacitor/geolocation';
+import { Geolocation } from '@capacitor/geolocation';
 import { QRCodeModule } from 'angularx-qrcode';
 import * as L from "leaflet";
 import { GeocodingComponent } from 'src/app/core/components/geocoding/geocode.component';
@@ -49,8 +49,6 @@ export class CommercePage implements OnInit {
   options!: L.MapOptions;
   lastLayer: any;
 
-  locationInicial: WritableSignal<Position | undefined> = signal(undefined);
-  locationActual: WritableSignal<Position | undefined> = signal(undefined);
   hasPermissions: boolean = false;
 
   buttonDisabled:boolean = false;
@@ -117,6 +115,9 @@ export class CommercePage implements OnInit {
   async ionViewDidEnter(){
     if(this.commerce){
       await this.initMap(this.commerce.ubicacion, this.commerce.nombre);
+    }else{
+        const coord = await Geolocation.getCurrentPosition();
+        await this.initMap(coord.coords.latitude+','+coord.coords.longitude, 'UBICACION ACTUAL');
     }
   }
 
