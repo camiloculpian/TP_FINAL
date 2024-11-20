@@ -1,37 +1,19 @@
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
 
   <ion-content>
-
-    <!-- <ion-card *ngFor="let item of commerces;" (click)="openCommerce(item)" button=true>
-      <img alt=item.nombre src={{relPicturesPath+item.frontPicture}} style="height: 7em;"/>
-      <ion-card-header>
-        <ion-card-title>{{item.nombre}}</ion-card-title>
-        <ion-card-subtitle>{{item.descripcion}}</ion-card-subtitle>
-      </ion-card-header>
-    
-      <ion-card-content>
-        <p>Email: {{item.correo}}</p>
-        <p>Telefono: {{item.telefono}}</p>
-      </ion-card-content>
-    </ion-card> -->
-
     <ion-card>
-      <ion-card-header>
-        <ion-card-title>Comercios</ion-card-title>
-        <ion-card-subtitle>Usted tiene 0 noticicaciones sin leer...</ion-card-subtitle>
-      </ion-card-header>
+
       <ion-card-content>
         <ion-list>
-          <ion-item *ngFor="let item of commerces;" (click)="openCommerce(item)" button=true>
+          <ion-item *ngFor="let item of commerces;" (click)="openCommerce(item)" button=true lines="none">
             <ion-thumbnail slot="start">
-              <img alt=item.nombre src={{relPicturesPath+item.frontPicture}}/>
+              <img 
+                style="width: 8em; height: 8em; border-radius: 50%;" 
+                [src]="item.frontPicture ? (relPicturesPath + item.frontPicture) : '../../../assets/add-image.svg'" 
+                alt="{{ item.nombre }}" 
+                (error)="onImageError($event)" />
             </ion-thumbnail>
+            
               <ion-label>
                 <h2>{{item.nombre}}</h2>
                 <p>{{item.direccion}}</p>
@@ -40,17 +22,6 @@
         </ion-list>
       </ion-card-content>
     </ion-card>
-
-  <!-- <ion-list id="commerces-list" [inset]="true">
-    <ion-item *ngFor="let item of commerces;">
-      <ion-chip (click)="openCommerce(item)">
-        <ion-avatar>
-          <img alt=item.nombre src={{relPicturesPath+item.frontPicture}}/>
-        </ion-avatar>
-        <ion-label>{{item.nombre}}</ion-label>
-      </ion-chip>
-    </ion-item>
-  </ion-list> -->
 
   <ion-fab slot="fixed" vertical="bottom" horizontal="end">
     <ion-fab-button [detail]="false" (click)="addCommerce()">

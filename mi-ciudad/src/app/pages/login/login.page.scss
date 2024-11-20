@@ -1,8 +1,26 @@
+
+
 .ion-content {
   display: flex;
   align-items: center;
   justify-content: center;
 }
+.avatar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.avatar-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 20%;
+  object-fit: cover;
+}
+
+ion-slide {
+  margin-top: 90px; 
+}
+
 
 .login-container {
     display: flex;

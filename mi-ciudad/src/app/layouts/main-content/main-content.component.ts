@@ -19,8 +19,8 @@ export class MainContentComponent{
   public title!:string;
 
   public appPages = [
-    { title: 'Home', url: '/main/home', icon: 'home' },
-    { title: 'Perfil', url: '/main/profile', icon: 'person' },
+    { title: 'Comercios', url: '/main/home', icon: 'home' },
+    { title: 'Editar Perfil', url: '/main/profile', icon: 'person' },
   ];
   public labels = [];
   constructor(public router: Router, private authService: AuthenticationService, public readonly route: ActivatedRoute, private titleService: Title) {

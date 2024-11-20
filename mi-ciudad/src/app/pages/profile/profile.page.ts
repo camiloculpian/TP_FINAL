@@ -19,6 +19,7 @@ import { environment } from 'src/environments/environment';
 export class ProfilePage implements OnInit {
   public userDataForm!: FormGroup;
   public profilePicture: string = '../../../assets/avatar.svg'; // Imagen de perfil predeterminada
+
   private imageFile!: File; // Archivo de imagen seleccionado
   private userId: string = '';
 
@@ -149,4 +150,9 @@ export class ProfilePage implements OnInit {
       this.showAlert('Formulario Inválido', 'Por favor, revise los campos e intente nuevamente.');
     }
   }
+
+  onImageError(event: any): void {
+    event.target.src = '../../../assets/rota.svg'
+  }
+  
 }

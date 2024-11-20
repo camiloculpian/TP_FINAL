@@ -1,83 +1,117 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Registrarse</ion-title>
+    <ion-title>Crear Cuenta</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Profile</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
+<ion-content [fullscreen]="true" class="ion-padding">
   <ion-slide>
     <form [formGroup]="userDataForm" (ngSubmit)="register()">
       <div class="profile-container">
         <ion-grid>
           <ion-row>
             <ion-col>
+              <!-- Contenedor de la imagen -->
+              <div class="ion-text-center avatar-container">
+                <ion-avatar>
+                  <img 
+                    style="width: 8em; height: 8em; border-radius: 50%;" 
+                    [src]="profilePicture || ''" 
+                    alt="Profile Picture" 
+                    (error)="onImageError($event)">
+                </ion-avatar>
+                <ion-button shape="round" color="medium" (click)="openCamera()">
+                  <ion-icon slot="icon-only" name="pencil"  style="padding: 0; margin: 0;"></ion-icon>
+                </ion-button>
+              </div>
+
+              <!-- Lista de campos del formulario -->
               <ion-list>
-                <ion-item class="ion-text-center">
-                  <ion-col>
-                    <!-- Mostrar la imagen -->
-                    <ion-avatar>
-                      <img style="width: 8em; height: 8em;" [src]="profilePicture" alt="Profile Picture" />
-                    </ion-avatar>
+                <ion-item>
+                  <ion-input 
+                    label="Username" 
+                    placeholder="Ingrese su usuario" 
+                    formControlName="username" 
+                    required>
+                  </ion-input>
+                </ion-item>
 
-                    <!-- Botón para abrir la cámara -->
-                    <ion-button shape="round" color="medium" (click)="openCamera()">
-                      <ion-icon slot="icon-only" name="pencil" style="padding: 0; margin: 0;"></ion-icon>
-                    </ion-button>
+                <ion-item>
+                  <ion-input 
+                    label="Email" 
+                    type="email" 
+                    placeholder="email@domain.com" 
+                    formControlName="email" 
+                    required>
+                  </ion-input>
+                </ion-item>
 
-                    <!-- Botón para abrir la galería -->
-                    <!-- <ion-button shape="round" color="medium" (click)="openCameraRoll()">
-                        <ion-icon name="image"></ion-icon>
-                      </ion-button> -->
-                  </ion-col>
-                </ion-item>
                 <ion-item>
-                  <ion-label>Username:</ion-label>
-                  <ion-input name="username" type="text" required formControlName="username"
-                    ngDefaultControl></ion-input>
+                  <ion-input 
+                    label="Password" 
+                    type="password" 
+                    placeholder="Ingrese su contraseña" 
+                    formControlName="password" 
+                    required>
+                  </ion-input>
                 </ion-item>
+
                 <ion-item>
-                  <ion-label>Email:</ion-label>
-                  <ion-input name="email" type="text" required formControlName="email" ngDefaultControl></ion-input>
+                  <ion-input 
+                    label="Apellido" 
+                    placeholder="Ingrese su apellido" 
+                    formControlName="lastName" 
+                    required>
+                  </ion-input>
                 </ion-item>
+
                 <ion-item>
-                  <ion-text>Password:</ion-text>
-                  <ion-input name="password" type="password" formControlName="password" ngDefaultControl></ion-input>
+                  <ion-input 
+                    label="Nombres" 
+                    placeholder="Ingrese su nombre" 
+                    formControlName="name" 
+                    required>
+                  </ion-input>
                 </ion-item>
+
                 <ion-item>
-                  <ion-text>Apellido:</ion-text>
-                  <ion-input ion-input name="lastName" type="text" formControlName="lastName"
-                    ngDefaultControl></ion-input>
+                  <ion-input 
+                    label="DNI" 
+                    type="text"
+                    placeholder="Ingrese su DNI" 
+                    formControlName="dni" 
+                    required>
+                  </ion-input>
                 </ion-item>
+
                 <ion-item>
-                  <ion-text>Nombres:</ion-text>
-                  <ion-input ion-input name="name" type="text" formControlName="name" ngDefaultControl></ion-input>
+                  <ion-input 
+                    label="Dirección" 
+                    placeholder="Ingrese su dirección" 
+                    formControlName="address" 
+                    required>
+                  </ion-input>
                 </ion-item>
+
                 <ion-item>
-                  <ion-label>DNI:</ion-label>
-                  <ion-input name="dni" type="text" required formControlName="dni" ngDefaultControl></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-label>Direccion:</ion-label>
-                  <ion-input name="address" type="text" required formControlName="address" ngDefaultControl></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-label>Telefono:</ion-label>
-                  <ion-input name="phone" type="text" required formControlName="phone" ngDefaultControl></ion-input>
+                  <ion-input 
+                    label="Teléfono" 
+                    type="tel" 
+                    placeholder="+54" 
+                    formControlName="phone" 
+                    required>
+                  </ion-input>
                 </ion-item>
               </ion-list>
-              <ion-button type="submit" fill="solid" expand="block" class="rounded">
+
+              <!-- Botón de registro -->
+              <ion-button type="submit" expand="block" class="rounded">
                 Registrarme
               </ion-button>
-
             </ion-col>
           </ion-row>
         </ion-grid>
       </div>
     </form>
   </ion-slide>
+</ion-content>
