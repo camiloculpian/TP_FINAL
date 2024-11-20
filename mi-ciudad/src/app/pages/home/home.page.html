@@ -18,10 +18,15 @@
       </ion-card-header>
       <ion-card-content>
         <ion-list>
-          <ion-item *ngFor="let item of commerces;" (click)="openCommerce(item)" button=true>
+          <ion-item *ngFor="let item of commerces;" (click)="openCommerce(item)" button=true lines="none">
             <ion-thumbnail slot="start">
-              <img alt=item.nombre src={{relPicturesPath+item.frontPicture}}/>
+              <img 
+                style="width: 8em; height: 8em; border-radius: 50%;" 
+                [src]="item.frontPicture ? (relPicturesPath + item.frontPicture) : '../../../assets/add-image.svg'" 
+                alt="{{ item.nombre }}" 
+                (error)="onImageError($event)" />
             </ion-thumbnail>
+            
               <ion-label>
                 <h2>{{item.nombre}}</h2>
                 <p>{{item.direccion}}</p>
@@ -30,6 +35,7 @@
         </ion-list>
       </ion-card-content>
     </ion-card>
+
 
   <!-- <ion-list id="commerces-list" [inset]="true">
     <ion-item *ngFor="let item of commerces;">
