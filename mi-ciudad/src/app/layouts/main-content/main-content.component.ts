@@ -2,9 +2,9 @@ import { NgFor } from '@angular/common';
 import { Component} from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink} from '@angular/router';
-import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonMenu, IonRouterOutlet, IonItem, IonMenuToggle, IonIcon, IonLabel, IonItemDivider, IonBackButton } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonMenu, IonRouterOutlet, IonItem, IonMenuToggle, IonIcon, IonLabel, IonItemDivider, IonBackButton, IonButton } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { home , person, exit, trash } from 'ionicons/icons';
+import { home , person, exit, trash, notifications } from 'ionicons/icons';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { AuthenticationService } from 'src/app/core/services/authentication.serv
   templateUrl: './main-content.component.html',
   styleUrls: ['./main-content.component.scss'],
   standalone: true,
-  imports: [IonBackButton, IonItemDivider, NgFor, IonIcon, RouterLink, IonItem, IonRouterOutlet, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonMenu, IonMenuToggle, IonLabel],
+  imports: [IonButton, IonBackButton, IonItemDivider, NgFor, IonIcon, RouterLink, IonItem, IonRouterOutlet, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonMenu, IonMenuToggle, IonLabel],
 })
 export class MainContentComponent{
   public activeTitle!: string;
@@ -31,7 +31,7 @@ export class MainContentComponent{
       }
     });
 
-    addIcons({trash,home,person,exit});
+    addIcons({notifications,trash,home,person,exit});
   }
 
   private getTitle(state: any, parent: any): string[] {
