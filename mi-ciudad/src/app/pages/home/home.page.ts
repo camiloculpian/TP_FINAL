@@ -23,7 +23,7 @@ export class HomePage implements OnInit{
   commerces: Commerce[] = [];
   
   public relPicturesPath = environment.apiURL+'/uploads/commerces/pictures/';
-  
+
   constructor(
     private modalController: ModalController,
     private commerceService: CommerceService,
@@ -92,5 +92,9 @@ export class HomePage implements OnInit{
     modal.onDidDismiss().then((event) => {this.ngOnInit()});
     modal.present();
   }
+  onImageError(event: any): void {
+    event.target.src = '../../../assets/rota.svg'
+  }
+  
 }
 

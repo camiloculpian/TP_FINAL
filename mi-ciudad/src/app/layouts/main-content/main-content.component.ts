@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { NgFor } from '@angular/common';
 import { Component} from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -63,3 +64,5 @@ export class MainContentComponent{
 }
 
 
+=======
+>>>>>>> e73db205a297573bc418d740baa26dc87bde0b94

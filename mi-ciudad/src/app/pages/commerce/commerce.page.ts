@@ -328,9 +328,22 @@ export class CommercePage implements OnInit {
     return formData;
   }
 
-  downloadPDF(param:any){
-
+  downloadPDF(id: number): void {
+    this.commerceService.downloadPDF(id).subscribe(
+      (response: Blob) => {
+        const blob = new Blob([response], { type: 'application/pdf' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);  
+        link.download = `comercio-${id}.pdf`;  
+        link.click();  
+      },
+      (error) => {
+        console.error('Error al descargar el PDF', error);
+      }
+    );
   }
+
+
   ////////////////////////////////////////////////////////////////
   //                        Geolocalizacion                     //
   ////////////////////////////////////////////////////////////////

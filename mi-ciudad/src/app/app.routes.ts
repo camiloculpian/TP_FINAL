@@ -12,13 +12,13 @@ export const routes: Routes = [
     children: [
       {
         path: 'home',
-        data: {title: 'Comercios'},
+        data: {title: 'Listado de Comercios'},
         component: HomePage,
         canActivate: [authGuard],
       },
       {
         path: 'profile',
-        data: {title: 'Perfil'},
+        data: {title: 'Editar tu perfil'},
         component: ProfilePage,
         canActivate: [authGuard],
       },

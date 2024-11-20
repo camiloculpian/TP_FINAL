@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonApp, IonRouterOutlet } from '@ionic/angular/standalone';
+import { IonApp, IonRouterOutlet, IonButtons } from '@ionic/angular/standalone';
 import { Platform, ToastController } from '@ionic/angular';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 //import { Network } from '@awesome-cordova-plugins/network/ngx';
@@ -13,7 +13,7 @@ import { Observable, timeout } from 'rxjs';
   selector: 'app-root',
   templateUrl: 'app.component.html',
   standalone: true,
-  imports: [IonApp, IonRouterOutlet],
+  imports: [IonButtons, IonApp, IonRouterOutlet],
   // providers:[
   //   Network
   // ]

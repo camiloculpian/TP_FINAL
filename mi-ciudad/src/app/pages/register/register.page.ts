@@ -133,4 +133,8 @@ export class RegisterPage implements OnInit {
       );
     }
   }
+
+  onImageError(event: any): void {
+    event.target.src = '../../../assets/rota.svg'
+  }
 }
