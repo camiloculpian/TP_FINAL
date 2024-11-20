@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {  IonHeader, IonToolbar, IonTitle, IonContent, IonIcon, IonItem, IonLabel, ModalController } from '@ionic/angular/standalone';
+import {  IonContent, IonIcon, IonItem, IonLabel, ModalController } from '@ionic/angular/standalone';
 import { add, trash } from 'ionicons/icons';
 import { addIcons } from 'ionicons';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -16,7 +16,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports: [IonLabel, IonItem, IonIcon, IonHeader, IonToolbar, IonIcon, IonContent, FormsModule, ReactiveFormsModule, NgFor, NgForOf],
+  imports: [IonLabel, IonItem, IonIcon, IonIcon, IonContent, FormsModule, ReactiveFormsModule, NgFor, NgForOf],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePage implements OnInit{
