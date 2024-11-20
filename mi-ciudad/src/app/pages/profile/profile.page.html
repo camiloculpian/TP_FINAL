@@ -1,12 +1,6 @@
 
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Perfil de usuario</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
   <form [formGroup]="userDataForm" (ngSubmit)="onSave($event)">
     <div class="profile-container">
       <ion-grid>
