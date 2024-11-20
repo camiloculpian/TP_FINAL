@@ -12,14 +12,14 @@ import { AuthenticationService } from 'src/app/core/services/authentication.serv
   templateUrl: './main-content.component.html',
   styleUrls: ['./main-content.component.scss'],
   standalone: true,
-  imports: [IonButton, IonBackButton, IonItemDivider, NgFor, IonIcon, RouterLink, IonItem, IonRouterOutlet, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonMenu, IonMenuToggle, IonLabel],
+  imports: [ IonItemDivider, NgFor, IonIcon, RouterLink, IonItem, IonRouterOutlet, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonMenu, IonMenuToggle, IonLabel],
 })
 export class MainContentComponent{
   public activeTitle!: string;
   public title!:string;
 
   public appPages = [
-    { title: 'Home', url: '/main/home', icon: 'home' },
+    { title: 'Comercios', url: '/main/home', icon: 'home' },
     { title: 'Perfil', url: '/main/profile', icon: 'person' },
   ];
   public labels = [];
