@@ -30,7 +30,8 @@
       </ion-buttons>
       <ion-title>{{this.title}}</ion-title>
       <ion-buttons slot="end">
-        <ion-icon name="notifications"></ion-icon>
+        <ion-icon color="{{unreadNotifications.length>0?'danger':'normal'}}" name="notifications"></ion-icon>
+        <p>{{unreadNotifications.length}}</p>
       </ion-buttons>
     </ion-toolbar>
   </ion-header>

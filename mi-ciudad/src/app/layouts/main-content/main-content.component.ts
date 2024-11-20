@@ -15,7 +15,7 @@ import { AuthenticationService } from 'src/app/core/services/authentication.serv
   imports: [ IonItemDivider, NgFor, IonIcon, RouterLink, IonItem, IonRouterOutlet, IonHeader, IonToolbar, IonButtons, IonMenuButton, IonTitle, IonContent, IonMenu, IonMenuToggle, IonLabel],
 })
 export class MainContentComponent{
-  public activeTitle!: string;
+  public unreadNotifications: string[] = [];
   public title!:string;
 
   public appPages = [
