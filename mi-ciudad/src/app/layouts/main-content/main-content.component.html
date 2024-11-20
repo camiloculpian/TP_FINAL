@@ -28,6 +28,10 @@
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
       <ion-title>{{this.title}}</ion-title>
+      <ion-buttons slot="end">
+        <ion-icon color="{{unreadNotifications.length>0?'danger':'normal'}}" name="notifications"></ion-icon>
+        <p>{{unreadNotifications.length}}</p>
+      </ion-buttons>
     </ion-toolbar>
   </ion-header>
   <ion-content class="ion-padding"> <ion-router-outlet id="main-content"></ion-router-outlet> </ion-content>

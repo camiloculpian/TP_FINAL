@@ -12,7 +12,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'home',
-        data: {title: 'Listado de Comercios'},
+        data: {title: 'Comercios'},
         component: HomePage,
         canActivate: [authGuard],
       },

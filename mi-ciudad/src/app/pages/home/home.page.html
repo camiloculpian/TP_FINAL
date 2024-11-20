@@ -1,0 +1,50 @@
+<ion-content [fullscreen]="true">
+    <!-- <ion-card *ngFor="let item of commerces;" (click)="openCommerce(item)" button=true>
+      <img alt=item.nombre src={{relPicturesPath+item.frontPicture}} style="height: 7em;"/>
+      <ion-card-header>
+        <ion-card-title>{{item.nombre}}</ion-card-title>
+        <ion-card-subtitle>{{item.descripcion}}</ion-card-subtitle>
+      </ion-card-header>
+    
+      <ion-card-content>
+        <p>Email: {{item.correo}}</p>
+        <p>Telefono: {{item.telefono}}</p>
+      </ion-card-content>
+    </ion-card> -->
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle>Usted cuenta con {{commerces.length}} comercios registrados.</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-list>
+          <ion-item *ngFor="let item of commerces;" (click)="openCommerce(item)" button=true>
+            <ion-thumbnail slot="start">
+              <img alt=item.nombre src={{relPicturesPath+item.frontPicture}}/>
+            </ion-thumbnail>
+              <ion-label>
+                <h2>{{item.nombre}}</h2>
+                <p>{{item.direccion}}</p>
+              </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+  <!-- <ion-list id="commerces-list" [inset]="true">
+    <ion-item *ngFor="let item of commerces;">
+      <ion-chip (click)="openCommerce(item)">
+        <ion-avatar>
+          <img alt=item.nombre src={{relPicturesPath+item.frontPicture}}/>
+        </ion-avatar>
+        <ion-label>{{item.nombre}}</ion-label>
+      </ion-chip>
+    </ion-item>
+  </ion-list> -->
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button [detail]="false" (click)="addCommerce()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  </ion-content>

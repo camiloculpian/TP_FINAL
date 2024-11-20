@@ -1,7 +1,7 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit, WritableSignal, signal } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, OnInit } from '@angular/core';
 import { NgFor, NgIf } from '@angular/common';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { IonInput, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon, IonItem, ModalController } from '@ionic/angular/standalone';
+import { IonInput, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonBackButton, IonIcon, IonItem, ModalController, IonButtons } from '@ionic/angular/standalone';
 import { RubroSelectPage } from '../rubro-select/rubro-select.page';
 import { Rubro } from 'src/app/core/interfaces/rubro';
 import { CommerceService } from 'src/app/core/services/commerce.service';
@@ -27,6 +27,8 @@ import { MapPoint } from 'src/app/core/interfaces/map-point';
     IonItem,
     IonIcon,
     IonButton,
+    IonButtons,
+    IonBackButton,
     IonHeader,
     IonToolbar,
     IonTitle,
