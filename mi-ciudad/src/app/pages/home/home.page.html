@@ -21,7 +21,6 @@
           <ion-item *ngFor="let item of commerces;" (click)="openCommerce(item)" button=true lines="none">
             <ion-thumbnail slot="start">
               <img 
-                style="width: 8em; height: 8em; border-radius: 50%;" 
                 [src]="item.frontPicture ? (relPicturesPath + item.frontPicture) : '../../../assets/add-image.svg'" 
                 alt="{{ item.nombre }}" 
                 (error)="onImageError($event)" />
