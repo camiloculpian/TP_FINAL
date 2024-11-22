@@ -39,6 +39,12 @@
               <ion-input [counter]="true" maxlength="50" placeholder="Máximo 50 caracteres" formControlName="descripcion"></ion-input>
             </ion-item>
 
+            <!-- Selección de Rubros -->
+            <ion-item [button]="true" (click)="openRubroSelect()">
+              <ion-label>Seleccione Rubro/s</ion-label>
+              <div slot="end" id="selected-rubros">{{ selectedRubrosText }}</div>
+            </ion-item>
+
             <!-- Correo Electrónico -->
             <ion-item>
               <ion-label position="stacked">Correo Electrónico</ion-label>
