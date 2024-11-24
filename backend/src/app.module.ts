@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { PhotosModule } from './photos/photos.module';
 import { RubrosModule } from './rubros/rubros.module';
 import { CommercesModule } from './commerces/commerces.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 
 ConfigModule.forRoot({
@@ -55,6 +56,8 @@ ConfigModule.forRoot({
     
     CommercesModule,
     
+    NotificationsModule,
+        
   ],
   controllers: [AppController],
   providers: [AppService],
