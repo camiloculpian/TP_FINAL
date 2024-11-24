@@ -13,6 +13,7 @@ exports.User = void 0;
 const commerce_entity_1 = require("../../commerces/entities/commerce.entity");
 const role_enum_1 = require("../../auth/enums/role.enum");
 const typeorm_1 = require("typeorm");
+const notification_entity_1 = require("../../notifications/entities/notification.entity");
 let User = class User {
 };
 exports.User = User;
@@ -68,6 +69,14 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => commerce_entity_1.Commerce, (commerce) => commerce.contrib),
     __metadata("design:type", Array)
 ], User.prototype, "commerce", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => notification_entity_1.Notification, (notification) => notification.receiver),
+    __metadata("design:type", Array)
+], User.prototype, "notificationsReceived", void 0);
+__decorate([
+    (0, typeorm_1.OneToMany)(() => notification_entity_1.Notification, (notification) => notification.sender),
+    __metadata("design:type", Array)
+], User.prototype, "notificationsSended", void 0);
 __decorate([
     (0, typeorm_1.Column)({ nullable: true, default: null }),
     __metadata("design:type", String)

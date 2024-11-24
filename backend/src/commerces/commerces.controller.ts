@@ -200,7 +200,7 @@ export class CommercesController {
       throw new BadRequestException({'status':'ERROR','message':e.message,'statusCode':e.statusCode});
     }
   }
-
+  @UseGuards(AuthGuard)
   @Delete(':id')
   async remove(
     @CurrentUser('sub') currentUser: number,

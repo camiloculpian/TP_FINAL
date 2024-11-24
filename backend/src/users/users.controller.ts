@@ -6,8 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  HttpCode,
-  HttpStatus,
   UseGuards,
   UseInterceptors,
   UploadedFile,

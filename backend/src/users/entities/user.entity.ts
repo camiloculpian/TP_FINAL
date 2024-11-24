@@ -1,6 +1,7 @@
 import { Commerce } from 'src/commerces/entities/commerce.entity';
 import { Role } from '../../auth/enums/role.enum';
 import { Column, DeleteDateColumn, Entity, OneToOne, JoinColumn, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Notification } from 'src/notifications/entities/notification.entity';
 
 @Entity()
 export class User {
@@ -43,6 +44,12 @@ export class User {
 
     @OneToMany(() => Commerce, (commerce) => commerce.contrib) // note: we will create contrib property in the Commerce class
     commerce: Commerce[]
+
+    @OneToMany(() => Notification, (notification) => notification.receiver) // note: we will create contrib property in the Notifications class
+    notificationsReceived: Notification[]
+
+    @OneToMany(() => Notification, (notification) => notification.sender) // note: we will create contrib property in the Notifications class
+    notificationsSended: Notification[]
 
     @Column({ nullable: true, default:null })
     profilePicture: string;
