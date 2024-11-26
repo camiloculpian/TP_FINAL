@@ -25,7 +25,7 @@ export class MainContentComponent implements OnInit {
 
   public appPages = [
     { title: 'Comercios', url: '/main/home', icon: 'home' },
-    { title: 'Notificaciones', url: '/main/notifications', icon: 'notifications' },
+    { title: 'Notificaciones', url: '/main/notifications', icon: 'notifications', data:{notifications: this.notifications}},
     { title: 'Perfil', url: '/main/profile', icon: 'person' },
   ];
   public labels = [];
@@ -85,7 +85,7 @@ export class MainContentComponent implements OnInit {
   }
 
   goToNotifications(){
-    this.router.navigate(['main/notifications']);
+    this.router.navigate(['main/notifications', {data:{notifications: this.notifications}}]);
   }
   ionViewDidEnter() {
     // this.backButtonSubscription =

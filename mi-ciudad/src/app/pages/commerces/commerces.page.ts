@@ -74,8 +74,7 @@ export class CommercesPage implements OnInit{
   async addCommerce(){
     const modal = await this.modalController.create({
       component: CommercePage,
-      componentProps: { 
-      }
+      componentProps: {}
     });
     modal.onDidDismiss().then( (event) => {this.ngOnInit()});
     modal.present();
