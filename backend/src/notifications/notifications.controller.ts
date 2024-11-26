@@ -8,7 +8,7 @@ import { Response, responseStatus } from "src/common/responses/responses";
 @Controller('notifications')
 export class NotificationsController {
   constructor(
-    private readonly commerceService: NotificationsService,
+    private readonly notificationsService: NotificationsService,
     private readonly i18n: I18nService
   ) {}
 
@@ -16,12 +16,12 @@ export class NotificationsController {
   @Get()
   async getNotificationsForUser(@CurrentUser('sub') currentUser: number) {
     try {
-      console.log(await this.commerceService.getNotificationsForUser(currentUser))
+      console.log(await this.notificationsService.getNotificationsForUser(currentUser))
       return new Response({
         statusCode: 200,
         status: responseStatus.OK,
         message: this.i18n.t('lang.notificationsUnreads.ReadOK', { lang: I18nContext.current().lang}),
-        data: await this.commerceService.getNotificationsForUser(currentUser)
+        data: await this.notificationsService.getNotificationsForUser(currentUser)
       });
     }catch(error){
       throw new BadRequestException({
@@ -31,4 +31,24 @@ export class NotificationsController {
       });
     }
   }
+
+  @UseGuards(AuthGuard)
+  @Get('/count')
+  async getCountNotifications(@CurrentUser('sub') currentUser: number){
+    try {
+      return new Response({
+        statusCode: 200,
+        status: responseStatus.OK,
+        message: this.i18n.t('lang.notificationsUnreads.CountOK', { lang: I18nContext.current().lang}),
+        data: await this.notificationsService.getCountNotifications(currentUser)
+      });
+    }catch(error){
+      throw new BadRequestException({
+        'status': 'ERROR',
+        'message': error.message,
+        'statusCode': error.statusCode,
+      });
+    }
+  }
+
 }

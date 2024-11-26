@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { UsersService } from "src/users/users.service";
-import { DataSource, Repository } from "typeorm";
+import { DataSource, Not, Repository } from "typeorm";
 import { Notification, NotificationState } from "./entities/notification.entity";
 import { User } from "src/users/entities/user.entity";
 
@@ -16,6 +16,17 @@ export class NotificationsService {
   ) { }
 
   async sendNotification(sender: User, notification: Notification, receivers: User[]){}
+
+  async getCountNotifications(userId: number): Promise<{total:number, unread:number}> {
+    try{
+      const user = await this.usersService.findOne(userId);
+      const totalNotifications = await this.notificationRepository.count({ where: { receiver: user } });
+      const unreadNotifications = await this.notificationRepository.count({ where: { receiver: user, state: Not(NotificationState.READED) } });
+      return { total: totalNotifications, unread: unreadNotifications };
+    }catch(e){
+      throw e;
+    }
+  }
 
   async getNotificationsForUser(userId: number): Promise<Notification[]> {
     try{
@@ -35,9 +46,10 @@ export class NotificationsService {
     }
   }
 
-  async getNotificationForUser(notificationId): Promise<Notification> {
+  async getNotificationForUser(notificationId, userId:number): Promise<Notification> {
     try{
-      const unreadNotification = await this.notificationRepository.findOne({ where: { id: notificationId }, select:{ id:true, createdAt:true, receivedAt:true, title:true, subject:true, message:true ,state:true } });
+      const user = await this.usersService.findOne(userId);
+      const unreadNotification = await this.notificationRepository.findOne({ where: { id: notificationId, receiver: user }, select:{ id:true, createdAt:true, receivedAt:true, title:true, subject:true, message:true ,state:true } });
       this.markNotificationAsRead(notificationId);
       return unreadNotification;
     }catch (e){
