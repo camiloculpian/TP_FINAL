@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { HomePage } from './commerces.page';
+import { CommercesPage } from './commerces.page';
 
 describe('HomePage', () => {
   let component: CommercesPage;
-  let fixture: ComponentFixture<HomePage>;
+  let fixture: ComponentFixture<CommercesPage>;
 
   beforeEach(async () => {
     fixture = TestBed.createComponent(CommercesPage);
