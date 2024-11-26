@@ -25,6 +25,7 @@ export class MainContentComponent implements OnInit {
 
   public appPages = [
     { title: 'Comercios', url: '/main/home', icon: 'home' },
+    { title: 'Notificaciones', url: '/main/notifications', icon: 'notifications' },
     { title: 'Perfil', url: '/main/profile', icon: 'person' },
   ];
   public labels = [];
@@ -83,6 +84,9 @@ export class MainContentComponent implements OnInit {
     this.router.navigate(['login']);
   }
 
+  goToNotifications(){
+    this.router.navigate(['main/notifications']);
+  }
   ionViewDidEnter() {
     // this.backButtonSubscription =
     //   this.platform.backButton.subscribeWithPriority(10, () => {

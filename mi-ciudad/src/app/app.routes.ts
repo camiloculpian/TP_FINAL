@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './guards/auth.guard';
 import { loginGuard } from './guards/login.guard';
-import { HomePage } from './pages/home/home.page';
+import { CommercesPage } from './pages/commerces/commerces.page';
 import { ProfilePage } from './pages/profile/profile.page';
+import { NotificationsPage } from './pages/notifications/notifications.page';
 
 export const routes: Routes = [
   {
@@ -13,7 +14,7 @@ export const routes: Routes = [
       {
         path: 'home',
         data: {title: 'Listado de Comercios'},
-        component: HomePage,
+        component: CommercesPage,
         canActivate: [authGuard],
       },
       {
@@ -32,7 +33,9 @@ export const routes: Routes = [
       },
       {
         path: 'notifications',
-        loadComponent: () => import('./pages/notifications/notifications.page').then( m => m.NotificationsPage)
+        data: {title: 'Notificaciones'},
+        canActivate: [authGuard],
+        component: NotificationsPage,
       }
     ]
   },

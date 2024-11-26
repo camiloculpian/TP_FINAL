@@ -13,13 +13,13 @@ import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  templateUrl: 'commerces.page.html',
+  styleUrls: ['commerces.page.scss'],
   standalone: true,
   imports: [IonLabel, IonItem, IonIcon, IonIcon, IonContent, FormsModule, ReactiveFormsModule, NgFor, NgForOf],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class HomePage implements OnInit{
+export class CommercesPage implements OnInit{
   commerces: Commerce[] = [];
   
   public relPicturesPath = environment.apiURL+'/uploads/commerces/pictures/';

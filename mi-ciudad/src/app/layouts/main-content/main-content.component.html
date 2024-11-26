@@ -29,7 +29,7 @@
         <ion-menu-button></ion-menu-button>
       </ion-buttons>
       <ion-title>{{this.title}}</ion-title>
-      <ion-buttons slot="end">
+      <ion-buttons slot="end" (click)="this.goToNotifications()">
         <ion-icon color="{{this.unreadNotifications>0?'danger':'normal'}}" name="notifications"></ion-icon>
         <p>{{this.unreadNotifications}}</p>
       </ion-buttons>

@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>Crear Comercio</ion-title>
+    <ion-title>{{this.commerce?'Editar Comercio: '+this.commerce.nombre:'Crear Comercio'}}</ion-title>
     <ion-buttons slot="start">
       <ion-back-button default-href="#" (click)="addCommerceCancel($event)"></ion-back-button>
     </ion-buttons>
