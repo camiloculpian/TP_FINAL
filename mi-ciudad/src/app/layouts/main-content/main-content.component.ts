@@ -47,6 +47,7 @@ export class MainContentComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // DESCARGO LAS NOTIFICACIONES Y LAS GUARDO EN EL LOCAL
     this.notificationsService.getNotifications().subscribe(
       {
         next: (resp) => {

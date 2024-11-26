@@ -9,9 +9,9 @@ import { environment } from 'src/environments/environment';
 export class NotificationsService {
   constructor(private _httpClient: HttpClient) {}
 
-  getCountUnreadNotifications(){
+  getCountNotifications(){
     return this._httpClient.get<any>(
-      environment.apiURL + environment.apiVersion + '/notifications/countUnread'
+      environment.apiURL + environment.apiVersion + '/notifications/count'
     );
   }
   getNotifications(): Observable<any> {
