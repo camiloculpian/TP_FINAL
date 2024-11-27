@@ -14,6 +14,6 @@ export interface Notification{
     createdAt: string;
     receivedAt: string;
     title: string;
-    bubject : string;
+    subject : string;
     state: NotificationState;
 }

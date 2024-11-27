@@ -32,7 +32,7 @@ export class NotificationsService {
     try{
       // TO-DO: poner dentro de una transaccion...
       const user = await this.usersService.findOne(userId);
-      const unreadNotifications = await this.notificationRepository.find({ where: { receiver: user }, select:{ id:true, createdAt:true, receivedAt:true, title:true, subject:true, state:true } });
+      const unreadNotifications = await this.notificationRepository.find({ where: { receiver: user }, select:{ id:true, createdAt:true, receivedAt:true, title:true, subject:true, state:true }, order: { createdAt:'DESC'}});
       unreadNotifications.forEach(notif => {
         notif.receivedAt =  new Date();
         if(notif.state == NotificationState.DELIVERED){

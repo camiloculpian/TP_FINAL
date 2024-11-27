@@ -48,17 +48,11 @@ export class MainContentComponent implements OnInit {
 
   ngOnInit(): void {
     // DESCARGO LAS NOTIFICACIONES Y LAS GUARDO EN EL LOCAL
-    this.notificationsService.getNotifications().subscribe(
+    this.notificationsService.getCountNotifications().subscribe(
       {
         next: (resp) => {
-          resp.data.forEach(
-            (notification:Notification) => {
-              if(notification?.state != NotificationState.READED){
-                this.notifications.push(notification);
-                this.unreadNotifications = this.notifications.filter(notification => notification.state!=NotificationState.READED).length;
-              } 
-              console.log(notification)}
-          )
+          console.log(resp.data)
+          this.unreadNotifications = resp.data.unread;
         },
         error: (error) => {
           console.log(error)
