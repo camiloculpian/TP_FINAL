@@ -1,7 +1,7 @@
 <ion-content [fullscreen]="true">
   <ion-list id="notifications-list" [inset]="true">
     <ion-item *ngFor="let item of this.notifications;">
-      <ion-label>{{item.title}} {{item.receivedAt}}</ion-label>
+      <ion-label>{{item.title}} {{item.createdAt}}</ion-label>
       <ion-label>{{item.subject}}</ion-label>
     </ion-item>
   </ion-list>
